@@ -1,6 +1,5 @@
 ---
 import type { CollectionEntry } from 'astro:content'
-import { Pill } from '@eliancodes/brutal-ui'
 import SummaryCard from '../generic/SummaryCard.astro'
 
 interface Props {
@@ -18,7 +17,6 @@ const { post } = Astro.props
 >
   <div class="my-4 flex justify-end">
     <a class="font-bold" href={`/blog/${post.slug}/`}>看文章 &rarr;</a>
-    <!-- <Button href={`/blog/${post.slug}/`}>看文章 &rarr;</Button> -->
   </div>
 
   <div class="hidden sm:inline-block">
@@ -26,7 +24,7 @@ const { post } = Astro.props
     <div class="flex items-center justify-between">
       <ul class="mt-2 flex gap-4">
         {
-          post.data.tags.map((tag) => {
+          post.data.tags.map((tag: string) => {
             return (
               <li>
                 <a class="sanchez flex items-center justify-center" href={`/blog/tags/${tag.toLowerCase()}/`}>

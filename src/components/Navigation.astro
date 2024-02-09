@@ -70,12 +70,12 @@ import logo from '../assets/img/logo.svg'
       }
     }
 
-    const isOutOfViewport = (element) => {
+    const isOutOfViewport = (element: HTMLElement) => {
       const elementBounds = element.getBoundingClientRect()
       return elementBounds.right > (window.innerWidth || document.documentElement.clientWidth)
     }
 
-    const openDropdownMenu = (dropdownMenu) => {
+    const openDropdownMenu = (dropdownMenu: HTMLElement) => {
       const dropdownList = dropdownMenu.parentNode.querySelector('ul')
 
       dropdownMenu.classList.add('show')
@@ -86,23 +86,24 @@ import logo from '../assets/img/logo.svg'
       }
     }
 
-    const closeDropdownMenu = (dropdownMenu) => {
+    const closeDropdownMenu = (dropdownMenu: HTMLElement) => {
       dropdownMenu.classList.remove('show')
       dropdownMenu.setAttribute('aria-expanded', 'false')
     }
 
     const closeAllDropdownMenus = () => {
       for (let i = 0; i < dropdownMenus.length; i++) {
-        closeDropdownMenu(dropdownMenus[i])
+        closeDropdownMenu(dropdownMenus[i] as HTMLElement)
       }
     }
 
-    const toggleDropdownMenu = (event) => {
-      if (event.target.getAttribute('aria-expanded') === 'false') {
+    const toggleDropdownMenu = (event: MouseEvent) => {
+      const target = event.target as HTMLElement;
+      if (target.getAttribute('aria-expanded') === 'false') {
         closeAllDropdownMenus()
-        openDropdownMenu(event.target)
+        openDropdownMenu(target)
       } else {
-        closeDropdownMenu(event.target)
+        closeDropdownMenu(target)
       }
     }
 
@@ -144,12 +145,12 @@ import logo from '../assets/img/logo.svg'
 
           if (key === 'ArrowDown') {
             event.preventDefault()
-            openDropdownMenu(currentDropdownMenu)
+            openDropdownMenu(currentDropdownMenu as HTMLElement)
             targetItem = firstDropdownItem
           }
 
           if (key === 'Escape') {
-            closeDropdownMenu(currentDropdownMenu)
+            closeDropdownMenu(currentDropdownMenu as HTMLElement)
           }
         }
 
@@ -188,20 +189,24 @@ import logo from '../assets/img/logo.svg'
             const currentDropdownMenu = (currentDropdownList as Element).previousElementSibling
 
             if (dropdownMenuItems.indexOf(currentDropdownMenuItem as HTMLLIElement) === dropdownMenuItems.length - 1) {
-              closeDropdownMenu(currentDropdownMenu)
+              closeDropdownMenu(currentDropdownMenu as HTMLElement)
             }
           }
         }
 
         if (targetItem) {
-          targetItem.querySelector('a, button, input').focus()
+          const focusableElement = targetItem.querySelector('a, button, input');
+            if (focusableElement) {
+                (focusableElement as HTMLElement).focus();
+            }
         }
       })
 
-    dropdownMenus &&
-      dropdownMenus.forEach((dropdownMenu) => {
-        dropdownMenu.addEventListener('click', toggleDropdownMenu)
-      })
+      dropdownMenus &&
+      dropdownMenus.forEach((dropdownMenu, _index, _array) => {
+        (dropdownMenu as HTMLElement).addEventListener('click', toggleDropdownMenu);
+      });
+
 
     setActiveMenuItem()
     checkMenuSize()

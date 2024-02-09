@@ -3,7 +3,6 @@ import { getCollection } from 'astro:content'
 import type { CollectionEntry } from 'astro:content'
 import Layout from '../../../layouts/DefaultLayout.astro'
 import BlogList from '../../../components/blog/BlogList.astro'
-import { Button } from '@eliancodes/brutal-ui'
 
 export async function getStaticPaths() {
   const allPosts = await getCollection('blog').then((collection) => collection.reverse())
@@ -44,7 +43,6 @@ const { tag, blogposts } = Astro.props
     <div class="container">
       <div class="mb-10">
         <a href="/blog/">&larr; Back to blog</a>
-        <!-- <Button href="/blog/">&larr; Back to blog</Button> -->
       </div>
       <BlogList posts={blogposts} />
     </div>

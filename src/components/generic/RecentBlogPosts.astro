@@ -2,7 +2,6 @@
 import { getCollection } from 'astro:content'
 import BlogList from '../blog/BlogList.astro'
 import { Card } from '@eliancodes/brutal-ui'
-import { Button } from '@eliancodes/brutal-ui'
 
 interface Props {
   count?: number
@@ -19,10 +18,9 @@ const posts = await getCollection('blog').then((posts) => posts.reverse().slice(
       <h2 class="dm-serif mb-8 text-2xl md:text-4xl lg:text-6xl">最新文章</h2>
       <div class="btn hidden md:block">
         <a class="font-bold" href="/blog/">去文章區 &rarr;</a>
-        <!-- <Button href="/blog/">去文章區 &rarr;</Button> -->
       </div>
       <div class="btn block md:hidden">
-        <Button href="/blog/">去文章區</Button>
+        <a class="font-bold" href="/blog/">去文章區 &rarr;</a>
       </div>
     </div>
     <BlogList posts={posts} />
