@@ -1,0 +1,47 @@
+---
+import type { CollectionEntry } from 'astro:content'
+import { Pill } from '@eliancodes/brutal-ui'
+import SummaryCard from '../generic/SummaryCard.astro'
+
+interface Props {
+  post: CollectionEntry<'blog'>
+}
+
+const { post } = Astro.props
+---
+
+<SummaryCard
+  title={post.data.title}
+  imgAlt={post.data.title}
+  imgSrc={post.data.imgUrl}
+  description={post.data.description}
+>
+  <div class="my-4 flex justify-end">
+    <a class="font-bold" href={`/blog/${post.slug}/`}>看文章 &rarr;</a>
+    <!-- <Button href={`/blog/${post.slug}/`}>看文章 &rarr;</Button> -->
+  </div>
+
+  <div class="hidden sm:inline-block">
+    <p class="poppins mt-2">tags:</p>
+    <div class="flex items-center justify-between">
+      <ul class="mt-2 flex gap-4">
+        {
+          post.data.tags.map((tag) => {
+            return (
+              <li>
+                <a class="sanchez flex items-center justify-center" href={`/blog/tags/${tag.toLowerCase()}/`}>
+                  <p class="flex h-10 min-w-20 items-center justify-center rounded-full border-2 shadow-lg">{tag}</p>
+                </a>
+              </li>
+            )
+          })
+        }
+      </ul>
+      {
+        post.data.draft && (
+          <span class="bg-green card-shadow rounded-full border-2 border-black px-4 py-1 text-sm">Draft</span>
+        )
+      }
+    </div>
+  </div>
+</SummaryCard>
