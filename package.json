@@ -14,7 +14,7 @@
   },
   "devDependencies": {
     "@astrojs/mdx": "^2.0.2",
-    "@astrojs/partytown": "^2.0.2",
+    "@astrojs/partytown": "^2.0.4",
     "@astrojs/tailwind": "^5.0.4",
     "@eliancodes/brutal-ui": "^0.2.3",
     "@iconify-json/ion": "^1.1.15",
