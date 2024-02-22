@@ -3,7 +3,7 @@
   "description": "Blockchain media.",
   "type": "module",
   "author": "Sam",
-  "homepage": "https://accessible-astro.netlify.app/",
+  "homepage": "https://blockspaces.xyz",
   "version": "0.0.1",
   "scripts": {
     "dev": "astro dev",
@@ -36,11 +36,12 @@
     "tailwindcss": "^3.2.7"
   },
   "dependencies": {
+    "@astrojs/check": "^0.5.1",
     "@astrojs/mdx": "^2.1.1",
     "@astrojs/rss": "^4.0.5",
     "@astrojs/sitemap": "^3.0.5",
+    "@splinetool/runtime": "^1.0.51",
     "astro": "^4.3.5",
-    "@astrojs/check": "^0.5.1",
     "optional": "^0.1.4",
     "sharp": "^0.33.2",
     "typescript": "^5.3.3"

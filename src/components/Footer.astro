@@ -1,7 +1,8 @@
 ---
 import CallToAction from './CallToAction.astro'
-
+import { Image } from 'astro:assets';
 const currentYear = new Date().getFullYear()
+import logo from '../assets/brand-white.svg'
 ---
 
 <footer id="main-footer">
@@ -11,7 +12,8 @@ const currentYear = new Date().getFullYear()
     <section id="about" class="mt-4 grid gap-8 md:grid-cols-8">
       <h2 class="hidden">About BlockSpace</h2>
       <div class="col-span-4">
-        <img class="mb-10" src="/src/assets/brand-white.svg" alt="" />
+        <Image class="mb-10" src={logo} alt="foot logo"/>
+        <!-- <img class="mb-10" src="/src/assets/brand-white.svg" alt="" /> -->
         <h6 class="ml-10">關於</h6>
         <div class="ml-10 text-justify leading-loose">
           <ul class="space-y-2">
