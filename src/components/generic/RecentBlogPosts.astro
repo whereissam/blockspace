@@ -13,18 +13,21 @@ const posts = await getCollection('blog').then((posts) => posts.reverse().slice(
 ---
 
 <section class="mt-8">
-  <Card>
-    <div id="main-blogPost" class="flex items-start justify-between">
-      <h2 class="dm-serif mb-8 text-2xl md:text-4xl lg:text-6xl">最新文章</h2>
-      <div class="btn hidden md:block">
-        <a class="font-bold" href="/blog/">去文章區 &rarr;</a>
+  <!-- <Card> -->
+    <div class="border-4 border-white rounded-xl p-5">
+      <div id="main-blogPost" class="flex items-start justify-between">
+        <h2 class="dm-serif mb-8 text-2xl md:text-4xl lg:text-6xl">最新文章</h2>
+        <div class="btn hidden md:block">
+          <a class="font-bold" href="/blog/">去文章區 &rarr;</a>
+        </div>
+        <div class="btn block md:hidden">
+          <a class="font-bold" href="/blog/">去文章區 &rarr;</a>
+        </div>
       </div>
-      <div class="btn block md:hidden">
-        <a class="font-bold" href="/blog/">去文章區 &rarr;</a>
-      </div>
+      <BlogList posts={posts} />
     </div>
-    <BlogList posts={posts} />
-  </Card>
+
+  <!-- </Card> -->
 </section>
 
 <!-- <style lang="scss" is:global>
