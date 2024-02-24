@@ -11,6 +11,8 @@ description: 這篇文章將介紹比特幣的背景、交易方式以及發展�
 layout: "../../layouts/MarkdownLayout.astro"
 ---
 
+![](https://replicate.delivery/pbxt/2KJWEBvWO04uMNJU1EnDZubNfdtnFvN5oqS8PnkXBMXJtoMJA/out-0.png)
+
 ## BTC 背景簡介
 
 ### 什麼是 BTC

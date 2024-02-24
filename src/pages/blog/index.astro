@@ -10,10 +10,16 @@ const posts = await getCollection('blog').then((collection) => collection.revers
 
 <Layout
   title="區塊空間"
-  description="BlockSpace Blog | On this page you can find a collection of blogposts"
+  description="BlockSpace Blog"
   pageTitle="BlockSpace Blog"
 >
-  <main class="bg-green p-6">
+  <main class="pt-20">
+    <div class="container">
+      <h1 class="m-5">文章</h1>
+    </div>
+
+    
+
     <BlogList posts={posts} />
   </main>
 </Layout>

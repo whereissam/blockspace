@@ -1,7 +1,6 @@
 ---
 import { getCollection } from 'astro:content'
 import BlogList from '../blog/BlogList.astro'
-import { Card } from '@eliancodes/brutal-ui'
 
 interface Props {
   count?: number
@@ -17,8 +16,9 @@ const posts = await getCollection('blog').then((posts) => posts.reverse().slice(
     <div class="border-4 border-white rounded-xl p-5">
       <div id="main-blogPost" class="flex items-start justify-between">
         <h2 class="dm-serif mb-8 text-2xl md:text-4xl lg:text-6xl">最新文章</h2>
-        <div class="btn hidden md:block">
-          <a class="font-bold" href="/blog/">去文章區 &rarr;</a>
+        <div class="hidden md:block">
+          <!-- <a class="font-bold" href="/blog/">去文章區 &rarr;</a> -->
+          <a class="link link-hover font-bold" href="/blog/">去文章區 &rarr;</a>
         </div>
         <div class="btn block md:hidden">
           <a class="font-bold" href="/blog/">去文章區 &rarr;</a>
@@ -30,10 +30,10 @@ const posts = await getCollection('blog').then((posts) => posts.reverse().slice(
   <!-- </Card> -->
 </section>
 
-<!-- <style lang="scss" is:global>
+<style lang="scss" is:global>
   #main-blogPost {
     .btn {
-      color: var(--action-color);
+      background-color: var(--action-color);
     }
   }
-</style> -->
+</style>

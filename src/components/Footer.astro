@@ -5,8 +5,8 @@ const currentYear = new Date().getFullYear()
 import logo from '../assets/brand-white.svg'
 ---
 
-<footer id="main-footer">
-  <div class="container">
+<footer id="main-footer" class="flex justify-center my-5">
+  <div class="border-2 border-[var(--border-color)] rounded-xl mx-2 w-[90%] lg:w-[80%] max-w-[88rem]">
     <!-- <h2 class="hidden">Footer</h2> -->
 
     <section id="about" class="mt-4 grid gap-8 md:grid-cols-8">
@@ -56,8 +56,10 @@ import logo from '../assets/brand-white.svg'
     > .container {
       border: 2px solid var(--border-color);
       border-radius: 10px;
-      margin-bottom: 100px;
-      margin-top: 40px;
+      margin-bottom: 50px;
+      margin-top: 100px;
+      // margin-right: 20px;
+      // margin-left: 20px;
     }
 
     nav {
