@@ -10,13 +10,13 @@ export const GET = async () => {
       status: 404,
       statusText: 'Not found',
     });
-  }
+  } 
 
   const posts = await fetchPosts();
 
   const rss = await getRssString({
-    title: `${SITE.name}’s Blog`,
-    description: METADATA?.description || '',
+    title: `${SITE.name}`,
+    description: METADATA?.description || '區塊鏈科普',
     site: import.meta.env.SITE,
 
     items: posts.map((post) => ({
