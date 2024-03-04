@@ -1,13 +1,6 @@
 ---
-publishDate: 2024-03-03T00:00:00Z
 title: 'DA 交易者聯盟 - 免費學習交易的第一品牌(入群方式、學習資源、社群福利介紹)'
-excerpt: DATA 由職業交易員、美國商院學生、全球百大收益員所創立，提供給對投資 / 交易、區塊鏈 / 加密貨幣有興趣的朋友一個能系統化、簡單學習的環境
-image: https://datatw.io/wp-content/uploads/2022/07/data-logo-word-zhtc-landscape-w-offwhite.png
-tags:
-  - 交易
-  - 合作
-metadata:
-  canonical: https://blockSpace.vercel.app/landing
+layout: '~/layouts/MarkdownLayout.astro'
 ---
 
 ## 前言

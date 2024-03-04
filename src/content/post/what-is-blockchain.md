@@ -4,7 +4,7 @@ author: Sam
 title: 蛤 ? 區塊鏈
 excerpt: 探討了區塊鏈技術的重要性，特別強調了區塊鏈的技術特性和經濟特性。它介紹了區塊鏈的運作方式，以及如何在不同應用場景中應用這一技術，包括支付系統、內容分享平台和 NFT 忠誠計劃
 image: https://cdn.leonardo.ai/users/021f1954-d139-4b3d-921c-68c3515f13f2/generations/e5b85e61-2d21-45f7-b684-0916c0fdfb32/Leonardo_Diffusion_XL_blockchain_question_mark_abstract_2.jpg?w=512
-category: Tutorials
+category: Blockchain
 tags:
   - 區塊鏈
   - 教學

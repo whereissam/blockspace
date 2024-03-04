@@ -1,7 +1,9 @@
 ---
 publishDate: 2024-01-01T00:00:00Z
+author: Sam
 title: 在 2024 年要怎麼成為 web3 開發者
 excerpt: 過這篇文章，我將分享我學習 Web3 開發的經驗，包括如何找尋資源以及更有效地學習區塊鏈知識的建議。無論是免費還是付費資源，我都將透過自學的角度分享，可以讓有心想成為開發者的朋友們少走一點彎路，後續會講到實際在區塊鏈產業裡面工作的一些心得分享。
+category: Developer
 image: https://neural.love/cdn/ai-photostock/1eea62b4-5fcc-6572-95e3-455eae6621f4/1.jpg?Expires=1714521599&Signature=jWIz8nh--vkvcLmbF8GrRfq1zop~cAV-kpqARrnDCaUHDQe0Q9alRw75GSRbMMZ-uOzMthP~6gUs2JD~VbUnHGQmGj1CQPrPcLviusEiYv2Bhh2iXPmljbvQts7eu7I4idd7ry6Ru8UuGvgVBDs2Slm8mE3T31~EKOgNHfxAAFn90yisAnXqd2FWjaaEdERMm45jAL8q6AbVXVFGhmTxDBQMiSWwuyeAsXRHptzw2gquWi6CnKHpeC35oynOlsKa4OEdXWqZZXZC~tsjtwqJZF8X9A7GK8leLWiVz-VEjnNf1F92SH6kWzUJU4kDviTDI7gB3QQrQwa9xpoVrWa0og__&Key-Pair-Id=K2RFTOXRBNSROX
 tags:
   - 開發者

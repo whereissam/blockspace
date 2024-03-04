@@ -138,12 +138,10 @@ export const footerData = {
         { text: 'Github', href: 'https://github.com/whereissam' },
         { text: 'Portaly', href: 'https://portaly.cc/theblockspace' },
       ],
-    },
+    }
   ],
   secondaryLinks: [
-    { text: '區塊鏈內容深耕', href: '#' },
-    { text: '區塊鏈 + AI 的結合工具', href: '#' },
-    { text: '區塊鏈相關的活動', href: '#' },
+    { text: '合作夥伴', href: '/daCapital-introduce' },
   ],
   socialLinks: [
     { ariaLabel: 'X', icon: 'tabler:brand-x', href: 'https://twitter.com/bungeegumeee' },
