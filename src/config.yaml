@@ -1,6 +1,6 @@
 site:
   name: BlockSpace
-  site: 'https://blockSpace.vercel.app'
+  site: 'https://blockspaces.xyz'
   base: '/'
   trailingSlash: false
 
