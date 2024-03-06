@@ -3,7 +3,7 @@ publishDate: 2024-03-06T00:00:00Z
 author: Sam
 title: 【2024】新手進入加密貨幣最好的學習方式
 excerpt: 這篇文章將介紹推薦台灣交易所和國外交易所和可以加入的社群
-image: https://replicate.delivery/pbxt/2KJWEBvWO04uMNJU1EnDZubNfdtnFvN5oqS8PnkXBMXJtoMJA/out-0.png
+image: https://replicate.delivery/pbxt/WKGYf4F3mwSWPCakCIenctf1x6VThzIqY1Z7xdMettN6VR2JB/out-0.png
 category: Blockchain
 tags:
   - 新手
@@ -47,7 +47,7 @@ metadata:
 
 國外有個網站叫做 [Coin Marketcap](https://coinmarketcap.com/zh-tw/)，他裡面有針對交易所的排名，可以查看[這裡](https://coinmarketcap.com/zh-tw/rankings/exchanges/)
 
-![image](https://hackmd.io/_uploads/SkqeeiBpa.png)
+![image](https://imgur.com/Ez3EHBF.png)
 
 可以根據網站的評分去選交易所，上面顯示的顏色相對應分數來講是以下： 
 - 🟢 6.0 以上良好 
