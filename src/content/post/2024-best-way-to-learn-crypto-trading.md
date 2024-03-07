@@ -20,8 +20,8 @@ metadata:
 ## 交易的區別
 
 ### web3 交易
-如果要可以在區塊鏈的世界裡面避免資產損失，請詳細的、仔細地閱讀由資安背景漫霧出版的[區塊鏈黑暗森林自救手冊](https://github.com/slowmist/Blockchain-dark-forest-selfguard-handbook/blob/main/README_CN.md)、網看[币圈投资防骗指南：Web3 基础骗局揭秘和防骗技巧分享【Vic TALK 第848期】](https://youtu.be/39nu0Qd00yI?si=LDrPFHQQLycWq-zS)和
-[🧪 從 0 開始學區塊鏈（Learn blockchain from scratch）](https://www.facebook.com/groups/blockchain.zh/)，我看過太多案例，因為想投資加密貨幣，想快速賺錢而進來的朋友們因為各種原因而損失金錢，區塊鏈上的風險極高，不要說新手了，連老手都很容易操作錯誤或是沒有意識而資產被騙走，但如果會操作的話報酬也相對高，很多的空投機會、最近的打銘文、一級市場交易．按照上面的手冊一步步學再把資產放到錢包裡面去做操作也會安心許多
+如果要可以在區塊鏈的世界裡面避免資產損失，請詳細的、仔細地閱讀由資安背景漫霧出版的「[區塊鏈黑暗森林自救手冊](https://github.com/slowmist/Blockchain-dark-forest-selfguard-handbook/blob/main/README_CN.md)」、看「[币圈投资防骗指南：Web3 基础骗局揭秘和防骗技巧分享【Vic TALK 第848期】](https://youtu.be/39nu0Qd00yI?si=LDrPFHQQLycWq-zS)」和
+「[🧪 從 0 開始學區塊鏈（Learn blockchain from scratch）](https://www.facebook.com/groups/blockchain.zh/)」，我看過太多案例，因為想投資加密貨幣，想快速賺錢而進來的朋友們因為各種原因而損失金錢，區塊鏈上的風險極高，不要說新手了，連老手都很容易操作錯誤或是沒有意識而資產被騙走，但如果會操作的話報酬也相對高，很多的空投機會、最近的打銘文、一級市場交易．按照上面的手冊一步步學再把資產放到錢包裡面去做操作也會安心許多
 
 ### 交易所交易
 

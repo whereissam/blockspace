@@ -3,7 +3,7 @@ import { getPermalink, getBlogPermalink, getAsset } from './utils/permalinks';
 export const headerData = {
   links: [
     {
-      text: 'Homes',
+      text: 'Home',
       href: '/'
       // links: [
       //   {
@@ -112,6 +112,10 @@ export const headerData = {
     //     },
     //   ],
     },
+    // {
+    //   text: 'Daily Read',
+    //   href: '/daily'
+    // }
     // {
     //   text: 'Widgets',
     //   href: '#',
