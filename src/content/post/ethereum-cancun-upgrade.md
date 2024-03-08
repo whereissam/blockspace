@@ -115,4 +115,4 @@ blob 儲存可以是任何類型的數據存儲，例如 IPFS 或 Arweave。blob
 
 可以去看 [l2beat](https://l2beat.com/scaling/summary) 上面會羅列出目前的 ETH L2 賽道的鏈，目前有發幣的是 Arbitrum One、Op、Starknet、Manta Network、Mantle、Metis、Aevo
 
-淺在可以觀察的名單 Blast、zkSync、Linea
+濳在可以觀察的名單 Blast、zkSync、Linea
