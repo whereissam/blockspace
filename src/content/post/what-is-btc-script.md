@@ -8,6 +8,7 @@ category: Blockchain
 tags:
   - 比特幣
   - BTC
+  - 比特幣系列
 metadata:
   canonical: https://astrowind.vercel.app/astrowind-template-in-depth
 ---
