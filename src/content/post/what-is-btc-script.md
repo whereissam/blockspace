@@ -1,5 +1,5 @@
 ---
-publishDate: 2024-03-08T00:00:00Z
+publishDate: 2024-03-11T00:00:00Z
 author: Sam
 title: 從 BTC 腳本開始的歷史之旅 - 0
 excerpt: 這篇文章將介紹比特幣背後是怎麼運作的，為什麼會影響到現在 L2 發展
