@@ -83,7 +83,7 @@ SoG 是由 Shaban Shaame 創立的 EverdreamSoft 創建的一款區塊鏈遊戲�
 
 稀有 Pepe（Rare Pepe）是網路迷因「Pepe the Frog」的變體，基於 Matt Furie 創作的角色。 2016 年至 2018 年間，全球多位藝術家創作的相關 Rare Pepe 加密項目基於上述模因，並作為記錄在 CounterParty 平台上的不可替代代幣（NFT）進行交易。
 
-![image](https://hackmd.io/_uploads/Sk-Y0I6Ka.png)
+![image](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTe6P1miKZFwlQvEWBuQ1KEKe9Bz_Q2HVF0UGxRvoYDkw&s)
 
 ### SegWit
 
