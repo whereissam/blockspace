@@ -1,5 +1,5 @@
 ---
-title: 'DA 交易者聯盟 - 免費學習交易的第一品牌(入群方式、學習資源、社群福利介紹)'
+title: 'DA 交易者聯盟 - 首選的免費交易學習平台 (入群指南、資源概覽、社群福利)'
 layout: '~/layouts/MarkdownLayout.astro'
 ---
 
@@ -23,7 +23,6 @@ Podcast
 
 每日行情分析
 ![Imgur](https://imgur.com/8fkY9Nt.png)
-
 
 ### VIP 學習資源
 
