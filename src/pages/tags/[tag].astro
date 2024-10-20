@@ -1,0 +1,126 @@
+---
+import BaseHead from "../../components/ui/tags/BaseHead.astro";
+import Header from "../../components/ui/tags/Header.astro";
+import Footer from "../../components/ui/tags/Footer.astro";
+import FormattedDate from "../../components/ui/tags/FormattedDate.astro";
+import { getCollection } from "astro:content";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("blog");
+  const tags = [...new Set(posts.flatMap((post) => post.data.tags || []))];
+
+  return tags.map((tag) => ({
+    params: { tag },
+    props: { posts: posts.filter((post) => post.data.tags?.includes(tag)) },
+  }));
+}
+
+const { tag } = Astro.params;
+const { posts } = Astro.props;
+
+// Default image URL
+const defaultImage = "/blog-placeholder-1.jpg"; // Replace with your default image path
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead
+      title={`${tag} - Blog`}
+      description={`Posts tagged with ${tag}`}
+    />
+    <style>
+      main {
+        padding: 2rem;
+        max-width: 960px;
+        margin: auto;
+      }
+      h2 {
+        text-align: center;
+        margin-bottom: 2rem;
+        font-size: 1.5rem;
+        color: #333;
+      }
+      ul {
+        list-style-type: none;
+        padding: 0;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr); /* Set three columns */
+        gap: 1.5rem; /* Space between items */
+      }
+      li {
+        margin-bottom: 1.5rem; /* Space below each item */
+      }
+      .post-card {
+        display: flex;
+        flex-direction: column;
+        border-radius: 0.5rem;
+        overflow: hidden;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s;
+      }
+      .post-card:hover {
+        transform: translateY(-2px);
+      }
+      .post-card img {
+        width: 100%;
+        height: auto;
+      }
+      .post-card-content {
+        padding: 1rem;
+        background-color: #fff;
+      }
+      .title {
+        font-size: 1.25rem;
+        color: #333;
+        margin: 0 0 0.5rem;
+      }
+      .date {
+        font-size: 0.875rem;
+        color: #777;
+      }
+      @media (max-width: 768px) {
+        ul {
+          grid-template-columns: repeat(
+            2,
+            1fr
+          ); /* Two columns on smaller screens */
+        }
+      }
+      @media (max-width: 480px) {
+        ul {
+          grid-template-columns: 1fr; /* One column on extra small screens */
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <Header />
+    <main>
+      <h2>Posts tagged with "{tag}"</h2>
+      <ul>
+        {
+          posts.map((post) => (
+            <li>
+              <a href={`/blog/${post.slug}/`} class="post-card">
+                <img
+                  width={720}
+                  height={360}
+                  src={post.data.heroImage || defaultImage}
+                  alt={post.data.title}
+                />
+                <div class="post-card-content">
+                  <h4 class="title">{post.data.title}</h4>
+                  <p class="date">
+                    <FormattedDate date={post.data.pubDate} />
+                  </p>
+                </div>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </main>
+    <Footer />
+  </body>
+</html>
