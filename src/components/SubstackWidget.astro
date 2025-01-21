@@ -1,0 +1,31 @@
+---
+interface Props {
+  substackUrl?: string;
+  placeholder?: string;
+  buttonText?: string;
+  theme?: "custom" | "white" | "black" | "green" | "blue" | "orange" | "purple";
+}
+
+const {
+  substackUrl = "theblockspace.substack.com",
+  placeholder = "example@gmail.com",
+  buttonText = "Subscribe",
+  theme = "orange",
+} = Astro.props;
+---
+
+<!-- Widget container -->
+<div id="custom-substack-embed"></div>
+
+<!-- Widget configuration -->
+<script define:vars={{ substackUrl, placeholder, buttonText, theme }}>
+  window.CustomSubstackWidget = {
+    substackUrl,
+    placeholder,
+    buttonText,
+    theme,
+  };
+</script>
+
+<!-- Substack widget script -->
+<script src="https://substackapi.com/widget.js" async></script>

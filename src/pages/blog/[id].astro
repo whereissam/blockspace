@@ -1,0 +1,358 @@
+---
+// Import necessary components and utilities
+import MainLayout from "@/layouts/MainLayout.astro";
+import AvatarBlogLarge from "@components/ui/avatars/AvatarBlogLarge.astro";
+import CardRelated from "@components/ui/cards/CardRelated.astro";
+import Bookmark from "@components/ui/buttons/Bookmark.astro";
+import SocialShare from "@components/ui/buttons/SocialShare.astro";
+import PostFeedback from "@components/ui/feedback/PostFeedback.astro";
+import { Image } from "astro:assets";
+import { capitalize, formatDate } from "@utils/utils";
+import { getCollection, render } from "astro:content";
+import type { CollectionEntry } from "astro:content";
+import { SITE } from "@data/constants";
+
+export async function getStaticPaths() {
+  const blogPosts = await getCollection("blog", ({ id }) =>
+    id.startsWith("en/")
+  );
+  return blogPosts.map((post) => {
+    const idWithoutLang = post.id.replace(/^en\//, "");
+    return {
+      params: { id: idWithoutLang },
+      props: { post },
+    };
+  });
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+const blogPosts: CollectionEntry<"blog">[] = await getCollection(
+  "blog",
+  ({ id }) => id.startsWith("en/")
+);
+
+const relatedPosts: CollectionEntry<"blog">[] = blogPosts.filter(
+  (blogEntry) => blogEntry.id !== post.id
+);
+
+const pageTitle: string = `${post.data.title} | ${SITE.title}`;
+---
+
+<MainLayout title={pageTitle}>
+  <section class="mx-auto max-w-3xl px-4 pb-12 pt-6 sm:px-6 lg:px-8 lg:pt-10">
+    <div class="grid gap-8 md:grid-cols-2 lg:gap-12">
+      <div>
+        <div class="overflow-hidden rounded-xl shadow-lg">
+          <Image
+            class="h-full w-full object-cover object-center"
+            src={post.data.cardImage}
+            alt={post.data.cardImageAlt}
+            draggable={"false"}
+            format={"avif"}
+          />
+        </div>
+        <!-- Progress bar for mobile -->
+        <div
+          id="progress-mobile"
+          class="fixed left-0 top-0 h-2 w-full bg-gradient-to-r from-orange-400/30 to-orange-400 md:hidden"
+        >
+        </div>
+        <!-- Table of Contents -->
+        <div id="pin" class="mt-10 hidden space-y-4 md:block">
+          <div
+            class="h-px w-full overflow-hidden bg-neutral-300 dark:bg-neutral-700"
+          >
+            <div
+              id="progress"
+              class="h-px w-full bg-gradient-to-r from-orange-400/30 to-orange-400"
+            >
+            </div>
+          </div>
+          <p class="text-pretty text-sm text-neutral-500">Table of Contents:</p>
+          <div id="toc" class="">
+            <ul
+              class="space-y-2 text-pretty text-base text-neutral-700 transition duration-300 dark:text-neutral-400"
+            >
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="md:pt-8">
+        <!-- Author info and metadata -->
+        <div class="mb-6 flex items-center justify-between">
+          <div class="flex w-full gap-x-5 sm:items-center sm:gap-x-3">
+            <AvatarBlogLarge blogEntry={post} />
+            <div class="grow">
+              <div class="flex items-center justify-between gap-x-2">
+                <div>
+                  <span
+                    class="font-bold text-neutral-700 dark:text-neutral-300"
+                  >
+                    {post.data.author}
+                  </span>
+                  <ul class="text-xs text-neutral-500">
+                    <li
+                      class="relative inline-block pe-6 before:absolute before:end-2 before:top-1/2 before:size-1 before:-translate-y-1/2 before:rounded-full before:bg-neutral-300 last:pe-0 last-of-type:before:hidden dark:text-neutral-400 dark:before:bg-neutral-600"
+                    >
+                      {formatDate(post.data.pubDate)}
+                    </li>
+                    <li
+                      class="relative inline-block pe-6 before:absolute before:end-2 before:top-1/2 before:size-1 before:-translate-y-1/2 before:rounded-full before:bg-neutral-300 last:pe-0 last-of-type:before:hidden dark:text-neutral-400 dark:before:bg-neutral-600"
+                    >
+                      {post.data.readTime} min read
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Blog post title -->
+        <h1
+          class="mb-4 text-balance text-center text-2xl font-bold text-neutral-800 dark:text-neutral-200 sm:text-3xl md:mb-6 md:text-left"
+        >
+          {post.data.title}
+        </h1>
+
+        <!-- Blog content -->
+        <article
+          class="text-pretty text-lg text-neutral-700 dark:text-neutral-300"
+        >
+          <Content />
+        </article>
+
+        <!-- Tags and social sharing -->
+        <div
+          class="mt-8 grid gap-y-5 sm:flex sm:items-center sm:justify-between sm:gap-y-0"
+        >
+          <div
+            class="flex flex-wrap gap-x-2 gap-y-1 sm:flex-nowrap sm:items-center sm:gap-y-0"
+          >
+            {
+              post.data.tags?.map((tag: string) => (
+                <span class="inline-flex items-center gap-x-1.5 rounded-lg bg-neutral-400/30 px-3 py-1.5 text-xs font-medium text-neutral-700 outline-none focus:outline-none focus-visible:outline-none focus-visible:ring dark:bg-neutral-700/60 dark:text-neutral-300">
+                  {capitalize(tag)}
+                </span>
+              ))
+            }
+          </div>
+          <div class="flex items-center justify-end gap-x-1.5">
+            <Bookmark />
+            <div
+              class="mx-3 block h-4 border-e border-neutral-400 dark:border-neutral-500"
+            >
+            </div>
+            <div class="inline-flex">
+              <SocialShare pageTitle={post.data.title} />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <PostFeedback
+      title="Was this post helpful?"
+      firstChoice="Yes"
+      secondChoice="No"
+    />
+  </section>
+
+  <!-- Related articles section -->
+  <section class="mx-auto max-w-3xl px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
+    <div class="mb-10 max-w-2xl">
+      <h2
+        class="text-balance text-2xl font-bold text-neutral-800 dark:text-neutral-200 md:text-4xl md:leading-tight"
+      >
+        Related articles
+      </h2>
+    </div>
+
+    <div class="grid grid-cols-2 gap-6">
+      {relatedPosts.map((entry) => <CardRelated blogEntry={entry} />)}
+    </div>
+  </section>
+</MainLayout>
+
+<style is:global>
+  :root {
+    --transition-cubic: cubic-bezier(0.165, 0.84, 0.44, 1);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  article h2,
+  article h3,
+  article h4,
+  article h5,
+  article h6 {
+    font-weight: bold;
+    margin-top: 2.5rem;
+    scroll-margin-top: 3rem;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+    line-height: 2rem;
+  }
+
+  h3 {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+  }
+
+  h4 {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+  }
+
+  p {
+    margin-top: 1.5rem;
+  }
+
+  #toc li {
+    display: flex;
+    align-items: center;
+    opacity: 0.8;
+    transition: all 300ms var(--transition-cubic);
+  }
+
+  #toc li.selected {
+    opacity: 1;
+  }
+
+  #toc li svg {
+    width: 0;
+    height: 0;
+    transition:
+      height 400ms var(--transition-cubic),
+      width 400ms var(--transition-cubic);
+  }
+
+  #toc li.selected svg {
+    width: 1.25rem;
+    height: 1.25rem;
+    margin-right: 0.3rem;
+  }
+</style>
+
+<script>
+  const onScroll = (): void => {
+    const article = document.querySelector("article");
+    if (!article) return;
+
+    const articleHeight = article.offsetHeight;
+    const articleOffsetTop = article.offsetTop;
+
+    const scrollTop = window.scrollY || document.documentElement.scrollTop;
+
+    if (articleHeight && articleOffsetTop && scrollTop) {
+      const progress =
+        ((scrollTop - articleOffsetTop) /
+          (articleHeight - window.innerHeight)) *
+        100;
+
+      const progressBar = document.getElementById("progress");
+      const progressBarMobile = document.getElementById("progress-mobile");
+
+      if (progressBar && progressBarMobile) {
+        progressBar.style.width = `${progress}%`;
+        progressBarMobile.style.width = `${progress}%`;
+      }
+    }
+  };
+
+  document.addEventListener("DOMContentLoaded", (event) => {
+    window.onscroll = onScroll;
+
+    // Set initial width of progress bar
+    const progressBar = document.getElementById("progress");
+    const progressBarMobile = document.getElementById("progress-mobile");
+
+    if (progressBar && progressBarMobile) {
+      progressBar.style.width = "0%";
+      progressBarMobile.style.width = "0%";
+    }
+  });
+</script>
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  gsap.timeline({
+    scrollTrigger: {
+      scrub: 1,
+      pin: true,
+      trigger: "#pin",
+      start: "top 20%",
+      endTrigger: "footer",
+      end: "top bottom",
+    },
+  });
+
+  const SVG_HTML_STRING =
+    '<svg class="w-0 h-0 flex-none" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="#fa5a15"><path stroke-linecap="round" stroke-linejoin="round" d="m12.75 15 3-3m0 0-3-3m3 3h-7.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"></svg>';
+
+  function setActiveLinkById(id: string | null) {
+    const listItems = document.querySelectorAll("#toc li");
+    listItems.forEach((item) => item.classList.remove("selected"));
+
+    if (!id) return;
+
+    const activeLink = document.querySelector(`#toc a[href="#${id}"]`);
+
+    if (!activeLink) return;
+
+    const listItem = activeLink.parentElement;
+    listItem?.classList.add("selected");
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const article: HTMLElement | null = document.querySelector("article");
+    const tocList: HTMLElement | null = document.querySelector("#toc ul");
+
+    const headings: NodeListOf<HTMLElement> | [] = article
+      ? article.querySelectorAll("h1, h2, h3, h4, h5, h6")
+      : [];
+
+    headings.forEach((heading, i) => {
+      if (heading instanceof HTMLElement) {
+        const listItem = document.createElement("li");
+        listItem.className = "toc-level-" + heading.tagName.toLowerCase();
+
+        const tempDiv = document.createElement("div");
+        tempDiv.innerHTML = SVG_HTML_STRING;
+
+        const svg = tempDiv.firstChild;
+        listItem.appendChild(svg as Node);
+
+        const link = document.createElement("a");
+        link.href = "#" + heading.id;
+        link.textContent = heading.textContent;
+        listItem.appendChild(link);
+
+        tocList?.appendChild(listItem);
+
+        gsap.timeline({
+          scrollTrigger: {
+            trigger: heading,
+            start: "top 20%",
+            end: () =>
+              `bottom top+=${i === headings.length - 1 ? 0 : (headings[i + 1] as HTMLElement).getBoundingClientRect().height}`,
+            onEnter: () => setActiveLinkById(heading.id),
+            onLeaveBack: () =>
+              setActiveLinkById((headings[i - 1] as HTMLElement)?.id),
+          },
+        });
+      }
+    });
+  });
+</script>
