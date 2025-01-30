@@ -1,14 +1,12 @@
 ---
-// Import necessary components, modules and types
 import MainLayout from "@/layouts/MainLayout.astro";
 import CardBlog from "@components/ui/cards/CardBlog.astro";
-import CardBlogRecent from "@components/ui/cards/CardBlogRecent.astro";
-import CardInsight from "@components/ui/cards/CardInsight.astro";
+import CardBlogFeatured from "@components/ui/cards/CardBlogFeatured.astro";
+import CardBlogSidebar from "@components/ui/cards/CardBlogSidebar.astro";
+import CardInsight from "./ui/cards/CardInsight.astro";
 import { getCollection } from "astro:content";
 import type { CollectionEntry } from "astro:content";
 import { SITE } from "@data/constants";
-
-// Get all blogs post in English and sort them based on publish date
 
 const englishBlogEntries = await getCollection("blog", ({ id }) => {
   return id.startsWith("en/");
@@ -18,55 +16,68 @@ const englishInsightsEntries = await getCollection("insights", ({ id }) => {
   return id.startsWith("en/");
 });
 
-const blogPosts: CollectionEntry<"blog">[] = englishBlogEntries.sort(
-  (a: CollectionEntry<"blog">, b: CollectionEntry<"blog">) =>
-    b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+const blogPosts = englishBlogEntries.sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );
-// Get all insights posts
-const insightPosts: CollectionEntry<"insights">[] = englishInsightsEntries;
 
-// Separate the most recent post from others
-const mostRecentPost: CollectionEntry<"blog"> = blogPosts[0];
-const otherPosts: CollectionEntry<"blog">[] = blogPosts.slice(1);
+const insightPosts = englishInsightsEntries;
 
-// Define variables for page content
-const title: string = "Your Gateway to Blockchain world";
-const subTitle: string =
-  "Explore the latest news, tips, and insights from Blockspace to enhance your blockchain projects. From product spotlights to project management strategies, our blog is your go-to resource for all things blockchain knowledge and development.";
-const secondTitle: string = "Insights";
-const secondSubTitle: string =
-  "Stay up-to-date with the latest trends and developments in the blockchain industry.";
-
-const pageTitle: string = `Blog | ${SITE.title}`;
+// Separate featured post from others
+const featuredPost = blogPosts[0];
+const secondaryPosts = blogPosts.slice(1, 3);
+const sidebarPosts = blogPosts.slice(0, 5);
 ---
 
 <section
   class="mx-auto max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 2xl:max-w-full"
 >
-  <!--Blog posts grid-->
-  <div class="grid gap-6 lg:grid-cols-2">
-    {otherPosts.map((blogEntry) => <CardBlog blogEntry={blogEntry} />)}
+  <!-- Main Grid Layout -->
+  <div class="grid grid-cols-1 gap-6 lg:grid-cols-12">
+    <!-- Featured and Secondary Articles Column -->
+    <div class="lg:col-span-8">
+      <!-- Featured Article -->
+      {featuredPost && <CardBlogFeatured blogEntry={featuredPost} />}
+
+      <!-- Secondary Articles Grid -->
+      <div class="mt-6 grid gap-6 sm:grid-cols-2">
+        {secondaryPosts.map((blogEntry) => <CardBlog blogEntry={blogEntry} />)}
+      </div>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="lg:col-span-4">
+      <div class="rounded-xl bg-neutral-50 p-6 dark:bg-neutral-800">
+        <h2
+          class="mb-4 text-xl font-bold text-neutral-800 dark:text-neutral-200"
+        >
+          Top Headlines
+        </h2>
+        <div class="space-y-4">
+          {sidebarPosts.map((post) => <CardBlogSidebar blogEntry={post} />)}
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
-<section
-  class="mx-auto max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 2xl:max-w-full"
->
-  <div class="mx-auto mb-10 max-w-2xl text-center lg:mb-14">
-    <h2
-      class="text-2xl font-bold text-neutral-800 dark:text-neutral-200 md:text-4xl md:leading-tight"
-    >
-      {secondTitle}
-    </h2>
-    <p class="mt-1 text-pretty text-neutral-600 dark:text-neutral-400">
-      {secondSubTitle}
-    </p>
-  </div>
-  <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-    {
-      insightPosts.map((insightEntry) => (
-        <CardInsight insightEntry={insightEntry} />
-      ))
-    }
-  </div>
-</section>
+<!-- Insights Section -->
+{
+  insightPosts.length > 0 && (
+    <section class="mx-auto max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 2xl:max-w-full">
+      <div class="mx-auto mb-10 max-w-2xl text-center lg:mb-14">
+        <h2 class="text-2xl font-bold text-neutral-800 dark:text-neutral-200 md:text-4xl md:leading-tight">
+          Insights
+        </h2>
+        <p class="mt-1 text-pretty text-neutral-600 dark:text-neutral-400">
+          Stay up-to-date with the latest trends and developments in the
+          blockchain industry.
+        </p>
+      </div>
+      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {insightPosts.map((insightEntry) => (
+          <CardInsight insightEntry={insightEntry} />
+        ))}
+      </div>
+    </section>
+  )
+}

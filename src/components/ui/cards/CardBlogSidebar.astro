@@ -1,0 +1,81 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { Image } from "astro:assets";
+
+interface Props {
+  blogEntry: CollectionEntry<"blog">;
+  recentBlogLocale?: string;
+}
+
+const { blogEntry, recentBlogLocale = "" } = Astro.props;
+const { data } = blogEntry;
+
+const getTimeAgo = (date: Date) => {
+  const now = new Date();
+  const seconds = Math.floor((now.getTime() - date.getTime()) / 1000);
+
+  const intervals = {
+    year: 31536000,
+    month: 2592000,
+    week: 604800,
+    day: 86400,
+    hour: 3600,
+    minute: 60,
+  };
+
+  for (const [unit, secondsInUnit] of Object.entries(intervals)) {
+    const interval = Math.floor(seconds / secondsInUnit);
+    if (interval >= 1) {
+      return `${interval} ${unit}${interval === 1 ? "" : "s"} ago`;
+    }
+  }
+  return "just now";
+};
+---
+
+<article class="group">
+  <a
+    href={recentBlogLocale && recentBlogLocale !== "en"
+      ? `/${recentBlogLocale}/blog/${blogEntry.id.replace(/^fr\//, "")}/`
+      : `/blog/${blogEntry.id.replace(/^en\//, "")}/`}
+    class="hover:underline"
+  >
+    <!-- Category Badge -->
+    {
+      data.tags && (
+        <div class="inline-block">
+          <span class="text-emerald-600 dark:text-emerald-400 text-xs font-medium uppercase tracking-wider">
+            {data.tags}
+          </span>
+        </div>
+      )
+    }
+
+    <!-- Title -->
+    <h3
+      class="text-base font-semibold leading-6 text-neutral-900 dark:text-neutral-100"
+    >
+      {data.title}
+    </h3>
+
+    <!-- Metadata -->
+    <div
+      class="flex items-center gap-3 text-sm text-neutral-600 dark:text-neutral-400"
+    >
+      {
+        data.author && (
+          <>
+            <span>{data.author}</span>
+            <span class="text-neutral-300 dark:text-neutral-600">•</span>
+          </>
+        )
+      }
+      <time datetime={data.pubDate.toISOString()}>
+        {getTimeAgo(data.pubDate)}
+      </time>
+    </div>
+  </a>
+</article>
+
+<!-- Divider -->
+<div class="border-t border-neutral-200 dark:border-neutral-700"></div>
