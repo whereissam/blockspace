@@ -7,11 +7,13 @@ import { getCollection, render } from "astro:content";
 
 // Use `getStaticPaths` to generate static routes for generated pages on build
 export async function getStaticPaths() {
-  const insightPosts = await getCollection("insights", ({ id }) => id.startsWith("fr/"));
+  const insightPosts = await getCollection("insights", ({ id }) =>
+    id.startsWith("fr/")
+  );
   return insightPosts.map((post) => {
-    const idWithoutLang = post.id.replace(/^fr\//, ''); // Remove the "fr/" prefix
+    const idWithoutLang = post.id.replace(/^fr\//, ""); // Remove the "fr/" prefix
     return {
-      params: { lang: 'fr', id: idWithoutLang },
+      params: { lang: "fr", id: idWithoutLang },
       props: { post },
     };
   });
@@ -31,13 +33,13 @@ const pageTitle: string = `${post.data.title} | ${SITE.title}`;
       <div class="grid gap-8 md:grid-cols-2 lg:gap-12">
         <div>
           <div class="h-64 overflow-hidden rounded-lg shadow-lg md:h-auto">
-            <Image
+            <!-- <Image
               class="h-full w-full object-cover object-center"
               src={post.data.cardImage}
               alt={post.data.cardImageAlt}
               draggable={"false"}
               format={"avif"}
-            />
+            /> -->
           </div>
           <div
             id="progress-mobile"
