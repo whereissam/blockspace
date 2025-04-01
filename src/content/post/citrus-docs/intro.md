@@ -5,7 +5,6 @@ description: "Astro Citrus is a versatile template for managing blogs and creati
 seriesId: citrus-docs
 orderInSeries: 1
 featured: false
-tags: ["example", "series", "citrus"]
 ogImage: ""
 draft: true
 ---

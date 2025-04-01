@@ -6,7 +6,7 @@ function removeDupsAndLowerCase(array: string[]) {
 }
 
 const baseSchema = z.object({
-	title: z.string().max(60),
+	title: z.string().max(100),
 });
 
 const post = defineCollection({
@@ -32,8 +32,8 @@ const post = defineCollection({
 				.optional()
 				.transform((str) => (str ? new Date(str) : undefined)),
 			// Series
-			seriesId: z.string().optional(), // Поле для связи с серией
-      		orderInSeries: z.number().optional(), // Опционально: для сортировки в серии
+			seriesId: z.string().optional(), 
+      		orderInSeries: z.number().optional(), 
 			// End
 		}),
 });
@@ -56,7 +56,7 @@ const series = defineCollection({
 		id: z.string(),
 		title: z.string(),
 		description: z.string(),
-		featured: z.boolean().default(false), // Пометка для популярных серий
+		featured: z.boolean().default(false), 
 	}),
 });
 // End

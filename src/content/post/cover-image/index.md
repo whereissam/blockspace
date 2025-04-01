@@ -6,6 +6,5 @@ updatedDate: "21 January 2025"
 coverImage:
   src: "./cover.jpg"
   alt: "Astro build wallpaper"
-tags: ["test", "image"]
 draft: true
 ---

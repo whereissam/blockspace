@@ -5,7 +5,6 @@ publishDate: "22 Feb 2023"
 updatedDate: 22 Jan 2024
 seriesId: "markdown-elements"
 orderInSeries: 1
-tags: ["test", "markdown"]
 draft: true
 ---
 

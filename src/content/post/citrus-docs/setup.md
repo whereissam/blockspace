@@ -6,7 +6,6 @@ seriesId: citrus-docs
 orderInSeries: 2
 updatedDate: "22 December 2024"
 featured: false
-tags: ["example", "series", "citrus"]
 ogImage: ""
 draft: true
 ---

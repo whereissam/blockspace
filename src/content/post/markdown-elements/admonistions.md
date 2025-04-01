@@ -4,7 +4,6 @@ description: "This post provides a detailed demonstration of how to use the Mark
 publishDate: "25 Aug 2024"
 seriesId: "markdown-elements"
 orderInSeries: 2
-tags: ["markdown", "admonitions"]
 draft: true
 ---
 

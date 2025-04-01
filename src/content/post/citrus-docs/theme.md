@@ -4,7 +4,6 @@ description: A flexible theming system based on HSL (Hue, Saturation, Lightness)
 publishDate: 03 Feb 2025
 seriesId: citrus-docs
 orderInSeries: 3
-tags: ["theming", "CSS", "citrus"]
 draft: true
 ---
 
