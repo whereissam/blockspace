@@ -1,97 +1,65 @@
-// https://docs.astro.build/en/guides/content-collections/#defining-collections
+import { defineCollection, z } from "astro:content";
+import { glob } from "astro/loaders";
 
-import { z, defineCollection } from 'astro:content';
-import { docsSchema } from '@astrojs/starlight/schema';
-import { glob } from 'astro/loaders';
+function removeDupsAndLowerCase(array: string[]) {
+	return [...new Set(array.map((str) => str.toLowerCase()))];
+}
 
-const productsCollection = defineCollection({
-  loader: glob({ pattern: '**/[^_]*.{md,mdx}', base: "./src/content/products" }),
-    schema: ({ image }) => z.object({
-    title: z.string(),
-    description: z.string(),
-    main: z.object({
-      id: z.number(),
-      content: z.string(),
-      imgCard: image(),
-      imgMain: image(),
-      imgAlt: z.string(),
-    }),
-    tabs: z.array(
-      z.object({
-        id: z.string(),
-        dataTab: z.string(),
-        title: z.string(),
-      })
-    ),
-    longDescription: z.object({
-      title: z.string(),
-      subTitle: z.string(),
-      btnTitle: z.string(),
-      btnURL: z.string(),
-    }),
-    descriptionList: z.array(
-      z.object({
-        title: z.string(),
-        subTitle: z.string(),
-      })
-    ),
-    specificationsLeft: z.array(
-      z.object({
-        title: z.string(),
-        subTitle: z.string(),
-      })
-    ),
-    specificationsRight: z.array(
-      z.object({
-        title: z.string(),
-        subTitle: z.string(),
-      })
-    ).optional(),
-    tableData: z.array(
-      z.object({
-        feature: z.array(z.string()),
-        description: z.array(z.array(z.string())),
-      })
-    ).optional(),
-    blueprints: z.object({
-      first: image().optional(),
-      second: image().optional(),
-    }),
-  }),
+const baseSchema = z.object({
+	title: z.string().max(60),
 });
 
-const blogCollection = defineCollection({
-  loader: glob({ pattern: '**/[^_]*.{md,mdx}', base: "./src/content/blog" }),
-  schema: ({ image }) => z.object ({
-  title: z.string(),
-  description: z.string(),
-  contents: z.array(z.string()),
-  author: z.string(),
-  role: z.string().optional(),
-  authorImage: image(),
-  authorImageAlt: z.string(),
-  pubDate: z.date(),
-  cardImage: image(),
-  cardImageAlt: z.string(),
-  readTime: z.number(),
-  tags: z.array(z.string()).optional(),
-  }),
+const post = defineCollection({
+	loader: glob({ base: "./src/content/post", pattern: "**/*.{md,mdx}" }),
+	schema: ({ image }) =>
+		baseSchema.extend({
+			description: z.string(),
+			coverImage: z
+				.object({
+					alt: z.string(),
+					src: image(),
+				})
+				.optional(),
+			draft: z.boolean().default(false),
+			ogImage: z.string().optional(),
+			tags: z.array(z.string()).default([]).transform(removeDupsAndLowerCase),
+			publishDate: z
+				.string()
+				.or(z.date())
+				.transform((val) => new Date(val)),
+			updatedDate: z
+				.string()
+				.optional()
+				.transform((str) => (str ? new Date(str) : undefined)),
+			// Series
+			seriesId: z.string().optional(), // Поле для связи с серией
+      		orderInSeries: z.number().optional(), // Опционально: для сортировки в серии
+			// End
+		}),
 });
 
-const insightsCollection = defineCollection({
-  loader: glob({ pattern: '**/[^_]*.{md,mdx}', base: "./src/content/insights" }),
-  schema: ({ image }) => z.object ({
-  title: z.string(),
-  description: z.string(),
-  // contents: z.array(z.string()),
-  cardImage: image(),
-  cardImageAlt: z.string(),
-  }),
+const note = defineCollection({
+	loader: glob({ base: "./src/content/note", pattern: "**/*.{md,mdx}" }),
+	schema: baseSchema.extend({
+		description: z.string().optional(),
+		publishDate: z
+			.string()
+			.datetime({ offset: true }) // Ensures ISO 8601 format with offsets allowed (e.g. "2024-01-01T00:00:00Z" and "2024-01-01T00:00:00+02:00")
+			.transform((val) => new Date(val)),
+	}),
 });
 
-export const collections = {
-  docs: defineCollection({ schema: docsSchema() }),
-  'products': productsCollection,
-  'blog': blogCollection,
-  'insights': insightsCollection,
-};
+// Series
+const series = defineCollection({
+	loader: glob({ base: "./src/content/series", pattern: "**/*.{md,mdx}" }),
+	schema: z.object({
+		id: z.string(),
+		title: z.string(),
+		description: z.string(),
+		featured: z.boolean().default(false), // Пометка для популярных серий
+	}),
+});
+// End
+
+// Series
+export const collections = { post, note, series };
