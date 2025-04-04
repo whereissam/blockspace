@@ -1,5 +1,5 @@
 ---
-title: "Tokenize.it : Revolutionizes Equity with Blockchain"
+title: "European Web3 Exploration | Tokenize.it : Revolutionizes Equity with Blockchain"
 description: "How Blockchain Breaks Traditional Financing Rules"
 publishDate: "2025-03-31"
 tags: ["web3", "RWA", "blockchain", "tokenization"]
