@@ -1,16 +1,73 @@
 ---
 import PageLayout from "@/layouts/Base.astro";
+import { Icon } from "astro-icon/components";
 
 const meta = {
-  description: "I'm a starter theme for Astro.build",
+  description: "Sam's personal blockchain blog and portfolio",
   title: "About",
 };
+
+const socialLinks = [
+  {
+    ariaLabel: "X",
+    icon: "hugeicons:new-twitter-rectangle",
+    href: "https://twitter.com/bungeegumeee",
+  },
+  {
+    ariaLabel: "Instagram",
+    icon: "hugeicons:instagram",
+    href: "https://www.instagram.com/the.blockspace",
+  },
+  {
+    ariaLabel: "Telegram",
+    icon: "hugeicons:telegram",
+    href: "https://t.me/theblockspaces",
+  },
+  {
+    ariaLabel: "Linkedin",
+    icon: "hugeicons:linkedin-01",
+    href: "https://www.linkedin.com/in/sam-hbz/",
+  },
+  {
+    ariaLabel: "Github",
+    icon: "hugeicons:github-01",
+    href: "https://github.com/whereissam/blockspace",
+  },
+];
 ---
 
 <PageLayout meta={meta}>
   <h1 class="title mb-6">About</h1>
   <div class="prose prose-citrus max-w-none">
-    <p>Hi, I’m a Sam</p>
-    <p>Here are my blockchain blog</p>
+    <div class="flex flex-col md:flex-row gap-8 items-start">
+      <img
+        src="/selfPhoto.png"
+        alt="Sam's profile picture"
+        class="rounded-lg w-48 h-auto shadow-md"
+      />
+      <div class="text-white">
+        <p>Hi, I'm Sam</p>
+        <p>Here are my blockchain / AI blog</p>
+
+        <div class="mt-6">
+          <h3 class="text-lg font-semibold mb-2">Connect with me:</h3>
+          <div class="flex gap-3">
+            {
+              socialLinks.map(({ ariaLabel, icon, href }) => (
+                <a
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={ariaLabel}
+                  class="text-white hover:text-accent-base transition-colors"
+                >
+                  <Icon name={icon} class="h-6 w-6" />
+                </a>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </PageLayout>
