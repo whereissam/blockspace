@@ -27,6 +27,8 @@ With a simple click, this discovery is timestamped on the blockchain, permanentl
 
 ## Proof of Invention (POI): A Digital Passport for Scientific Innovation
 
+![molecule POIs](https://i.imgur.com/nD1HajW.png)
+
 Proof of Invention (POI) is the core technological foundation of The Portal project. This blockchain tool allows inventors to securely timestamp their ideas and inventions, generating cryptographic proof that their concept existed at a specific point in time. This timestamp serves as verifiable evidence, and inventors can later mint an intellectual property NFT from their POI, creating an immutable record and establishing legitimate ownership of their invention.
 
 POI is ideal for early-stage inventors who need a secure, low-cost way to document their ideas without dealing with the high costs and formalities of provisional patents. For scientific communities like BioDAOs, POI helps them find, recognize, and reward the best ideas from their community members, giving recognition and incentive to original inventors.
@@ -34,6 +36,8 @@ POI is ideal for early-stage inventors who need a secure, low-cost way to docume
 Importantly, POI is compatible with traditional intellectual property systems, allowing inventors to use it as evidence when filing patents or in legal proceedings, while also paving the way for tokenization of intellectual property.
 
 The magic of The Portal project lies in solving three key challenges:
+
+![3 key components](https://i.imgur.com/c2rqSI9.png)
 
 First, it makes the scientific process transparent. Rather than sharing results only when papers are published, scientists can share progress in real-time, receive feedback, and protect their intellectual property through POI on the blockchain. This approach transforms science from "publication priority" to "discovery priority."
 
@@ -45,7 +49,19 @@ More importantly, everyone's contributions are recorded and acknowledged. Whethe
 
 Third, The Portal helps scientists build vibrant communities. As one biologist admitted: "I can work 16 hours in the lab, but I don't know how to set up a Discord server or organize a webinar."
 
-The Portal's AI advisor can suggest how to build digital communities, organize virtual events, attract new members, and even analyze which biotech companies might be interested in research outcomes. It transforms laboratory scientists into community builders and movement leaders.
+The Portal's AI guide provides step-by-step assistance with:
+
+![community spirit](https://i.imgur.com/R4evtQl.png)
+
+- Setting up a Discord server from day one to be maximally open and welcoming
+- Organizing town halls and Twitter Spaces to engage the broader community
+- Establishing regular journal clubs to discuss the latest research
+- Strategically reaching out to relevant scientists in the field
+- Creating structured patient onboarding processes for research involving patient communities
+- Developing comprehensive scientific roadmaps to guide research priorities
+- Exploring commercial pathfinding and joint development agreement (JDA) partnerships
+
+This systematic approach transforms laboratory scientists into community builders and movement leaders, addressing a critical blind spot in traditional scientific training.
 
 ## Practical Applications of The Portal
 
@@ -75,6 +91,8 @@ This isn't just a technological innovation but a fundamental shift in scientific
 
 Are you part of this revolution? The Portal project invites scientists, patient advocates, technical experts, and anyone concerned with scientific progress to join this movement. Don't wait for rescue; become a force for change.
 
-Visit bio.xyz/apply to learn how to start building your own scientific research collective or how to contribute to existing research DAOs. In the face of difficult funding environments, this isn't just another option. It's the new frontier of scientific progress.
+Visit [Bio.xyz Founder](https://form.typeform.com/to/xwFpOlUt) to apply and [Bio.xyz](https://www.bio.xyz/) to learn how to start building your own scientific research collective or how to contribute to existing research DAOs. In the face of difficult funding environments, this isn't just another option. It's the new frontier of scientific progress.
+
+?typeform-source=www.bio.xyz
 
 The world won't wait. Science shouldn't either.
