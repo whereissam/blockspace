@@ -49,7 +49,7 @@ The Portal's AI advisor can suggest how to build digital communities, organize v
 
 ## Practical Applications of The Portal
 
-The Portal isn't a future dream—it's becoming reality. The current version already helps scientists answer key questions:
+The Portal isn't a future dream. It's becoming reality. The current version already helps scientists answer key questions:
 
 An immunologist researching rare diseases asks: "Is my research suitable for the Web3 model?" The system analyzes her research field, recommends the most appropriate DAO structure for her situation, and connects her with research collectives already successful in similar fields.
 
@@ -57,7 +57,7 @@ A neuroscientist building a research collective complains: "We have 50 members, 
 
 A newly established cancer research DAO asks: "Our research has produced a potential treatment method; how do we balance open science and commercialization?" The system proposes a hybrid model, keeping basic research open while establishing commercial pathways for specific applications.
 
-These aren't hypothetical scenarios—they're real interactions that have occurred through early versions of The Portal. The system continuously learns and improves, with each interaction enhancing its ability to help scientists.
+These aren't hypothetical scenarios. They're real interactions that have occurred through early versions of The Portal. The system continuously learns and improves, with each interaction enhancing its ability to help scientists.
 
 ## A New Era of Scientific Research
 
@@ -71,10 +71,10 @@ The pace of scientific breakthroughs triples because negative results and partia
 
 Interdisciplinary collaboration becomes seamless as AI translates terminology and concepts between different specialized fields, allowing physicists, biologists, and computer scientists to truly understand each other's work.
 
-This isn't just a technological innovation but a fundamental shift in scientific culture—from closed to open, from competitive to collaborative, from slow to agile.
+This isn't just a technological innovation but a fundamental shift in scientific culture, from closed to open, from competitive to collaborative, from slow to agile.
 
 Are you part of this revolution? The Portal project invites scientists, patient advocates, technical experts, and anyone concerned with scientific progress to join this movement. Don't wait for rescue; become a force for change.
 
-Visit bio.xyz/apply to learn how to start building your own scientific research collective or how to contribute to existing research DAOs. In the face of difficult funding environments, this isn't just another option—it's the new frontier of scientific progress.
+Visit bio.xyz/apply to learn how to start building your own scientific research collective or how to contribute to existing research DAOs. In the face of difficult funding environments, this isn't just another option. It's the new frontier of scientific progress.
 
 The world won't wait. Science shouldn't either.
