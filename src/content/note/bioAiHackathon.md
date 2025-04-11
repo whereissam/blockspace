@@ -15,9 +15,9 @@ Bio x AI Hackathon has officially begun in Berlin!
 
 👉 Supported by BIO Protocol, with speakers from VitaDAO, Molecule, Solana, and more! Join in person at Alexandrinenstraße 118-121, Berlin or virtually through Discord: https://discord.gg/bioxyz
 
+![](https://bio-x-ai-berlin.devfolio.co/_next/image?url=https%3A%2F%2Fassets.devfolio.co%2Fhackathons%2Fcef47ebfc13142cfb8110e750875d03f%2Fassets%2Fcover%2F861.png&w=1440&q=100)
 
-
-Exciting news! The Bio x AI Hackathon has officially kicked off in Berlin, and I couldn't be more thrilled to share the details with you all.
+Exciting news! The [Bio x AI Hackathon](https://bio-x-ai-berlin.devfolio.co/) has officially kicked off in Berlin, and I couldn't be more thrilled to share the details with you all.
 
 ## 🚀 What's Happening?
 The **Bio x AI Hackathon** brings together the worlds of artificial intelligence and decentralized science (DeSci) for a groundbreaking two-month journey! Starting with an in-person kickoff in Berlin (April 8-10) and continuing virtually until June.
@@ -81,6 +81,8 @@ Join the Discord to meet other participants and stay updated: [Discord](https://
 BIO Protocol is the gateway to decentralized science, serving as DeSci's financial layer to accelerate the commercialization of breakthrough research through its innovative launchpad model.
 
 ## 🤝 Let's Build Together!
-Whether you're looking to win funding, collaborate with leading experts, or develop next-gen scientific tools, this is where innovation happens. The future of agentic science is being built right now!
+Whether you're looking to win funding, collaborate with leading experts, or develop next-gen scientific tools, this is where innovation happens. 
+
+The future of agentic science is being built right now!
 
 **Can't wait to see what amazing innovations emerge from this hackathon! Are you joining? Let me know in the comments!** 🧪🧠
