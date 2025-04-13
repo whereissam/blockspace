@@ -1,119 +1,163 @@
 ---
-title: "Unlocking AI’s Potential in Research"
-description: "Key insights from Dr. Barend Mons’s lecture on leveraging AI for scientific discovery, including the golden zone of knowledge, FAIR data principles, nanopublications, and human-machine collaboration to navigate the overwhelming complexity of modern data."
-publishDate: "2025-04-12"
-tags: ["AI", "scientific discovery", "DeSci", "knowledge networks"]
+title: "13 Startup Opportunities in the AI Era"
+description: "Exploring 13 key AI trends from ChatGPT 4O image generation to education disintermediation that are creating massive entrepreneurial opportunities in today's rapidly evolving tech landscape."
+publishDate: "2025-04-13"
+tags: ["AI startups", "entrepreneurship", "technology trends", "AI", "business opportunities"]
 ---
 
-### TLDR
+In a recent [startup ideas podcast](https://open.spotify.com/episode/1cNSIz4LWO9LStY0bjJnjY?si=XjR7ORu2REG7TXP9KqtzfQ), the host and AI expert Riley Brown discussed how AI is transforming the entrepreneurial landscape. The host mentioned that he had compiled over 40 perspectives on AI and entrepreneurship, and during their conversation, they delved into 13 of the most insightful observations. This article systematically organizes these startup hotspots, providing practical references for readers aspiring to start businesses in the AI era.
 
-Dr. Barend Mons’s lecture redefines AI’s role in scientific discovery, addressing the challenge of overwhelming data with 120,000 gene-disease hypotheses. He introduces the “golden zone” for meaningful discoveries, advocates for FAIR data and nanopublications to make knowledge machine-readable, and proposes human-machine collaboration to focus on impactful breakthroughs, offering a roadmap for navigating the data tsunami in science.
+## 1. ChatGPT 4O Image Generation: A Gold Mine for Vertical Software
 
-![Dr. Barend Mons](https://images.squarespace-cdn.com/content/v1/5f02c5e22af67762d729af7c/55d3027b-2259-48c8-b3c8-dac6434346c7/Barend+Mons_LUMC.jpg)
+ChatGPT 4O's image generation capability is regarded as a milestone as significant as the initial launch of ChatGPT, expected to spawn thousands of vertical software businesses with annual revenues ranging from $1 million to $100 million.
 
-Dr. Barend Mons
+GPT-4O excels in generating gradients, UI components, and character designs, capable of creating sprite sheets that simplify character control and animation production. This technology opens up new opportunities for e-commerce design, packaging design, and dynamic content creation.
 
----
+Entrepreneurial opportunities:
+- Providing high-quality GIF and dynamic content services for e-commerce businesses
+- Packaging design optimization services for consumer goods
+- Visual design solutions targeted at specific vertical sectors
 
-As a biologist, you leverage cutting-edge AI tools to analyze the relationship between genes and diseases. After extensive computations, the computer finally delivers results: 120,000 potential new hypotheses. Faced with this daunting number, a reviewer from *Nature Genetics* poses a single question: “What can we actually do with these 120,000 hypotheses?”
+## 2. Complete Reconstruction of Calendar, Inbox, and CRM Systems
 
-This was the real dilemma faced by molecular biologist Dr. Barend Mons and his research team. In a 40-minute in-depth lecture, Mons not only shared this challenge but also introduced a transformative framework for scientific discovery, redefining AI’s role in supporting research.
+Traditional productivity tools are facing revolutionary changes. All calendar, inbox, and CRM systems are expected to be completely rebuilt within the next three years, rather than merely adding AI features.
 
-## The Real Needs of Experimental Scientists
+This prediction is based on dissatisfaction with the fragmentation of current communication systems users need to switch between multiple platforms (email, Slack, etc.). New products like Micro HQ are redefining the email experience, transforming it into an intelligent dashboard.
 
-Biomedical scientists spent a decade validating roughly 6,000 gene-disease associations, each requiring significant funding. With 120,000 hypotheses—representing only the top 1% of likely results—experimental validation becomes impractical.
+Entrepreneurial opportunities:
+- Developing intelligent tools that integrate multi-platform communications
+- Creating AI-driven CRM systems for specific vertical domains
+- Combining quality UI design (such as component libraries from [21st.dev](https://21st.dev/)) with AI capabilities to create more attractive productivity tools
 
-Modern scientists don’t lack hypotheses; they risk being overwhelmed by too many possibilities. Machines can detect countless patterns, but they don’t understand their significance. As a result, scientists are forced to sift through associations that may lack practical value.
+## 3. Leapfrog Development of AI Video Generation Technology
 
-The scientific community doesn’t need tools generating millions of hypotheses, most of which fall into a chaotic region too complex for human comprehension. What’s needed are tools that pinpoint valuable discoveries.
+The story of the "spaghetti video" vividly demonstrates the rapid progress of AI video generation technology. About two years ago, an AI-generated video of Will Smith eating spaghetti was ridiculed for its poor quality and used by skeptics as evidence that AI could not generate high-quality videos.
 
-## Data Access Revolution: From Data Sharing to Data Visiting
+However, in less than two years, an AI-generated video on the same subject has achieved 95% realism. Experts predict that within the next two years, users will be able to create complete films through prompts, including precise dialogue, natural speech, and professional background music.
 
-As data grows increasingly vast, complex, and sensitive, traditional data-sharing models face challenges. Dr. Barend Mons proposed a new paradigm called “data visiting,” where algorithms access data sites, obtain permission for specific studies, and retrieve only the results.
+Entrepreneurial opportunities and challenges:
+- Development of professional content production tools
+- Content authenticity verification and quality control platforms
+- Addressing potential content flooding from "faceless content farms"
 
-Think of it as a railway network: algorithms are trains, and data are stations. Trains visit stations rather than forcing all data to centralize in one place.
+## 4. Complete Automation of Customer Support
 
-This approach tackles multiple challenges. First, the sheer volume of data—life sciences alone have accumulated roughly 100 trillion scientific facts or associations—is too vast, grows too rapidly, and is too diverse for human minds to process.
+Most customer support functions will be automated within 36 months, covering not just basic inquiries but also complex multi-step solutions that previously required senior support staff.
 
-![](https://i.imgur.com/cWwfT1y.png)
+AI-driven customer service systems will change how users obtain support, similar to how AI has revolutionized information retrieval. Users will be able to get accurate answers immediately without waiting for human responses. As chatbot technology advances and user acceptance increases, the demand for traditional customer service calls will significantly decrease.
 
-Second, privacy concerns extend beyond personal health data. Information about natural resources or rare species, for instance, is also sensitive. In the Netherlands, the location of a rare plant was published and stripped bare the same day. Museum shell locations were disclosed and promptly plundered. Privacy protection isn’t just about humans.
+Entrepreneurial opportunities:
+- Developing customer service automation solutions specialized for vertical industries
+- Creating cross-platform customer support integration systems
+- Designing tools for training and supervising AI customer service systems
 
-## The Golden Zone of Scientific Discovery
+## 5. The "Mediocre Success" Trap in Entrepreneurship
 
-The core idea of the lecture is identifying the “golden zone” of scientific discovery, which Mons calls the region near the percolation point.
+The worst outcome for a startup is not failure, but "mediocre success" sufficient to keep operating, yet insufficient to change the founder's life or achieve a breakthrough.
 
-As complexity increases, a critical threshold—the percolation point—emerges. Beyond this point, systems descend into cognitive chaos. In diagrams, the percolation point is marked by a green dot, and true knowledge discovery occurs in the region just around it.
+Riley shared his experience of abandoning an app that was performing well but lacked team enthusiasm, in favor of a more ambitious project, calling it possibly "the most important decision of my life." This perspective reminds entrepreneurs to be wary of the inertia trap of daily work and to regularly evaluate the alignment of project progress with long-term goals.
 
-Scientific knowledge exists on a spectrum from simple to complex:
-- **Too simple**: Already known, offering no novelty.
-- **Too complex**: Incomprehensible and impractical for application.
-- **The middle ground**: Novel yet understandable and applicable.
+Key decision framework:
+- Regularly assess whether the project inspires team enthusiasm
+- Consider the project's long-term breakthrough potential, not just current performance
+- Have the courage to abandon stable projects that lack growth potential
 
-This middle ground is the golden zone of discovery, where machines can reveal new connections that remain comprehensible to human scientists.
+## 6. The Strategic Significance of the "Sketching Economy"
 
-Human understanding has improved over time. Once, a scientist could grasp all human knowledge, but now even a single field exceeds an individual’s capacity. For example, in human genetics, if AI states that “25,000 genes and millions of regulatory sequences make us human,” it’s accurate but useless. Scientists need specific findings, like “this gene may be linked to this disease.”
+In an era where AI can convert sketches into professional designs, the "sketching economy" is emerging as a new value area. As the transformation process becomes easier, original creativity and aesthetic taste become scarce resources.
 
-## FAIR Data: The Foundation for AI-Ready Knowledge
+Sketching whether hand-drawn or digitally recorded is increasingly valuable in the creative process. For example, a good YouTube thumbnail sketch, when processed by AI, could potentially double views and engagement rates.
 
-To enable machines to assist in scientific discovery, data must adhere to the FAIR principles: Findable, Accessible, Interoperable, and Reusable. Dr. Barend Mons, a co-founder of FAIR, now reinterprets it as “Fully AI-Ready.”
+Entrepreneurial opportunities:
+- Developing more effective creative capture and sketching tools
+- Creating platforms specifically for sketch-to-product transformation
+- Providing creative thinking and aesthetic training services
 
-![](https://i.imgur.com/kpRmIex.png)
+## 7. The Revival of AI-First Mobile Applications
 
-The core idea is that machines must genuinely understand data’s meaning to support science effectively. Like human communication, when I say “cancer,” others understand I mean the disease, whether I use “cancer” in English, “Krebs” in German, or a medical code like “C0-265.” Machines need this same ability to recognize that different terms refer to the same concept.
+The mobile application market is evolving from desktop-first to mobile-first, and now to AI-first. The next generation of applications with annual revenues of over $100 million will deeply integrate AI technology from the outset.
 
-Machines struggle with concepts that are similar but not identical. For instance, a “piano” means a heavy object to a mover but a musical instrument to a musician. Humans grasp this distinction easily, but machines require precise definitions and relationships.
+Cal AI is frequently mentioned as a typical case, radically changing the user experience of calorie tracking through its function of automatically identifying food calories by taking photos.
 
-![](https://i.imgur.com/ioY7gY7.png)
+Entrepreneurial opportunities:
+- Developing AI-driven vertical applications targeted at specific user groups
+- Reconstructing traditional mobile applications by integrating core AI functionality
+- Creating cross-platform AI experience consistency solutions
 
-## Nanopublications: The Smallest Units of Knowledge
+## 8. The "Winner-Takes-All" Time Window Created by AI
 
-To make scientific knowledge machine-readable, the team developed the “nanopublication” system, breaking complex knowledge into the smallest building blocks. Each nanopublication contains three parts: subject, predicate, and object—for example, “Drug A - treats - Disease B.”
+AI is forming a "winner-takes-all" market structure. The time window for establishing a position as the preferred solution in a specific vertical domain may be only 6-12 months, after which the market structure may be difficult to change for a long time.
 
-Every nanopublication has a unique identifier and detailed provenance, indicating its source, discovery date, and discoverer. This allows machines to track reliability and timeliness.
+Major platforms like ChatGPT, Claude, and Gemini are building agent platforms that can perform specific tasks. This trend makes immediate action and seizing market opportunities particularly important.
 
-Scientists estimate that all life sciences knowledge can be broken down into:
-- ~100 trillion basic knowledge units (nanopublications).
-- ~100 billion unique scientific statements (same content, different sources).
-- ~1 million key concepts (genes, diseases, drugs, etc.).
+Strategic considerations:
+- Balancing rapid action and market positioning
+- Trade-offs between technological advancement and user-friendliness
+- Identifying differences in the needs of early adopters and mainstream markets
 
-With this structured approach, even vast knowledge bases become manageable. In fact, the core knowledge of key concepts can fit on a standard laptop.
+## 9. Strategy for Reconstructing Traditional Products with AI
 
-## Knowledge Networks: Dynamic Relationships Between Concepts
+An effective entrepreneurial strategy is to use AI as a differentiating advantage to reconstruct traditional products, hiding complex technology behind intuitive interfaces. The core of this approach is to find product categories that have been validated by the market but have not yet applied AI, creating obvious value for end-users through AI technology.
 
-Scientific knowledge is not static; it evolves continuously. The team organizes related knowledge units into “nodes,” collections centered on concepts like a specific disease or drug.
+There are huge opportunities in the design tools space. Traditionally, users need to create and combine multiple elements step by step, while technologies like GPT-4O make it possible to generate complete designs in one go, while retaining the ability to separate and adjust layers.
 
-As new discoveries emerge, these nodes shift in conceptual space. By observing changes in distances between nodes, scientists can uncover potential new connections.
+Entrepreneurial ideas:
+- Identifying traditional products with significant user experience friction points
+- Applying AI technology to significantly simplify workflows
+- Retaining the fine control capabilities required by professional users
 
-For instance, the team noticed two nodes—one for malaria and another for a cancer drug—moving closer in knowledge space. This suggested the cancer drug might treat malaria by targeting a related enzyme. While theoretically plausible, experiments showed the drug’s molecules were too large to enter red blood cells.
+## 10. "Vibe Coding" and "Vibe Marketing"
 
-This highlights the value of human-machine collaboration: machines identify possible patterns, and humans evaluate their feasibility.
+The podcast mentions the concept of "vibe coding" and discusses the potential of "vibe marketing." Although Riley has reservations about the naming, he acknowledges the business value behind these concepts.
 
-## The Value of Connecting Diverse Knowledge Sources
+These trends represent broad opportunities to improve development and marketing processes through AI automation and optimization, delegating boring, repetitive work to AI, allowing humans to focus on creative and strategic thinking.
 
-Breaking knowledge into small units enables seamless integration of different sources, like puzzle pieces forming unexpected patterns when combined.
+Entrepreneurial opportunities:
+- Developing tools that simplify design and development processes
+- Creating automated marketing platforms that maintain brand consistency
+- Providing AI-driven creative resource generation services
 
-The team demonstrated this with two medical databases—one tracking gene mutations and another recording gene “switches.” Combined, they revealed that many diseases stem not from faulty genes but from defective switches—a discovery invisible when examining either database alone.
+## 11. AI Will "Kill" Static Homepages
 
-During the COVID-19 pandemic, this approach helped evaluate drug efficacy. By connecting diverse data, researchers built a simplified model of drug-virus interactions. It showed that a widely discussed drug had limited connections to the virus, while a steroid drug had more. The model predicted the steroid’s superior effectiveness, later confirmed by medical tests.
+AI will drive a transformation in the concept of website homepages. Static, uniform interfaces will be replaced by dynamic, personalized entry points that intelligently adjust based on user identity, needs, and time of visit.
 
-## Constraining AI Outputs: Conceptual Models as Guardrails
+This trend is inspired by the high degree of personalization in the advertising industry. Websites and applications will use location, preference, and behavioral data to provide customized experiences, and product display methods will vary according to different user characteristics.
 
-Improving input data quality is only half the solution. Equally critical is constraining AI’s output. Unrestricted AI might produce scientifically absurd conclusions, like proteins forming complexes with buildings.
+Entrepreneurial directions:
+- Developing personalized website experience engines
+- Creating dynamic content generation and display platforms
+- Providing user behavior analysis and experience optimization services
 
-Mons suggests using conceptual models as scientific guardrails to prevent AI from proposing impossible ideas. He envisions a slider mechanism:
-- **Far left**: AI produces only known, conservative conclusions—lacking novelty.
-- **Middle (golden zone)**: AI generates meaningful, testable, logical hypotheses.
-- **Far right**: AI produces highly creative but often impractical ideas.
+## 12. The Rise of Niche Software
 
-Scientists need tools to adjust this “slider” to focus on the golden zone.
+AI makes it possible for developers to create highly customized applications for specific user groups. This trend promotes the development of vertical market segments, allowing entrepreneurs to focus on specific niche markets and develop solutions that meet their unique needs.
 
-## Hybrid Intelligence: The Future of Scientific Discovery
+Riley especially emphasizes that even smaller-scale applications can achieve considerable annual revenue (six figures) if they accurately target their users, which contrasts sharply with the traditional software development approach of pursuing mass markets.
 
-Mons’s ultimate vision is a true human-machine collaboration system. Machines excel at spotting patterns in vast data, but they don’t assess meaning. Humans excel at evaluating significance but can’t handle massive datasets.
+Entrepreneurial strategy:
+- Identifying overlooked user groups with specific needs
+- In-depth research on professional knowledge in vertical domains
+- Using AI technology to reduce development costs, making profitability possible in niche markets
 
-In an ideal model, machines identify patterns using high-quality knowledge graphs, filter implausible results with conceptual models, and focus outputs on the golden zone. Human scientists then evaluate these findings to decide what merits further study.
+## 13. AI Disintermediation of Education
 
-We don’t need tools generating endless hypotheses. We need tools guiding us to true breakthroughs. This is the future of scientific discovery.
+Regarding AI's impact on education, the podcast presents a unique perspective: traditional education will not be directly disrupted by AI, but disintermediated smart young people will be able to bypass the formal education system and develop by building audiences, conducting experiments, and learning quickly.
 
-Through this lecture, Barend Mons not only highlighted the limitations of current AI-assisted discovery but also charted a new path, precisely locating valuable knowledge amid a flood of data. In an era of explosive data growth, this approach offers a new roadmap for science.
+Riley mentions the example of Alpha school in Austin, which implements a model of two hours of AI learning per day. Students not only excel academically but also start entrepreneurial practices at the age of 14-15. This indicates that the education model is shifting towards cultivating adaptability and practical skills.
+
+Entrepreneurial opportunities:
+- Developing AI platforms supporting self-directed learning
+- Creating educational models combining online learning with practical projects
+- Providing tools and resource platforms for young entrepreneurs
+
+## Conclusion: Core Thinking for Entrepreneurship in the AI Era
+
+From the 13 startup hotspots discussed in the podcast, three core recommendations for entrepreneurs in the AI era can be distilled:
+
+1. **Seize the time window**: AI is rapidly reshaping various industries; immediate action and seizing opportunities are crucial, especially in vertical market segments.
+
+2. **Balance technology and user experience**: Successful AI entrepreneurship requires a balance between technological advancement and user-friendliness, hiding complex technology behind intuitive interfaces.
+
+3. **Avoid the "mediocre success" trap**: Regularly evaluate project progress and team enthusiasm, have the courage to abandon well-performing projects that lack breakthrough potential, and focus on directions with truly transformative potential.
+
+AI is redefining the essence of entrepreneurship and business models at an unprecedented pace. For entrepreneurs, the key is to combine AI technology with profound industry insights to create differentiated solutions that truly solve problems.
