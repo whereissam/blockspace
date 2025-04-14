@@ -1,7 +1,7 @@
 ---
 title: "From Market Volatility to AI Innovation: Key Insights from 'This Week in Startups'"
 description: "Essential takeaways from Jason Calacanis's podcast on survival strategies during market uncertainty, the 'Cockroach Strategy', current funding trends, AI's strategic role in business, and lessons for entrepreneurs navigating the tech ecosystem."
-publishDate: "2025-04-11"
+publishDate: "2025-04-12"
 tags: ["startups", "AI", "funding trends", "market volatility"]
 ---
 
