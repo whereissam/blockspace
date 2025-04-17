@@ -2,7 +2,7 @@
 title: "AI Agents in Retail: From Tools to Intelligent Decision Systems"
 description: "An in-depth analysis of how AI Agents are transforming the retail industry through three evolutionary stages, solving operational challenges, and creating new business paradigms for merchants of all sizes."
 publishDate: "2025-04-15"
-tags: ["AI", "retail", "ai agents"]
+tags: ["AI", "retail", "ai agents", "podcast"]
 ---
 
 In 2024, dubbed the breakout year for AI Agents, an increasing number of AI startups are focusing on developing intelligent systems that genuinely help individuals and businesses complete tasks. Particularly in the retail industry, AI Agents have begun to penetrate every aspect from marketing to customer service, from physical stores to backend data systems. The co-founder and CEO of Youzan, Leo Huang, shared how AI Agents are transforming the retail industry and enterprise services on the podcast "[What's Next Tech Insider](https://open.spotify.com/episode/3TnpYLx92H0otXahTjs2iI?si=f4QvUz3YQCSjSj8yKmPS8A)."

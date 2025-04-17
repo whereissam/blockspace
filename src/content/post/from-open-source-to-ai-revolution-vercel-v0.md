@@ -2,7 +2,7 @@
 title: "How Vercel and V0 are Redefining Software Development"
 description: "An in-depth analysis of how Vercel's V0 is transforming software development, democratizing code creation, and reshaping traditional development roles through AI-powered tools."
 publishDate: "2025-04-16"
-tags: ["AI", "software development", "Vercel", "V0"]
+tags: ["AI", "software development", "Vercel", "V0", "podcast"]
 ---
 
 # From Open Source Frameworks to AI-Driven Revolution: How Vercel and V0 are Redefining Software Development

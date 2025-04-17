@@ -2,7 +2,7 @@
 title: "2027 AI World: From Superhuman Coding to Intelligence Explosion Scientific Predictions"
 description: "An in-depth analysis of AI Futures Project's '2027' report predicting the four-stage evolution of artificial intelligence by 2027, from superhuman coders to broad superintelligence, and the potential slowdown or race scenarios that could shape humanity's future."
 publishDate: "2025-04-14"
-tags: ["artificial intelligence", "AGI", "superintelligence", "AI predictions", "future technology", "AI safety", "AI ethics", "technology forecasting"]
+tags: ["artificial intelligence", "AGI", "AI predictions", "AI safety", "AI ethics", "podcast"]
 ---
 
 ## Introduction
