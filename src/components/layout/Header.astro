@@ -1,8 +1,10 @@
 ---
 import Search from "@/components/Search.astro";
 import ThemeToggle from "@/components/ThemeToggle.astro";
+import LanguageToggle from "@/components/LanguageToggle.astro";
 import { siteConfig, menuLinks } from "@/site.config";
 import { Icon } from "astro-icon/components";
+import { t } from "i18next";
 ---
 
 <header
@@ -190,6 +192,7 @@ import { Icon } from "astro-icon/components";
           class="top-4 md:top-8 -ml-[4.5rem] flex space-x-2"
         >
           <Search />
+          <LanguageToggle />
           <ThemeToggle />
         </div>
       </div>

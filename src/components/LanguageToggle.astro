@@ -1,0 +1,95 @@
+---
+import { Icon } from "astro-icon/components";
+
+// Simple path-based locale detection and path generation
+const currentPath = Astro.url.pathname;
+const isZhTW = currentPath.startsWith('/zh-TW');
+
+// For English: remove zh-TW prefix if present, otherwise keep current path
+const enPath = isZhTW ? currentPath.replace(/^\/zh-TW/, '') || '/' : currentPath;
+
+// For Chinese: add zh-TW prefix if not present, otherwise keep current path  
+const zhPath = isZhTW ? currentPath : '/zh-TW' + currentPath;
+
+const languages = [
+  { 
+    code: 'en', 
+    name: 'English',
+    flag: '🇺🇸',
+    path: enPath,
+    active: !isZhTW
+  },
+  { 
+    code: 'zh-TW', 
+    name: '繁體中文',
+    flag: '🇹🇼', 
+    path: zhPath,
+    active: isZhTW
+  }
+];
+
+const currentLang = languages.find(lang => lang.active);
+---
+
+<div class="relative group">
+  <button
+    class="flex h-8 w-8 items-center justify-center rounded-lg bg-color-100 hover:bg-accent-base/10 text-accent-base transition-colors"
+    aria-label="Select language"
+    aria-expanded="false"
+    aria-haspopup="true"
+    id="language-toggle"
+  >
+    <Icon name="hugeicons:globe-02" class="h-4 w-4" />
+  </button>
+  
+  <div 
+    class="absolute right-0 top-full mt-2 w-36 bg-bgColor border border-color-200 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50"
+    id="language-dropdown"
+  >
+    {languages.map((lang) => (
+      <a
+        href={lang.path}
+        class={`block px-3 py-2 text-sm hover:bg-color-100 transition-colors first:rounded-t-lg last:rounded-b-lg ${
+          lang.active ? 'bg-accent-base/10 text-accent-base font-medium' : 'text-textColor'
+        }`}
+      >
+        <div class="flex items-center gap-2">
+          <span class="text-xs">{lang.flag}</span>
+          <span>{lang.name}</span>
+          {lang.active && <span class="ml-auto text-accent-base">✓</span>}
+        </div>
+      </a>
+    ))}
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const toggle = document.getElementById('language-toggle');
+    const dropdown = document.getElementById('language-dropdown');
+    
+    if (toggle && dropdown) {
+      toggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isVisible = dropdown.classList.contains('opacity-100');
+        
+        if (isVisible) {
+          dropdown.classList.add('opacity-0', 'invisible');
+          dropdown.classList.remove('opacity-100', 'visible');
+          toggle.setAttribute('aria-expanded', 'false');
+        } else {
+          dropdown.classList.remove('opacity-0', 'invisible');
+          dropdown.classList.add('opacity-100', 'visible');
+          toggle.setAttribute('aria-expanded', 'true');
+        }
+      });
+      
+      // Close dropdown when clicking outside
+      document.addEventListener('click', () => {
+        dropdown.classList.add('opacity-0', 'invisible');
+        dropdown.classList.remove('opacity-100', 'visible');
+        toggle.setAttribute('aria-expanded', 'false');
+      });
+    }
+  });
+</script>

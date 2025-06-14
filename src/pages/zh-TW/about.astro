@@ -1,0 +1,35 @@
+---
+import Base from "@/layouts/Base.astro";
+import { siteConfig } from "@/site.config";
+
+const meta = {
+	description: "關於 " + siteConfig.title,
+	title: "關於",
+};
+---
+
+<Base meta={meta}>
+	<div class="space-y-6">
+		<h1 class="title">關於</h1>
+		<p>
+			歡迎來到 {siteConfig.title}！這是一個專注於探索區塊鏈技術、人工智慧創新和科技趨勢的平台。
+		</p>
+		<p>
+			我們致力於分享最新的技術見解，深入分析行業動態，並為讀者提供有價值的內容。
+			無論您是技術愛好者、投資者，還是對新興科技感興趣的讀者，都能在這裡找到感興趣的內容。
+		</p>
+		<p>
+			我們的內容涵蓋：
+		</p>
+		<ul class="list-disc list-inside space-y-2 ml-4">
+			<li>區塊鏈技術與加密貨幣</li>
+			<li>人工智慧與機器學習</li>
+			<li>去中心化科學 (DeSci)</li>
+			<li>Web3 與元宇宙</li>
+			<li>科技創業與投資</li>
+		</ul>
+		<p>
+			如果您有任何問題或建議，歡迎與我們聯繫。讓我們一起探索科技的未來！
+		</p>
+	</div>
+</Base>

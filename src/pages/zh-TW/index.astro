@@ -1,0 +1,52 @@
+---
+import { type CollectionEntry } from "astro:content";
+import Base from "@/layouts/Base.astro";
+import PostPreview from "@/components/blog/PostPreview.astro";
+import SocialList from "@/components/SocialList.astro";
+import { siteConfig } from "@/site.config";
+import { getAllPosts } from "@/data/post";
+import { collectionDateSort } from "@/utils/date";
+
+const MAX_POSTS = 3;
+const allPosts = await getAllPosts();
+const featuredPosts = allPosts
+  .sort(collectionDateSort)
+  .slice(0, MAX_POSTS) as CollectionEntry<"post">[];
+
+const meta = {
+	description: "一個有主見的 Astro 起始主題",
+	title: "首頁",
+};
+---
+
+<Base meta={meta}>
+	<section>
+		<h1 class="title mb-6">歡迎來到 {siteConfig.title}</h1>
+		<p class="mb-4">
+			這裡是一個專注於區塊鏈、人工智慧和科技創新的部落格。我們探索最新的技術趨勢，分享深度見解。
+		</p>
+		<SocialList />
+	</section>
+	<section aria-label="最新文章" class="mt-16">
+		<h2 class="title mb-4 text-xl">最新文章</h2>
+		<ul class="space-y-4">
+			{
+				featuredPosts.map((post) => (
+					<li class="grid gap-2 sm:grid-cols-[auto_1fr] sm:[&_q]:col-start-2">
+						<PostPreview post={post} />
+					</li>
+				))
+			}
+		</ul>
+		<div class="mt-4 text-right">
+			<a
+				class="inline-flex gap-2 font-medium text-accent-two underline underline-offset-4 decoration-accent-two/50"
+				href="/zh-TW/posts/"
+				rel="prefetch"
+			>
+				<span>查看所有文章</span>
+				<span aria-hidden="true">→</span>
+			</a>
+		</div>
+	</section>
+</Base>

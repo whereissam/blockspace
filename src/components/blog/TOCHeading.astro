@@ -10,15 +10,44 @@ const {
 } = Astro.props;
 ---
 
-<li class="">
+<li class="toc-item" data-depth={depth}>
 	<a
 		aria-label={`Scroll to section: ${text}`}
-		class="text-light mt-1 line-clamp-2 break-words [padding-left:1ch] [text-indent:-1ch] before:text-accent-two before:content-['#'] hover:text-accent-two"
+		class={`
+			group relative block py-1.5 px-3 rounded-lg transition-all duration-200 
+			hover:bg-accent-base/10 hover:text-accent-base 
+			text-textColor/80 hover:text-accent-base break-words
+			${depth === 2 ? 'font-semibold text-sm border-l-2 border-accent-base/30 pl-4' : ''}
+			${depth === 3 ? 'font-medium text-sm ml-4 border-l border-color-200 pl-3' : ''}
+			${depth === 4 ? 'font-normal text-xs ml-6 pl-3' : ''}
+			${depth >= 5 ? 'font-normal text-xs ml-8 pl-2 text-textColor/60' : ''}
+		`}
 		href={`#${slug}`}
-		>{text}
+		data-toc-link={slug}
+	>
+		<!-- Indicator dot for active state -->
+		<span class={`
+			absolute left-0 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full 
+			transition-all duration-200 opacity-0 group-hover:opacity-100
+			${depth === 2 ? 'bg-accent-base' : 'bg-accent-two'}
+		`}></span>
+		
+		<!-- Depth indicator -->
+		<span class={`
+			inline-block mr-2 text-accent-two/60 text-xs
+			${depth === 2 ? 'hidden' : ''}
+		`}>
+			{depth === 3 ? '•' : depth === 4 ? '◦' : depth >= 5 ? '▪' : ''}
+		</span>
+		
+		<span class="relative">{text}</span>
+		
+		<!-- Hover effect line -->
+		<span class="absolute bottom-0 left-3 right-3 h-px bg-accent-base/30 scale-x-0 group-hover:scale-x-100 transition-transform duration-200"></span>
 	</a>
+	
 	{!!children.length && (
-		<ul class="ms-2">
+		<ul class="mt-1 space-y-0.5">
 			{children.map((subheading) => (
 				<Astro.self heading={subheading} />
 			))}

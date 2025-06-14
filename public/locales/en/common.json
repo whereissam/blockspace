@@ -1,0 +1,38 @@
+{
+  "navigation": {
+    "home": "Home",
+    "about": "About", 
+    "blog": "Blog",
+    "notes": "Notes",
+    "docs": "Docs"
+  },
+  "site": {
+    "title": "Blockspace",
+    "description": "An opinionated starter theme for Astro",
+    "readMore": "Read more",
+    "backToTop": "Back to top",
+    "search": "Search",
+    "toggleTheme": "Toggle theme",
+    "toggleMenu": "Toggle menu"
+  },
+  "blog": {
+    "readingTime": "{{minutes}} min read",
+    "publishedOn": "Published on",
+    "updatedOn": "Updated on",
+    "tags": "Tags",
+    "series": "Series",
+    "allPosts": "All Posts",
+    "latestPosts": "Latest Posts",
+    "noPostsFound": "No posts found",
+    "backToBlog": "← Back to Blog"
+  },
+  "pagination": {
+    "prev": "Previous",
+    "next": "Next",
+    "page": "Page {{current}} of {{total}}"
+  },
+  "footer": {
+    "copyright": "© {{year}} {{siteName}}. All rights reserved.",
+    "builtWith": "Built with {{tech}}"
+  }
+}

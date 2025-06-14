@@ -13,30 +13,160 @@ const { headings } = Astro.props;
 const toc = generateToc(headings);
 ---
 
-<div class="sticky top-20 rounded-t-lg">
-	<div class="sticky top-20 bg-bgColor rounded-t-lg">
-		<div class="sticky top-20 flex pt-4 ps-8 pb-2 items-end title rounded-t-lg bg-color-75 pe-4 gap-x-1 border-t border-l border-r border-special-light">
-			<!--
-			<Icon aria-hidden="true" class="flex-shrink-0 h-8 w-6 py-1" focusable="false" name="solar:clipboard-list-line-duotone" />
-			-->
-			<h4 class="title">Table of Contents</h4>
-			<button
-				id="close-toc"
-				class="absolute top-4 right-4 h-8 w-8 flex items-center justify-center rounded-lg bg-accent-base/5 text-accent-base hover:bg-accent-base/10"
-				aria-label="Close TOC"
-			>
-				<Icon aria-hidden="true" class="h-6 w-6" focusable="false" name="hugeicons:cancel-01" />
-			</button>
-			
-		</div>
+<div class="sticky top-20 rounded-lg shadow-lg bg-bgColor border border-color-200 overflow-hidden">
+	<!-- Header -->
+	<div class="flex items-center gap-2 px-4 py-3 bg-gradient-to-r from-accent-base/5 to-accent-two/5 border-b border-color-150">
+		<Icon aria-hidden="true" class="h-5 w-5 text-accent-base" focusable="false" name="hugeicons:menu-03" />
+		<h4 class="font-semibold text-accent-base">Table of Contents</h4>
 	</div>
-	<div class="bg-bgColor rounded-b-lg">
-		<div class="rounded-b-lg pb-6 bg-color-75 border-b border-l border-r border-special-light">
-			<div class="max-h-[calc(100vh-11rem)] h-auto overflow-y-auto overflow-hidden px-8">
-				<ul class="text-sm font-medium text-textColor">
-					{toc.map((heading) => <TOCHeading heading={heading} />)}
-				</ul>
-			</div>
-		</div>
+	
+	<!-- Content -->
+	<div class="max-h-[300px] overflow-y-auto" id="toc-content">
+		<nav class="p-4">
+			<ul class="space-y-1 text-sm" id="toc-list">
+				{toc.map((heading) => (
+					<TOCHeading heading={heading} />
+				))}
+			</ul>
+		</nav>
 	</div>
 </div>
+
+<script>
+	document.addEventListener('DOMContentLoaded', () => {
+		// Smooth scrolling for TOC links
+		const tocLinks = document.querySelectorAll('[data-toc-link]');
+		const headings = document.querySelectorAll('h2, h3, h4, h5, h6[id]');
+		
+		// Add smooth scrolling
+		tocLinks.forEach(link => {
+			link.addEventListener('click', (e) => {
+				e.preventDefault();
+				const targetId = link.getAttribute('data-toc-link');
+				const targetElement = document.getElementById(targetId);
+				
+				if (targetElement) {
+					const headerOffset = 120; // Account for fixed header + proper top positioning
+					const elementPosition = targetElement.getBoundingClientRect().top;
+					const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+					
+					window.scrollTo({
+						top: offsetPosition,
+						behavior: 'smooth'
+					});
+					
+					// Update active state
+					updateActiveLink(link);
+				}
+			});
+		});
+		
+		// Highlight active section on scroll
+		function updateActiveLink(activeLink = null) {
+			tocLinks.forEach(link => {
+				const linkElement = link as HTMLElement;
+				linkElement.classList.remove('toc-active');
+				// Remove active styles
+				linkElement.style.backgroundColor = '';
+				linkElement.style.color = '';
+				linkElement.style.borderLeftColor = '';
+				const dot = linkElement.querySelector('span');
+				if (dot) dot.style.opacity = '0';
+			});
+			
+			if (activeLink) {
+				const activeLinkElement = activeLink as HTMLElement;
+				activeLinkElement.classList.add('toc-active');
+				// Add active styles
+				activeLinkElement.style.backgroundColor = 'hsl(var(--theme-accent-base) / 0.1)';
+				activeLinkElement.style.color = 'hsl(var(--theme-accent-base))';
+				activeLinkElement.style.borderLeftColor = 'hsl(var(--theme-accent-base))';
+				const dot = activeLinkElement.querySelector('span');
+				if (dot) dot.style.opacity = '1';
+				
+				// Scroll TOC to keep active link visible at the top
+				scrollTocToActiveLink(activeLinkElement);
+			}
+		}
+		
+		// Function to scroll TOC so active link is at the top
+		function scrollTocToActiveLink(activeLink) {
+			const tocContent = document.getElementById('toc-content');
+			if (tocContent && activeLink) {
+				const linkRect = activeLink.getBoundingClientRect();
+				const containerRect = tocContent.getBoundingClientRect();
+				const relativeTop = linkRect.top - containerRect.top + tocContent.scrollTop;
+				
+				// Scroll to position the active link near the top with some padding
+				tocContent.scrollTo({
+					top: relativeTop - 20,
+					behavior: 'smooth'
+				});
+			}
+		}
+		
+		// Intersection Observer for active section detection
+		const observerOptions = {
+			rootMargin: '-120px 0px -75% 0px',
+			threshold: [0, 0.1]
+		};
+		
+		const observer = new IntersectionObserver((entries) => {
+			entries.forEach((entry) => {
+				if (entry.isIntersecting) {
+					const id = entry.target.id;
+					const correspondingLink = document.querySelector(`[data-toc-link="${id}"]`);
+					if (correspondingLink) {
+						updateActiveLink(correspondingLink);
+					}
+				}
+			});
+		}, observerOptions);
+		
+		// Observe all headings
+		headings.forEach(heading => {
+			if (heading.id) {
+				observer.observe(heading);
+			}
+		});
+		
+	});
+</script>
+
+<style>
+	.toc-item {
+		position: relative;
+	}
+	
+	.toc-active {
+		font-weight: 600 !important;
+	}
+	
+	.toc-active .absolute.left-0 {
+		opacity: 1 !important;
+		transform: translateY(-50%) scale(1.2);
+	}
+	
+	/* Custom scrollbar for TOC */
+	#toc-content {
+		scrollbar-width: thin;
+		scrollbar-color: hsl(var(--theme-accent-base) / 0.3) transparent;
+	}
+	
+	#toc-content::-webkit-scrollbar {
+		width: 4px;
+	}
+	
+	#toc-content::-webkit-scrollbar-track {
+		background: transparent;
+	}
+	
+	#toc-content::-webkit-scrollbar-thumb {
+		background-color: hsl(var(--theme-accent-base) / 0.3);
+		border-radius: 2px;
+	}
+	
+	#toc-content::-webkit-scrollbar-thumb:hover {
+		background-color: hsl(var(--theme-accent-base) / 0.5);
+	}
+</style>

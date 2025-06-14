@@ -1,0 +1,38 @@
+{
+  "navigation": {
+    "home": "首頁",
+    "about": "關於", 
+    "blog": "部落格",
+    "notes": "筆記",
+    "docs": "文件"
+  },
+  "site": {
+    "title": "Blockspace",
+    "description": "一個有主見的 Astro 起始主題",
+    "readMore": "閱讀更多",
+    "backToTop": "回到頂部",
+    "search": "搜尋",
+    "toggleTheme": "切換主題",
+    "toggleMenu": "切換選單"
+  },
+  "blog": {
+    "readingTime": "{{minutes}} 分鐘閱讀",
+    "publishedOn": "發佈於",
+    "updatedOn": "更新於",
+    "tags": "標籤",
+    "series": "系列",
+    "allPosts": "所有文章",
+    "latestPosts": "最新文章",
+    "noPostsFound": "未找到文章",
+    "backToBlog": "← 返回部落格"
+  },
+  "pagination": {
+    "prev": "上一頁",
+    "next": "下一頁",
+    "page": "第 {{current}} 頁，共 {{total}} 頁"
+  },
+  "footer": {
+    "copyright": "© {{year}} {{siteName}}。保留所有權利。",
+    "builtWith": "使用 {{tech}} 構建"
+  }
+}

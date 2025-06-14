@@ -5,6 +5,7 @@ import tailwind from "@astrojs/tailwind";
 import icon from "astro-icon";
 import robotsTxt from "astro-robots-txt";
 import webmanifest from "astro-webmanifest";
+import astroI18next from "astro-i18next";
 import { defineConfig, envField } from "astro/config";
 import { siteConfig } from "./src/site.config";
 
@@ -36,6 +37,7 @@ export default defineConfig({
     }),
     sitemap(),
     mdx(),
+    astroI18next(),
     robotsTxt(),
     webmanifest({
       // See: https://github.com/alextim/astro-lib/blob/main/packages/astro-webmanifest/README.md
