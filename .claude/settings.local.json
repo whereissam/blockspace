@@ -5,7 +5,12 @@
       "Bash(rm:*)",
       "Bash(mv:*)",
       "Bash(bun run:*)",
-      "Bash(mkdir:*)"
+      "Bash(mkdir:*)",
+      "Bash(npm run dev:*)",
+      "Bash(npx astro add:*)",
+      "Bash(npm install:*)",
+      "Bash(npm run build:*)",
+      "Bash(npm run lint)"
     ],
     "deny": []
   }

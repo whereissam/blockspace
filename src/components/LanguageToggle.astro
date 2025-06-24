@@ -4,12 +4,14 @@ import { Icon } from "astro-icon/components";
 // Simple path-based locale detection and path generation
 const currentPath = Astro.url.pathname;
 const isZhTW = currentPath.startsWith('/zh-TW');
+const isEn = currentPath.startsWith('/en');
 
-// For English: remove zh-TW prefix if present, otherwise keep current path
-const enPath = isZhTW ? currentPath.replace(/^\/zh-TW/, '') || '/' : currentPath;
+// Get the base path without language prefix
+const basePath = currentPath.replace(/^\/(?:en|zh-TW)/, '') || '/';
 
-// For Chinese: add zh-TW prefix if not present, otherwise keep current path  
-const zhPath = isZhTW ? currentPath : '/zh-TW' + currentPath;
+// Generate paths for both languages
+const enPath = `/en${basePath}`;
+const zhPath = `/zh-TW${basePath}`;
 
 const languages = [
   { 
@@ -17,7 +19,7 @@ const languages = [
     name: 'English',
     flag: '🇺🇸',
     path: enPath,
-    active: !isZhTW
+    active: isEn
   },
   { 
     code: 'zh-TW', 
@@ -31,7 +33,7 @@ const languages = [
 const currentLang = languages.find(lang => lang.active);
 ---
 
-<div class="relative group">
+<div class="relative group" style="position: relative; z-index: 1000;">
   <button
     class="flex h-8 w-8 items-center justify-center rounded-lg bg-color-100 hover:bg-accent-base/10 text-accent-base transition-colors"
     aria-label="Select language"
@@ -43,20 +45,21 @@ const currentLang = languages.find(lang => lang.active);
   </button>
   
   <div 
-    class="absolute right-0 top-full mt-2 w-36 bg-bgColor border border-color-200 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50"
+    class="absolute right-0 top-full mt-2 w-36 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-xl hidden"
+    style="z-index: 9999;"
     id="language-dropdown"
   >
     {languages.map((lang) => (
       <a
         href={lang.path}
-        class={`block px-3 py-2 text-sm hover:bg-color-100 transition-colors first:rounded-t-lg last:rounded-b-lg ${
-          lang.active ? 'bg-accent-base/10 text-accent-base font-medium' : 'text-textColor'
+        class={`block px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors first:rounded-t-lg last:rounded-b-lg ${
+          lang.active ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 font-medium' : 'text-gray-700 dark:text-gray-300'
         }`}
       >
         <div class="flex items-center gap-2">
           <span class="text-xs">{lang.flag}</span>
           <span>{lang.name}</span>
-          {lang.active && <span class="ml-auto text-accent-base">✓</span>}
+          {lang.active && <span class="ml-auto text-blue-600 dark:text-blue-400">✓</span>}
         </div>
       </a>
     ))}
@@ -71,25 +74,24 @@ const currentLang = languages.find(lang => lang.active);
     if (toggle && dropdown) {
       toggle.addEventListener('click', (e) => {
         e.stopPropagation();
-        const isVisible = dropdown.classList.contains('opacity-100');
+        const isVisible = !dropdown.classList.contains('hidden');
         
         if (isVisible) {
-          dropdown.classList.add('opacity-0', 'invisible');
-          dropdown.classList.remove('opacity-100', 'visible');
+          dropdown.classList.add('hidden');
           toggle.setAttribute('aria-expanded', 'false');
         } else {
-          dropdown.classList.remove('opacity-0', 'invisible');
-          dropdown.classList.add('opacity-100', 'visible');
+          dropdown.classList.remove('hidden');
           toggle.setAttribute('aria-expanded', 'true');
         }
       });
       
       // Close dropdown when clicking outside
       document.addEventListener('click', () => {
-        dropdown.classList.add('opacity-0', 'invisible');
-        dropdown.classList.remove('opacity-100', 'visible');
+        dropdown.classList.add('hidden');
         toggle.setAttribute('aria-expanded', 'false');
       });
+    } else {
+      console.error('Language toggle elements not found');
     }
   });
 </script>

@@ -2,9 +2,11 @@
 import { type CollectionEntry, render } from "astro:content";
 import Masthead from "@/components/blog/Masthead.astro";
 import TOC from "@/components/blog/TOC.astro";
+import MobileTOC from "@/components/blog/MobileTOC.astro";
 import WebMentions from "@/components/blog/webmentions/index.astro";
 import BaseLayout from "./Base.astro";
 import SeriesPanel from "@/components/SeriesPanel.astro";
+import ShareButton from "@/components/blog/ShareButton.astro";
 import { Icon } from "astro-icon/components";
 
 interface Props {
@@ -17,57 +19,24 @@ const { ogImage, title, description, updatedDate, publishDate, seriesId } = post
 const socialImage = ogImage ?? `/og-image/${post.id}.png`;
 const articleDate = updatedDate?.toISOString() ?? publishDate.toISOString();
 const { headings } = await render(post);
+
+// Generate current post URL for sharing
+const currentUrl = Astro.url.pathname;
 ---
 
 <BaseLayout meta={{ articleDate, description, ogImage: socialImage, title }}>
-	<div class="fixed left-0 top-0 z-10 flex h-16 md:h-20 w-full bg-bgColor overflow-hidden">
-		<!-- Background 
-			TODO: This approach is not optimal and requires improvements. 
-  			- Too many absolutely positioned elements can affect performance. 
-  		-->	
-		<div class="absolute top-0 left-1/2 -ml-[50vw] w-screen min-h-screen pointer-events-none blur-2xl">
-			<div class="absolute top-[-90%] right-[25%] w-[75%] h-full bg-gradient-to-b from-blue-300 via-pink-300 to-transparent rounded-full opacity-40 dark:opacity-5"></div>
-			<div class="absolute top-[-90%] left-[25%] w-[75%] h-full bg-gradient-to-b from-blue-300 via-pink-300 to-transparent rounded-full opacity-40 dark:opacity-5"></div>
-			<div class="absolute top-[-85%] right-[25%] w-[55%] h-full bg-gradient-to-b from-purple-300 via-blue-300 to-transparent rounded-full opacity-40 dark:opacity-5"></div>
-			<div class="absolute top-[-85%] left-[25%] w-[55%] h-full bg-gradient-to-b from-indigo-300 via-orange-300 to-transparent rounded-full opacity-40 dark:opacity-5"></div>
-			<div class="absolute top-[-75%] left-[-25%] w-[65%] h-full bg-gradient-to-b from-blue-300 via-pink-300 to-transparent rounded-full opacity-30 dark:opacity-5"></div>
-			<div class="absolute top-[-75%] right-[-25%] w-[65%] h-full bg-gradient-to-b from-purple-300 via-blue-300 to-transparent rounded-full opacity-30 dark:opacity-5"></div>
-			<div class="absolute top-[-85%] left-[-30%] w-[85%] h-full bg-gradient-to-b from-indigo-300 via-orange-300 to-transparent rounded-full opacity-60 dark:opacity-5"></div>
-			<div class="absolute top-[-85%] right-[-30%] w-[85%] h-full bg-gradient-to-b from-orange-300 via-indigo-300 to-transparent rounded-full opacity-60 dark:opacity-5"></div>
+	<!-- Mobile TOC Button -->
+	{!!headings.length && (
+		<div class="fixed top-20 right-4 z-40 md:hidden">
+			<MobileTOC headings={headings} />
 		</div>
-	</div>
- 	
-	<!-- NEEDS IMPROVEMENT!!! -->
-	<!-- Menu button instead of the main menu -->
-	<!--
-	<div class="left-0 right-0 top-0 z-30 ml-auto h-0 w-fit px-2 md:absolute">
-		<div class="fixed top-0 -ml-[4rem] flex space-x-2 bg-bgColor pt-8">
-	-->
-			<!-- Button background -->
-			<!--
-			<div class="fixed top-0 h-20 right-[0%] w-[50%] bg-gradient-to-l from-orange-300 via-pink-300 to-transparent  opacity-40 dark:opacity-10">
-			</div>
-			-->
-
-			<!--
-			 <button
-				aria-expanded="false"
-				aria-haspopup="menu"
-				aria-label="Open main menu"
-				class="hidden md:flex group text-sm relative h-8 w-16 font-medium items-center justify-center px-4 rounded-lg bg-accent-base/5 text-accent-base hover:bg-accent-base/10"
-				id="toggle-navigation-menu"
-				type="button"
-			>
-				Menu
-			</button>
-			-->
-	<!--	
-		</div>
-	</div>
-	-->
+	)}
 
 	<!-- SeriesPanel is inserted into the named slot "sidebar" -->
 	{seriesId && (<SeriesPanel slot="sidebar" seriesId={seriesId} />)}
+
+	<!-- Share Button -->
+	<ShareButton title={title} url={currentUrl} description={description} />
 
 	<Masthead content={post} />
 	
@@ -123,22 +92,6 @@ const { headings } = await render(post);
 			</span>
 		</mobile-button>
 	)}
-
-	<!-- NEEDS IMPROVEMENT!!! -->
-	<!-- Table of Contents button for mobile screens -->
-	<!--
-	{!!headings.length && (
-		<mobile-button
-			id="toggle-toc-mobile"
-			class="size-12 flex items-center justify-center block sm:hidden fixed bottom-20 shadow-[0px_10px_25px_rgba(0,0,0,0.15)] border border-special-lighter right-4 z-50 rounded-lg bg-bgColor text-accent-base hover:text-accent-base/90"
-			aria-label="Toggle TOC Panel"
-		>
-			<span class="absolute inset-0 rounded-lg flex items-center justify-center bg-special-light hover:text-accent-base/90">
-				<Icon class="size-8" name="solar:clipboard-list-bold"/>
-			</span>
-		</mobile-button>
-	)}
-	-->
 </BaseLayout>
 
 <!-- Copy code button -->
@@ -317,20 +270,6 @@ const { headings } = await render(post);
 	}
 </script>
 
-<script>
-	// Wait for the content to fully load
-	document.addEventListener("DOMContentLoaded", () => {
-		const buttonsPanel = document.getElementById("buttons-panel");
-		
-		if (buttonsPanel) {
-			buttonsPanel.classList.add("fixed");
-			console.log("Class 'fixed' added to the buttons-panel element.");
-		} else {
-			console.error("Element with ID 'buttons-panel' not found.");
-		}
-	});
-</script>
-
 <!-- Scroll to top button -->
 <script>
 	const scrollBtn = document.getElementById("to-top-button") as HTMLButtonElement;
@@ -350,34 +289,3 @@ const { headings } = await render(post);
 	const observer = new IntersectionObserver(callback);
 	observer.observe(targetHeader);
 </script>
-
-<!-- REQUIRES IMPROVEMENT!!! -->
-<!-- Menu button instead of the main menu -->
-<!--
-<script>
-	document.addEventListener("DOMContentLoaded", () => {
-		const menuButton = document.getElementById("toggle-navigation-menu");
-		const navigationMenu = document.getElementById("menu");
-
-		if (!menuButton || !navigationMenu) {
-			console.error("Menu button or navigation menu is missing in the DOM.");
-			return;
-		}
-
-		menuButton.addEventListener("click", () => {
-			const isOpen = menuButton.getAttribute("aria-expanded") === "true";
-
-			if (isOpen) {
-				// Close the menu
-				navigationMenu.classList.add("hidden");
-			} else {
-				// Open the menu
-				navigationMenu.classList.remove("hidden");
-			}
-
-			// Update the button state
-			menuButton.setAttribute("aria-expanded", (!isOpen).toString());
-		});
-	});
-</script>
--->

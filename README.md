@@ -1,179 +1,405 @@
-<div align="center">
-  <img alt="Astro Citrus logo" src="https://github.com/ArtemKutsan/astro-citrus/blob/main/src/assets/images/logo.svg" width="70" />
-</div>
-<h1 align="center">
-  Astro Citrus
-</h1>
+# Blockspace
 
-Astro Citrus is a simple opinionated starter built with the Astro framework. Use it to create an easy-to-use blog or website.
+A modern, multilingual blog built with **Astro** featuring blockchain, AI, and technology content with full internationalization support.
 
-## Table Of Contents
+## ✨ Key Features
 
-1. [Key Features](#key-features)
-2. [Demo](#demo)
-3. [Quick start](#quick-start)
-4. [Preview](#preview)
-5. [Commands](#commands)
-6. [Configure](#configure)
-7. [Updating](#updating)
-8. [Adding posts and notes](#adding-posts-and-notes)
-   - [Post Frontmatter](#post-frontmatter)
-   - [Note Frontmatter](#note-frontmatter)
-   - [Frontmatter Snippet](#frontmatter-snippet)
-9. [Pagefind search](#pagefind-search)
-10. [Analytics](#analytics)
-11. [Deploy](#deploy)
-12. [Acknowledgment](#acknowledgment)
+### 🌍 Internationalization
+- **Bilingual Support**: English and Traditional Chinese (zh-TW)
+- **Language-Aware Routing**: `/en/` and `/zh-TW/` prefixed URLs
+- **Content Filtering**: Separate content for each language
+- **Automatic Language Detection**: URL-based language switching
+- **Translated UI**: Navigation, footer, and interface elements in both languages
 
-## Key Features
+### 📝 Content Management
+- **Blog Posts**: Long-form articles on AI, blockchain, and technology (39+ posts)
+- **Notes**: Short-form announcements and updates
+- **Series Support**: Organize related posts into series with ordering
+- **Draft System**: Hide unpublished content in production
+- **Rich Metadata**: SEO-optimized with tags, descriptions, and Open Graph images
+- **Tag System**: Categorization with filterable tag pages
 
-- Astro v5 Fast 🚀
-- TailwindCSS Utility classes
-- Accessible, semantic HTML markup
-- Responsive & SEO-friendly
-- Dark / Light mode, using Tailwind and CSS variables
-- MD & [MDX](https://docs.astro.build/en/guides/markdown-content/#mdx-only-features) posts & notes
-  - Includes [Admonitions](http://astrocitrus.artemkutsan.pp.ua/posts/markdown-elements/admonistions/)
-- [Satori](https://github.com/vercel/satori) for creating open graph png images
-- [Automatic RSS feed](https://docs.astro.build/en/guides/rss)
-- [Webmentions](https://webmention.io/)
-- Auto-generated:
-  - [sitemap](https://docs.astro.build/en/guides/integrations-guide/sitemap/)
-  - [robots.txt](https://github.com/alextim/astro-lib/blob/main/packages/astro-robots-txt/README.md)
-  - [web app manifest](https://github.com/alextim/astro-lib/blob/main/packages/astro-webmanifest/README.md)
-- [Pagefind](https://pagefind.app/) static search library integration
-- [Astro Icon](https://github.com/natemoo-re/astro-icon) svg icon component
-- [Rehype Pretty Code](https://rehype-pretty.pages.dev/) code blocks and syntax highlighter
+### 🎨 Modern Design
+- **Dark/Light Mode**: System preference detection with manual toggle
+- **Responsive Design**: Mobile-first approach with adaptive layouts
+- **Custom Typography**: SF Pro Rounded font family
+- **Accessibility**: WCAG-compliant with skip links and proper ARIA
+- **Custom Theme System**: CSS custom properties with extensive color palette
 
-## Demo
+### 🔍 Advanced Features
+- **Full-Text Search**: Pagefind integration with modal interface (`/` key shortcut)
+- **RSS Feeds**: Multiple feeds for different languages and content types
+- **Table of Contents**: Interactive navigation for long articles with scroll tracking
+- **Social Integration**: Webmentions support for comments and likes
+- **Performance Optimized**: Static generation with minimal JavaScript
+- **Open Graph Images**: Automatic generation with custom styling
 
-Check out the [Demo](https://astrocitrus.netlify.app/)
+## 🚀 Quick Start
 
-## Quick start
+### Prerequisites
+- Node.js 18+ 
+- npm, pnpm, or bun
 
-[Create a new repo](https://github.com/artemkutsan/astro-citrus/generate) from this template.
+### Installation
 
 ```bash
-# npm 7+
-npm create astro@latest -- --template artemkutsan/astro-citrus
+# Clone the repository
+git clone <repository-url>
+cd ScrewFast
 
-# pnpm
-pnpm dlx create-astro --template artemkutsan/astro-citrus
+# Install dependencies
+npm install
+# or
+pnpm install
+# or
+bun install
 ```
 
-[![Deploy with Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/artemkutsan/astro-citrus) [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fartemkutsan%2Fastro-citrus&project-name=astro-citrus)
+### Development
 
-## Preview
+```bash
+# Start development server
+npm run dev
 
-| ![Light Theme 01](https://github.com/ArtemKutsan/astro-citrus/blob/main/public/images/screenshot01.png?raw=true) | ![Light Theme 02](https://github.com/ArtemKutsan/astro-citrus/blob/main/public/images/screenshot02.png?raw=true) |
-|-------------|-------------|
-| ![Dark Theme 03](https://github.com/ArtemKutsan/astro-citrus/blob/main/public/images/screenshot03.png?raw=true) | ![Light Theme 04](https://github.com/ArtemKutsan/astro-citrus/blob/main/public/images/screenshot04.png?raw=true) |
-| ![Light Theme 05](https://github.com/ArtemKutsan/astro-citrus/blob/main/public/images/screenshot05.png?raw=true) | ![Light Theme 06](https://github.com/ArtemKutsan/astro-citrus/blob/main/public/images/screenshot06.png?raw=true) |
-| ![Dark Theme 07](https://github.com/ArtemKutsan/astro-citrus/blob/main/public/images/screenshot07.png?raw=true) | ![Dark Theme 08](https://github.com/ArtemKutsan/astro-citrus/blob/main/public/images/screenshot08.png?raw=true) |
+# The site will be available at http://localhost:4321
+```
 
-## Commands
+### Building for Production
 
-Replace pnpm with your choice of npm / yarn
+```bash
+# Build the site
+npm run build
 
-| Command          | Action                                                         |
-| :--------------- | :------------------------------------------------------------- |
-| `pnpm install`   | Installs dependencies                                          |
-| `pnpm dev`       | Starts local dev server at `localhost:3000`                    |
-| `pnpm build`     | Build your production site to `./dist/`                        |
-| `pnpm postbuild` | Pagefind script to build the static search of your blog posts  |
-| `pnpm preview`   | Preview your build locally, before deploying                   |
-| `pnpm sync`      | Generate types based on your config in `src/content/config.ts` |
+# Generate search index
+npm run postbuild
 
-## Configure
+# Preview the build
+npm run preview
+```
 
-- Edit the config file `src/site.config.ts` for basic site meta data
-- Update file `astro.config.ts`
-  - **Important**: the site property with your own domain.
-  - [astro-webmanifest options](https://github.com/alextim/astro-lib/blob/main/packages/astro-webmanifest/README.md)
-- Replace & update files within the `/public` folder:
-  - icon.svg - used as the source to create favicons & manifest icons
-  - social-card.png - used as the default og:image
-- Modify file `src/styles/global.css` with your own light and dark styles.
-  - You can also modify the theme(s) for markdown code blocks generated by [Rehype Pretty Code](https://rehype-pretty.pages.dev/). Astro Citrus has both a dark (rose-pine) and light (rose-pine-dawn) theme, which can be found in `src/site.config.ts`. You can find more theme(s) and options [here](https://shiki.matsu.io/).
-- Edit social links in `src/components/SocialList.astro` to add/replace your media profile. Icons can be found @ [icones.js.org](https://icones.js.org/), per [Astro Icon's instructions](https://www.astroicon.dev/guides/customization/#find-an-icon-set).
-- Create/edit posts & notes for your blog within `src/content/post/` & `src/content/note/` with .md/mdx file(s). See [below](#adding-posts-and-notes) for more details.
-  - Read [this post](http://astrocitrus.artemkutsan.pp.ua/posts/webmentions/) for adding webmentions to your site.
-- OG Image:
-  - If you would like to change the style of the generated image the Satori library creates, open up `src/pages/og-image/[slug].png.ts` to the markup function where you can edit the html/tailwind-classes as necessary. You can use this [playground](https://og-playground.vercel.app/) to aid your design.
-  - You can also create your own og images and skip satori generating it for you by adding an ogImage property in the frontmatter with a link to the asset, an example can be found in `src/content/post/social-image.md`. More info on frontmatter can be found [here](#frontmatter)
-- Optional:
-  - Fonts: This theme sets the body element to the font family `font-mono`, located in the global css file `src/styles/global.css`. You can change fonts by removing the variant `font-mono`, after which TailwindCSS will default to the `font-sans` [font family stack](https://tailwindcss.com/docs/font-family).
+## 📁 Project Structure
 
-## Updating
+```
+src/
+├── components/          # Reusable UI components
+│   ├── layout/         # Header, Footer with i18n support
+│   ├── blog/           # Blog-specific components (Masthead, TOC, PostPreview)
+│   ├── note/           # Note components
+│   └── ...             # Utility components (Badge, Search, ThemeToggle)
+├── content/            # Content collections
+│   ├── post/           # Blog posts (39+ articles)
+│   ├── note/           # Short notes (2 announcements)
+│   └── series/         # Content series definitions (2 series)
+├── layouts/            # Page layouts (Base, BlogPost, Series)
+├── pages/              # Route definitions
+│   ├── en/             # English pages
+│   ├── zh-TW/          # Chinese pages
+│   ├── posts/          # Blog pagination and individual posts
+│   ├── notes/          # Notes pagination and individual notes
+│   ├── tags/           # Tag-based filtering
+│   └── ...             # Static pages (about, 404)
+├── data/               # Data utilities (post filtering, language detection)
+├── utils/              # Helper functions (date, DOM, TOC generation)
+├── styles/             # Global styles and theme variables
+└── types.ts            # TypeScript definitions
+```
 
-If you've forked the template, you can [sync the fork](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/syncing-a-fork) with your own project, remembering to **not** click Discard Changes as you will lose your own.
+## 🌐 Content Management
 
-If you have a template repository, you can add this template as a remote, as discussed [here](https://stackoverflow.com/questions/56577184/github-pull-changes-from-a-template-repository).
+### Adding Blog Posts
 
-## Adding posts and notes
+Create a new Markdown file in `src/content/post/`:
 
-This theme utilises [Content Collections](https://docs.astro.build/en/guides/content-collections/) to organise local Markdown and MDX files, as well as type-checking frontmatter with a schema -> `src/content/config.ts`.
+```yaml
+---
+title: "Your Post Title"
+description: "Brief description of the post"
+publishDate: "2024-01-01"
+tags: ["AI", "Blockchain", "Technology"]
+draft: false
+language: "en" # or "zh-TW" for Chinese content
+seriesId: "optional-series-id"
+orderInSeries: 1
+coverImage:
+  src: "./cover.jpg"
+  alt: "Cover image description"
+---
 
-Adding a post/note is as simple as adding your .md(x) files to the `src/content/post` and/or `src/content/note` folder, the filename of which will be used as the slug/url. The posts included with this template are there as an example of how to structure your frontmatter. Additionally, the [Astro docs](https://docs.astro.build/en/guides/markdown-content/) has a detailed section on markdown pages.
+Your content here...
+```
 
-### Post Frontmatter
+### Adding Notes
 
-| Property (\* required) | Description |
-|------------------------|-------------|
-| **title \***          | Self-explanatory. Used as the text link to the post, the h1 on the post's page, and the page's title property. Has a max length of 60 chars, set in `src/content/config.ts`. |
-| **description \***    | Similar to above, used as the SEO description property. Has a min length of 50 and a max length of 160 chars, set in the post schema. |
-| **publishDate \***    | Again, pretty simple. To change the date format/locale, currently **en-GB**, update the date option in `src/site.config.ts`. Note you can also pass additional options to the `<FormattedDate>` component if required. |
-| **updatedDate**       | This is an optional date representing when a post has been updated, in the same format as the `publishDate`. |
-| **seriesId**          | An optional property that groups posts into a series. Posts with the same `seriesId` are considered part of the same series and can be displayed together in order. This allows for better organization of related content. |
-| **orderInSeries**     | A numeric value defining the position of a post within a series. Lower values indicate earlier posts in the series, while higher values appear later. Used for sorting and navigation between posts within the same series. |
-| **tags**             | Tags are optional with any created post. Any new tag(s) will be shown in `yourdomain.com/posts` & `yourdomain.com/tags`, and generate the page(s) `yourdomain.com/tags/[yourTag]`. |
-| **coverImage**       | This is an optional object that will add a cover image to the top of a post. Include both `src`: "_path-to-image_" and `alt`: "_image alt_". You can view an example in `src/content/post/cover-image.md`. |
-| **ogImage**          | This is an optional property. An OG Image will be generated automatically for every post where this property **isn't** provided. If you would like to create your own for a specific post, include this property and a link to your image, the theme will then skip automatically generating one. |
-| **draft**            | This is an optional property as it is set to `false` by default in the schema. By setting it to `true`, the post will be filtered out of the production build in a number of places, including `getAllPosts()` calls, OG images, RSS feeds, and generated page[s]. You can view an example in `src/content/post/draft-post.md`. |
+Create a new Markdown file in `src/content/note/`:
 
+```yaml
+---
+title: "Note Title"
+description: "Optional description"
+publishDate: "2024-01-01T10:00:00Z"
+language: "en" # or "zh-TW" for Chinese content
+---
 
-### Note Frontmatter
+Your note content...
+```
 
-| Property (\* required) | Description                                        |
-| ---------------------- | -------------------------------------------------- |
-| title \*               | string, max length 60 chars.                       |
-| description            | to be used for the head meta description property. |
-| publishDate \*         | ISO 8601 format with offsets allowed.              |
+### Creating Series
 
-### Frontmatter snippet
+1. Define the series in `src/content/series/`:
 
-Astro Citrus includes a helpful VSCode snippet which creates a frontmatter 'stub' for posts and note's, found here -> `.vscode/post.code-snippets`. Start typing the word `frontmatter` on your newly created .md(x) file to trigger it. Visual Studio Code snippets appear in IntelliSense via (⌃Space) on mac, (Ctrl+Space) on windows.
+```yaml
+---
+id: "my-series"
+title: "Series Title"
+description: "Series description"
+featured: true
+---
+```
 
-## Pagefind search
+2. Add posts to the series using `seriesId` and `orderInSeries` in post frontmatter.
 
-This integration brings a static search feature for searching blog posts and notes. In its current form, pagefind only works once the site has been built. This theme adds a postbuild script that should be run after Astro has built the site. You can preview locally by running both build && postbuild.
+## 🌍 Internationalization
 
-Search results only includes pages from posts and notes. If you would like to include other/all your pages, remove/re-locate the attribute `data-pagefind-body` to the article tag found in `src/layouts/BlogPost.astro` and `src/components/note/Note.astro`.
+### Language Structure
+- **English routes**: `/en/` prefix (e.g., `/en/posts/`, `/en/about/`)
+- **Chinese routes**: `/zh-TW/` prefix (e.g., `/zh-TW/posts/`, `/zh-TW/about/`)
+- **Automatic filtering**: Content filtered by `language` field in frontmatter
+- **Fallback messages**: Chinese pages show "coming soon" when no translated content exists
 
-It also allows you to filter posts by tags added in the frontmatter of blog posts. If you would rather remove this, remove the data attribute `data-pagefind-filter="tag"` from the link in `src/components/blog/Masthead.astro`.
+### Adding Translations
 
-If you would rather not include this integration, simply remove the component `src/components/Search.astro`, and uninstall both `@pagefind/default-ui` & `pagefind` from package.json. You will also need to remove the postbuild script from here as well.
+1. **Content translations**: Add `language: "zh-TW"` to Chinese content frontmatter
+2. **UI translations**: Update translation objects in Header and Footer components
+3. **Route translations**: Configure in `astro-i18next.config.ts`
 
-You can reduce the initial css payload of your css, as demonstrated [here](https://github.com/artemkutsan/astro-citrus/pull/145#issue-1943779868), by lazy loading the web components styles.
+### Language Detection
+- **URL-based**: Automatically detects language from path (`/zh-TW` vs `/en`)
+- **Language switcher**: Globe icon dropdown with proper routing
+- **Navigation**: All menu links are language-aware
 
-## Analytics
+## 🎨 Customization
 
-You may want to track the number of visitors you receive to your blog/website in order to understand trends and popular posts/pages you've created. There are a number of providers out there one could use, including web hosts such as [vercel](https://vercel.com/analytics), [netlify](https://www.netlify.com/products/analytics/), and [cloudflare](https://www.cloudflare.com/web-analytics/).
+### Site Configuration
 
-This theme/template doesn't include a specific solution due to there being a number of use cases and/or options which some people may or may not use.
+Edit `src/site.config.ts`:
 
-You may be asked to included a snippet inside the **HEAD** tag of your website when setting it up, which can be found in `src/layouts/Base.astro`. Alternatively, you can add the snippet in `src/components/BaseHead.astro`.
+```typescript
+export const siteConfig: SiteConfig = {
+  author: "Your Name",
+  title: "Your Site Title",
+  description: "Your site description",
+  lang: "en-GB",
+  date: {
+    locale: "en-GB",
+    options: {
+      day: "numeric",
+      month: "short", 
+      year: "numeric",
+    },
+  },
+};
+```
 
-## Deploy
+### Navigation Menu
 
-[Astro docs](https://docs.astro.build/en/guides/deploy/) has a great section and breakdown of how to deploy your own Astro site on various platforms and their idiosyncrasies.
+Update `menuLinks` in `src/site.config.ts`:
 
-By default the site will be built (see [Commands](#commands) section above) to a `/dist` directory.
+```typescript
+export const menuLinks = [
+  { path: "/", title: "Home", key: "navigation.home" },
+  { path: "/about/", title: "About", key: "navigation.about" },
+  { path: "/posts/", title: "Blog", key: "navigation.blog" },
+  { path: "/notes/", title: "Notes", key: "navigation.notes" },
+];
+```
 
-## Acknowledgment
+### Theme Customization
 
-**This theme was inspired by [Astro Theme Cactus](https://github.com/chrismwilliams/astro-theme-cactus) by [Chriss Williams](https://github.com/chrismwilliams). Huge thanks to Chriss for his amazing work and inspiration!** 🚀👏
+1. **Colors**: Edit `tailwind.config.ts` color definitions
+2. **Typography**: Modify font families in global CSS
+3. **Layout**: Adjust spacing and sizing in Tailwind config
+4. **Dark mode**: Customize theme colors in CSS custom properties
 
-## License
+### Search Configuration
 
-MIT
+Search is powered by **Pagefind**:
+
+1. **Customization**: Edit `src/components/Search.astro`
+2. **Styling**: Update CSS custom properties for search UI
+3. **Indexing**: Configure in postbuild script
+4. **Keyboard shortcut**: Press `/` to open search modal
+
+## 🔧 Advanced Features
+
+### SEO & Social
+
+- **Automatic sitemap** generation
+- **RSS feeds** for posts and notes in both languages
+- **Open Graph images** automatically generated using Satori
+- **Meta tags** optimized for social sharing
+- **Robots.txt** configuration
+- **Web app manifest** for PWA features
+
+### Performance Optimizations
+
+- **Static site generation** (SSG) with Astro
+- **Minimal JavaScript**: Progressive enhancement approach
+- **Image optimization**: Built-in Astro image processing
+- **Font optimization**: Local font loading with display: swap
+- **CSS optimization**: Tailwind purging and cssnano
+- **Search optimization**: Lazy-loaded Pagefind integration
+
+### Component Architecture
+
+**Utility Components**:
+- `Badge` - 8 variants for tags and labels
+- `FormattedDate` - Localized date formatting
+- `Paginator` - Navigation pagination
+- `Search` - Full-text search modal
+- `ThemeToggle` - Dark/light mode switcher
+- `LanguageToggle` - Language switching dropdown
+
+**Layout Components**:
+- `Header` - Navigation with i18n support
+- `Footer` - Site footer with translations
+- `BaseHead` - SEO meta tags and social media
+
+**Content Components**:
+- `PostPreview` - Blog post cards
+- `TOC` - Table of contents with scroll tracking
+- `Masthead` - Post header with metadata
+- `Note` - Short-form content display
+- `SeriesPanel` - Series navigation
+
+## 📊 Content Analytics
+
+### Current Content
+- **39+ blog posts** covering AI, blockchain, technology, and business
+- **2 notes** for announcements
+- **2 content series** (Citrus docs, Markdown elements)
+- **Extensive tagging** system with 80+ unique tags
+- **Multi-language** support with English primary content
+
+### Built-in Analytics
+- **Reading time** calculation for posts
+- **Tag popularity** tracking
+- **Series progress** indication
+- **Year-based** post organization
+
+## 🛠️ Development Commands
+
+```bash
+# Development
+npm run dev          # Start dev server (port 4321)
+npm run build        # Build for production
+npm run postbuild    # Generate search index
+npm run preview      # Preview production build
+
+# Code Quality  
+npm run lint         # Run Biome linter
+npm run format       # Format with Biome + Prettier
+npm run check        # Astro type checking
+
+# Advanced
+npm run format:code     # Format code only
+npm run format:imports  # Format import statements
+```
+
+## 📱 Responsive Features
+
+- **Mobile-first design** with breakpoints: xs (320px), sm, md, lg, xl
+- **Adaptive navigation**: Collapsible mobile menu with smooth animations
+- **Touch-optimized**: Proper tap targets and gesture support
+- **Responsive typography**: Fluid text scaling across devices
+- **Image responsiveness**: Automatic optimization for different screen sizes
+
+## 🔒 Security & Privacy
+
+- **Privacy-focused**: No tracking by default
+- **Secure links**: External links use `nofollow` and `noreferrer`
+- **Content security**: Ready for CSP implementation
+- **Safe assets**: Images and fonts served locally
+- **No third-party**: Minimal external dependencies
+
+## 🌟 Deployment
+
+### Recommended Platforms
+- **Vercel** - Optimized for Astro with zero-config deployment
+- **Netlify** - Excellent for static sites with form handling
+- **GitHub Pages** - Free hosting for open source projects
+- **Cloudflare Pages** - Fast global CDN with edge computing
+
+### Environment Setup
+
+For webmentions support (optional):
+```bash
+WEBMENTION_API_KEY=your_webmention_key
+WEBMENTION_URL=https://yourdomain.com
+WEBMENTION_PINGBACK=https://webmention.io/yourdomain.com/webmention
+```
+
+### Build Process
+1. **Static generation**: All pages pre-rendered
+2. **Search indexing**: Pagefind generates search database
+3. **Asset optimization**: Images, fonts, and CSS optimized
+4. **Sitemap generation**: Automatic XML sitemap creation
+
+## 🎯 Content Strategy
+
+### Current Topics
+- **AI & Machine Learning**: Claude Code, AI agents, scientific discovery
+- **Blockchain & Web3**: DeFi, stablecoins, tokenization, security
+- **Technology**: Open source, development tools, frameworks
+- **Business**: Startup strategies, growth, fundraising
+
+### Content Organization
+- **Series-based**: Related posts grouped for better navigation
+- **Tag-driven**: Extensive categorization for discoverability  
+- **Language-specific**: Separate content streams for different audiences
+- **Time-organized**: Year-based grouping for historical context
+
+## 🤝 Contributing
+
+1. **Fork** the repository
+2. **Create** a feature branch (`git checkout -b feature/amazing-feature`)
+3. **Commit** your changes (`git commit -m 'Add amazing feature'`)
+4. **Push** to the branch (`git push origin feature/amazing-feature`)
+5. **Open** a Pull Request
+
+### Development Guidelines
+- Follow existing code style (Biome + Prettier)
+- Add TypeScript types for new features
+- Test responsive design on multiple devices
+- Ensure accessibility compliance
+- Update documentation for new features
+
+## 📄 License
+
+This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+Built with modern web technologies:
+
+**Core Framework**:
+- **[Astro](https://astro.build/)** - The web framework for content-driven websites
+- **[TypeScript](https://www.typescriptlang.org/)** - JavaScript with syntax for types
+
+**Styling & UI**:
+- **[Tailwind CSS](https://tailwindcss.com/)** - Utility-first CSS framework
+- **[Astro Icon](https://astro-icon.dev/)** - Icon component library
+
+**Content & Search**:
+- **[Pagefind](https://pagefind.app/)** - Static search library
+- **[MDX](https://mdxjs.com/)** - Markdown with JSX components
+
+**Development Tools**:
+- **[Biome](https://biomejs.dev/)** - Fast formatter and linter
+- **[Prettier](https://prettier.io/)** - Code formatter
+
+**Inspiration**:
+This theme was inspired by **[Astro Theme Cactus](https://github.com/chrismwilliams/astro-theme-cactus)** by Chris Williams and **[Astro Citrus](https://github.com/artemkutsan/astro-citrus)** by Artem Kutsan.
+
+---
+
+**Blockspace** - Exploring the intersection of blockchain, AI, and technology through in-depth articles and insights in multiple languages. 🌐🚀

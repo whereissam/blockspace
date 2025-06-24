@@ -1,0 +1,93 @@
+---
+import { type CollectionEntry } from "astro:content";
+import Pagination from "@/components/Paginator.astro";
+import Note from "@/components/note/Note.astro";
+import PageLayout from "@/layouts/Base.astro";
+import { collectionDateSort } from "@/utils/date";
+import type { GetStaticPaths, Page } from "astro";
+import { Icon } from "astro-icon/components";
+import { getNotesByLanguage } from "@/data/post";
+
+export const getStaticPaths = (async ({ paginate }) => {
+	const MAX_NOTES_PER_PAGE = 5;
+	const allNotes = await getNotesByLanguage('zh-TW');
+	
+	// If no notes, create at least one empty page
+	if (allNotes.length === 0) {
+		return [{
+			params: { page: undefined },
+			props: { 
+				page: {
+					data: [],
+					url: { prev: null, next: null },
+					currentPage: 1,
+					lastPage: 1,
+					size: MAX_NOTES_PER_PAGE,
+					total: 0
+				}
+			}
+		}];
+	}
+	
+	return paginate(allNotes.sort(collectionDateSort), { pageSize: MAX_NOTES_PER_PAGE });
+}) satisfies GetStaticPaths;
+
+interface Props {
+	page: Page<CollectionEntry<"note">>;
+	uniqueTags: string[];
+}
+
+const { page } = Astro.props;
+
+const meta = {
+	description: "閱讀我的筆記集",
+	title: "筆記",
+};
+
+const paginationProps = {
+	...(page.url.prev && {
+		prevUrl: {
+			text: "← 上一頁",
+			url: page.url.prev,
+		},
+	}),
+	...(page.url.next && {
+		nextUrl: {
+			text: "下一頁 →",
+			url: page.url.next,
+		},
+	}),
+};
+---
+
+<PageLayout meta={meta}>
+	<section>
+		<h1 class="title mb-6 flex items-center gap-2">
+			筆記
+			<a class="text-accent-two" href="/zh-TW/notes/rss.xml" target="_blank">
+				<span class="sr-only">RSS 訂閱</span>
+				<Icon aria-hidden="true" class="h-6 w-6" focusable="false" name="mdi:rss" />
+			</a>
+		</h1>
+		{page.data.length === 0 ? (
+			<div class="text-center py-16">
+				<h3 class="text-xl mb-4 text-textColor">繁體中文筆記即將推出</h3>
+				<p class="text-gray-500 mb-4">Traditional Chinese notes coming soon</p>
+				<p class="text-sm text-gray-400">目前所有筆記都是英文，中文翻譯正在進行中</p>
+			</div>
+		) : (
+			<>
+				<div class="grid grid-cols-1 gap-8 md:grid-cols-2">
+					{
+						page.data.map((note) => (
+							<div>
+								<Note note={note} as="h4" isPreview />
+							</div>
+						))
+					}
+				</div>
+				<Pagination {...paginationProps} />
+			</>
+		)}
+	</section>
+</PageLayout>

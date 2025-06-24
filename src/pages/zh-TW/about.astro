@@ -1,35 +1,152 @@
 ---
-import Base from "@/layouts/Base.astro";
-import { siteConfig } from "@/site.config";
+import PageLayout from "@/layouts/Base.astro";
+import { Icon } from "astro-icon/components";
 
 const meta = {
-	description: "關於 " + siteConfig.title,
-	title: "關於",
+  description: "Sam 的個人區塊鏈部落格與作品集",
+  title: "關於",
 };
+
+const socialLinks = [
+  {
+    ariaLabel: "X",
+    icon: "hugeicons:new-twitter-rectangle",
+    href: "https://twitter.com/bungeegumeee",
+  },
+  {
+    ariaLabel: "Instagram",
+    icon: "hugeicons:instagram",
+    href: "https://www.instagram.com/the.blockspace",
+  },
+  {
+    ariaLabel: "Telegram",
+    icon: "hugeicons:telegram",
+    href: "https://t.me/theblockspaces",
+  },
+  {
+    ariaLabel: "Linkedin",
+    icon: "hugeicons:linkedin-01",
+    href: "https://www.linkedin.com/in/sam-hbz/",
+  },
+  {
+    ariaLabel: "Github",
+    icon: "hugeicons:github-01",
+    href: "https://github.com/whereissam/blockspace",
+  },
+];
 ---
 
-<Base meta={meta}>
-	<div class="space-y-6">
-		<h1 class="title">關於</h1>
-		<p>
-			歡迎來到 {siteConfig.title}！這是一個專注於探索區塊鏈技術、人工智慧創新和科技趨勢的平台。
-		</p>
-		<p>
-			我們致力於分享最新的技術見解，深入分析行業動態，並為讀者提供有價值的內容。
-			無論您是技術愛好者、投資者，還是對新興科技感興趣的讀者，都能在這裡找到感興趣的內容。
-		</p>
-		<p>
-			我們的內容涵蓋：
-		</p>
-		<ul class="list-disc list-inside space-y-2 ml-4">
-			<li>區塊鏈技術與加密貨幣</li>
-			<li>人工智慧與機器學習</li>
-			<li>去中心化科學 (DeSci)</li>
-			<li>Web3 與元宇宙</li>
-			<li>科技創業與投資</li>
-		</ul>
-		<p>
-			如果您有任何問題或建議，歡迎與我們聯繫。讓我們一起探索科技的未來！
-		</p>
-	</div>
-</Base>
+<PageLayout meta={meta}>
+  <!-- Hero Section -->
+  <div class="relative overflow-hidden bg-gradient-to-br from-accent-base/5 via-accent-two/5 to-transparent rounded-2xl p-8 md:p-12 mb-12">
+    <div class="flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
+      <div class="relative">
+        <div class="absolute -inset-1 bg-gradient-to-r from-accent-base to-accent-two rounded-full opacity-75 blur"></div>
+        <img
+          src="/selfPhoto.png"
+          alt="Sam 的個人照片"
+          class="relative rounded-full w-48 h-48 md:w-56 md:h-56 object-cover shadow-xl border-4 border-bgColor"
+        />
+      </div>
+      
+      <div class="text-center lg:text-left flex-1">
+        <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-4">
+          <span class="bg-gradient-to-r from-accent-base to-accent-two bg-clip-text text-transparent">
+            嗨，我是 Sam
+          </span>
+        </h1>
+        <p class="text-xl md:text-2xl text-textColor/80 mb-6 leading-relaxed">
+          區塊鏈愛好者與 AI 探索者，分享科技與創新交匯點的見解
+        </p>
+        
+        <!-- Stats -->
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-8">
+          <div class="text-center p-4 rounded-xl bg-special/50">
+            <div class="text-2xl font-bold text-accent-base">50+</div>
+            <div class="text-sm text-textColor/70">文章</div>
+          </div>
+          <div class="text-center p-4 rounded-xl bg-special/50">
+            <div class="text-2xl font-bold text-accent-base">10K+</div>
+            <div class="text-sm text-textColor/70">讀者</div>
+          </div>
+          <div class="text-center p-4 rounded-xl bg-special/50 col-span-2 md:col-span-1">
+            <div class="text-2xl font-bold text-accent-base">2+</div>
+            <div class="text-sm text-textColor/70">年寫作經驗</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Content Sections -->
+  <div class="grid md:grid-cols-2 gap-8 mb-12">
+    <!-- About Section -->
+    <div class="bg-special/30 rounded-xl p-6 md:p-8">
+      <div class="flex items-center justify-start mb-4">
+        <Icon name="hugeicons:user-circle" class="h-8 w-8 text-accent-base mr-3 flex-shrink-0" />
+        <h2 class="text-2xl font-bold text-accent-base leading-none">關於我</h2>
+      </div>
+      <div class="prose prose-citrus max-w-none">
+        <p class="text-textColor leading-relaxed mb-4">
+          我熱衷於探索區塊鏈技術與人工智慧的前沿交匯點。
+          透過我的文章，我致力於深入淺出地解釋複雜概念，並分享實用的見解。
+        </p>
+        <p class="text-textColor leading-relaxed">
+          當我不在研究最新協議或 AI 模型時，您會發現我正在研究新興趨勢，
+          並在 Web3 社群中建立聯繫。
+        </p>
+      </div>
+    </div>
+
+    <!-- Expertise Section -->
+    <div class="bg-special/30 rounded-xl p-6 md:p-8">
+      <div class="flex items-center justify-start mb-4">
+        <Icon name="hugeicons:brain" class="h-8 w-8 text-accent-base mr-3 flex-shrink-0" />
+        <h2 class="text-2xl font-bold text-accent-base leading-none">專業領域</h2>
+      </div>
+      <div class="space-y-4">
+        <div class="flex items-center">
+          <div class="w-3 h-3 bg-accent-base rounded-full mr-3"></div>
+          <span class="text-textColor">區塊鏈技術與 DeFi</span>
+        </div>
+        <div class="flex items-center">
+          <div class="w-3 h-3 bg-accent-two rounded-full mr-3"></div>
+          <span class="text-textColor">人工智慧與機器學習</span>
+        </div>
+        <div class="flex items-center">
+          <div class="w-3 h-3 bg-accent-base rounded-full mr-3"></div>
+          <span class="text-textColor">Web3 開發與 dApps</span>
+        </div>
+        <div class="flex items-center">
+          <div class="w-3 h-3 bg-accent-two rounded-full mr-3"></div>
+          <span class="text-textColor">技術寫作與研究</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Connect Section -->
+  <div class="bg-gradient-to-r from-accent-base/10 to-accent-two/10 rounded-xl p-8 text-center">
+    <h2 class="text-3xl font-bold text-accent-base mb-4">讓我們聯繫</h2>
+    <p class="text-textColor/80 mb-8 max-w-2xl mx-auto">
+      追蹤我的旅程，分享想法，或者只是打個招呼。我喜歡與這個領域的愛好者和學習者建立聯繫。
+    </p>
+    
+    <div class="flex flex-wrap justify-center gap-4">
+      {
+        socialLinks.map(({ ariaLabel, icon, href }) => (
+          <a
+            href={href}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={ariaLabel}
+            class="group flex items-center gap-3 px-6 py-3 bg-bgColor hover:bg-accent-base text-textColor hover:text-white rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105"
+          >
+            <Icon name={icon} class="h-5 w-5" />
+            <span class="font-medium">{ariaLabel}</span>
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</PageLayout>

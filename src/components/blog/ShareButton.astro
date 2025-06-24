@@ -1,0 +1,346 @@
+---
+interface Props {
+	title: string;
+	url: string;
+	description?: string;
+}
+
+const { title, url, description = "" } = Astro.props;
+const currentUrl = new URL(url, Astro.site).toString();
+---
+
+<!-- Desktop share button -->
+<div class="fixed left-4 top-1/2 -translate-y-1/2 z-40 hidden md:block">
+	<button
+		id="share-toggle"
+		class="flex h-12 w-12 items-center justify-center rounded-full bg-bgColor border-2 border-accent-base/20 text-accent-base hover:text-accent-two hover:border-accent-base/40 drop-shadow-xl transition-all duration-300 hover:scale-105 shadow-lg"
+		aria-label="Share this post"
+		aria-expanded="false"
+	>
+		<span class="absolute inset-0 rounded-full bg-special-lighter flex items-center justify-center" aria-hidden="true">
+			<svg
+				id="share-icon"
+				class="h-5 w-5 transition-transform duration-300"
+				fill="none"
+				stroke="currentColor"
+				stroke-width="2"
+				viewBox="0 0 24 24"
+				xmlns="http://www.w3.org/2000/svg"
+			>
+				<path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" stroke-linecap="round" stroke-linejoin="round"></path>
+				<path d="M16 6 12 2 8 6" stroke-linecap="round" stroke-linejoin="round"></path>
+				<path d="m12 2 0 15" stroke-linecap="round" stroke-linejoin="round"></path>
+			</svg>
+		</span>
+	</button>
+
+	<div 
+		id="share-dropdown" 
+		class="absolute left-16 top-0 w-48 opacity-0 invisible transform -translate-x-2 transition-all duration-300 ease-out pointer-events-none"
+	>
+		<div class="bg-bgColor border border-special-lighter rounded-lg drop-shadow-xl p-2 space-y-1">
+			<button
+				id="copy-link"
+				class="flex items-center gap-3 w-full px-3 py-2 text-sm font-medium text-textColor hover:text-accent-base hover:bg-special-light rounded-md transition-all duration-200 hover:translate-x-1"
+				data-url={currentUrl}
+				aria-label="Copy link to clipboard"
+			>
+				<svg class="h-4 w-4 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+					<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" stroke-linecap="round" stroke-linejoin="round"></path>
+					<path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" stroke-linecap="round" stroke-linejoin="round"></path>
+				</svg>
+				<span>Copy Link</span>
+			</button>
+
+			<a
+				href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(currentUrl)}`}
+				target="_blank"
+				rel="noopener noreferrer"
+				class="flex items-center gap-3 w-full px-3 py-2 text-sm font-medium text-textColor hover:text-accent-base hover:bg-special-light rounded-md transition-all duration-200 hover:translate-x-1"
+				aria-label="Share on Facebook"
+			>
+				<svg class="h-4 w-4 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
+					<path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+				</svg>
+				<span>Facebook</span>
+			</a>
+
+			<a
+				href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(currentUrl)}&text=${encodeURIComponent(title)}`}
+				target="_blank"
+				rel="noopener noreferrer"
+				class="flex items-center gap-3 w-full px-3 py-2 text-sm font-medium text-textColor hover:text-accent-base hover:bg-special-light rounded-md transition-all duration-200 hover:translate-x-1"
+				aria-label="Share on Twitter"
+			>
+				<svg class="h-4 w-4 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
+					<path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
+				</svg>
+				<span>Twitter</span>
+			</a>
+
+			<a
+				href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(currentUrl)}`}
+				target="_blank"
+				rel="noopener noreferrer"
+				class="flex items-center gap-3 w-full px-3 py-2 text-sm font-medium text-textColor hover:text-accent-base hover:bg-special-light rounded-md transition-all duration-200 hover:translate-x-1"
+				aria-label="Share on LinkedIn"
+			>
+				<svg class="h-4 w-4 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
+					<path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+				</svg>
+				<span>LinkedIn</span>
+			</a>
+
+			<a
+				href={`https://reddit.com/submit?url=${encodeURIComponent(currentUrl)}&title=${encodeURIComponent(title)}`}
+				target="_blank"
+				rel="noopener noreferrer"
+				class="flex items-center gap-3 w-full px-3 py-2 text-sm font-medium text-textColor hover:text-accent-base hover:bg-special-light rounded-md transition-all duration-200 hover:translate-x-1"
+				aria-label="Share on Reddit"
+			>
+				<svg class="h-4 w-4 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
+					<path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.187 0-.376.072-.518.214a.729.729 0 0 0 0 1.036.751.751 0 0 0 1.037 0c.286-.286.286-.751 0-1.036A.738.738 0 0 0 14.75 12zm-3.537 3.751c-.005.058-.007.11-.007.165 0 .972.684 1.756 1.517 1.756.833 0 1.517-.785 1.517-1.756 0-.055-.002-.107-.007-.165-.834.475-1.854.755-3.02.755s-2.186-.28-3.02-.755z"/>
+				</svg>
+				<span>Reddit</span>
+			</a>
+		</div>
+	</div>
+</div>
+
+<!-- Mobile share button -->
+<div class="fixed bottom-4 left-4 z-50 md:hidden">
+	<button
+		id="share-toggle-mobile"
+		class="flex h-12 w-12 items-center justify-center rounded-lg bg-bgColor border border-special-lighter text-accent-base hover:text-accent-two drop-shadow-xl transition-all duration-300 hover:scale-105"
+		aria-label="Share this post"
+		aria-expanded="false"
+	>
+		<span class="absolute inset-0 rounded-lg bg-special-light flex items-center justify-center" aria-hidden="true">
+			<svg
+				id="share-icon-mobile"
+				class="h-5 w-5 transition-transform duration-300"
+				fill="none"
+				stroke="currentColor"
+				stroke-width="2"
+				viewBox="0 0 24 24"
+				xmlns="http://www.w3.org/2000/svg"
+			>
+				<path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" stroke-linecap="round" stroke-linejoin="round"></path>
+				<path d="M16 6 12 2 8 6" stroke-linecap="round" stroke-linejoin="round"></path>
+				<path d="m12 2 0 15" stroke-linecap="round" stroke-linejoin="round"></path>
+			</svg>
+		</span>
+	</button>
+
+	<div 
+		id="share-dropdown-mobile" 
+		class="absolute bottom-16 left-0 w-48 opacity-0 invisible transform translate-y-2 transition-all duration-300 ease-out pointer-events-none"
+	>
+		<div class="bg-bgColor border border-special-lighter rounded-lg drop-shadow-xl p-2 space-y-1">
+			<button
+				id="copy-link-mobile"
+				class="flex items-center gap-3 w-full px-3 py-2 text-sm font-medium text-textColor hover:text-accent-base hover:bg-special-light rounded-md transition-all duration-200 hover:translate-x-1"
+				data-url={currentUrl}
+				aria-label="Copy link to clipboard"
+			>
+				<svg class="h-4 w-4 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+					<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" stroke-linecap="round" stroke-linejoin="round"></path>
+					<path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" stroke-linecap="round" stroke-linejoin="round"></path>
+				</svg>
+				<span>Copy Link</span>
+			</button>
+
+			<a
+				href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(currentUrl)}`}
+				target="_blank"
+				rel="noopener noreferrer"
+				class="flex items-center gap-3 w-full px-3 py-2 text-sm font-medium text-textColor hover:text-accent-base hover:bg-special-light rounded-md transition-all duration-200 hover:translate-x-1"
+				aria-label="Share on Facebook"
+			>
+				<svg class="h-4 w-4 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
+					<path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+				</svg>
+				<span>Facebook</span>
+			</a>
+
+			<a
+				href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(currentUrl)}&text=${encodeURIComponent(title)}`}
+				target="_blank"
+				rel="noopener noreferrer"
+				class="flex items-center gap-3 w-full px-3 py-2 text-sm font-medium text-textColor hover:text-accent-base hover:bg-special-light rounded-md transition-all duration-200 hover:translate-x-1"
+				aria-label="Share on Twitter"
+			>
+				<svg class="h-4 w-4 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
+					<path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
+				</svg>
+				<span>Twitter</span>
+			</a>
+
+			<a
+				href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(currentUrl)}`}
+				target="_blank"
+				rel="noopener noreferrer"
+				class="flex items-center gap-3 w-full px-3 py-2 text-sm font-medium text-textColor hover:text-accent-base hover:bg-special-light rounded-md transition-all duration-200 hover:translate-x-1"
+				aria-label="Share on LinkedIn"
+			>
+				<svg class="h-4 w-4 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
+					<path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+				</svg>
+				<span>LinkedIn</span>
+			</a>
+
+			<a
+				href={`https://reddit.com/submit?url=${encodeURIComponent(currentUrl)}&title=${encodeURIComponent(title)}`}
+				target="_blank"
+				rel="noopener noreferrer"
+				class="flex items-center gap-3 w-full px-3 py-2 text-sm font-medium text-textColor hover:text-accent-base hover:bg-special-light rounded-md transition-all duration-200 hover:translate-x-1"
+				aria-label="Share on Reddit"
+			>
+				<svg class="h-4 w-4 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
+					<path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.187 0-.376.072-.518.214a.729.729 0 0 0 0 1.036.751.751 0 0 0 1.037 0c.286-.286.286-.751 0-1.036A.738.738 0 0 0 14.75 12zm-3.537 3.751c-.005.058-.007.11-.007.165 0 .972.684 1.756 1.517 1.756.833 0 1.517-.785 1.517-1.756 0-.055-.002-.107-.007-.165-.834.475-1.854.755-3.02.755s-2.186-.28-3.02-.755z"/>
+				</svg>
+				<span>Reddit</span>
+			</a>
+		</div>
+	</div>
+</div>
+
+<style>
+	.show {
+		opacity: 1 !important;
+		visibility: visible !important;
+		transform: translateX(0) !important;
+		pointer-events: auto !important;
+	}
+
+	#share-icon.rotated {
+		transform: rotate(180deg);
+	}
+
+	/* Hide on very small screens to avoid overlap */
+	@media (max-width: 480px) {
+		#share-button-container {
+			display: none;
+		}
+	}
+</style>
+
+<script>
+	document.addEventListener("DOMContentLoaded", () => {
+		// Desktop elements
+		const shareButton = document.getElementById("share-toggle");
+		const shareDropdown = document.getElementById("share-dropdown");
+		const shareIcon = document.getElementById("share-icon");
+		const copyLinkButton = document.getElementById("copy-link");
+
+		// Mobile elements
+		const shareButtonMobile = document.getElementById("share-toggle-mobile");
+		const shareDropdownMobile = document.getElementById("share-dropdown-mobile");
+		const shareIconMobile = document.getElementById("share-icon-mobile");
+		const copyLinkButtonMobile = document.getElementById("copy-link-mobile");
+
+		// Desktop functionality
+		if (shareButton && shareDropdown && shareIcon && copyLinkButton) {
+			shareButton.addEventListener("click", () => {
+				const isExpanded = shareButton.getAttribute("aria-expanded") === "true";
+				
+				if (isExpanded) {
+					shareDropdown.classList.remove("show");
+					shareIcon.classList.remove("rotated");
+					shareButton.setAttribute("aria-expanded", "false");
+				} else {
+					shareDropdown.classList.add("show");
+					shareIcon.classList.add("rotated");
+					shareButton.setAttribute("aria-expanded", "true");
+				}
+			});
+
+			copyLinkButton.addEventListener("click", async () => {
+				await copyToClipboard(copyLinkButton);
+			});
+		}
+
+		// Mobile functionality
+		if (shareButtonMobile && shareDropdownMobile && shareIconMobile && copyLinkButtonMobile) {
+			shareButtonMobile.addEventListener("click", () => {
+				const isExpanded = shareButtonMobile.getAttribute("aria-expanded") === "true";
+				
+				if (isExpanded) {
+					shareDropdownMobile.classList.remove("show");
+					shareIconMobile.classList.remove("rotated");
+					shareButtonMobile.setAttribute("aria-expanded", "false");
+				} else {
+					shareDropdownMobile.classList.add("show");
+					shareIconMobile.classList.add("rotated");
+					shareButtonMobile.setAttribute("aria-expanded", "true");
+				}
+			});
+
+			copyLinkButtonMobile.addEventListener("click", async () => {
+				await copyToClipboard(copyLinkButtonMobile);
+			});
+		}
+
+		// Shared copy functionality
+		async function copyToClipboard(button) {
+			const url = button.getAttribute("data-url");
+			if (!url) return;
+
+			try {
+				await navigator.clipboard.writeText(url);
+				const originalText = button.querySelector("span")?.textContent;
+				const span = button.querySelector("span");
+				
+				if (span) {
+					span.textContent = "Copied!";
+					setTimeout(() => {
+						span.textContent = originalText || "Copy Link";
+					}, 2000);
+				}
+			} catch (err) {
+				console.error("Failed to copy link:", err);
+			}
+		}
+
+		// Close dropdowns when clicking outside
+		document.addEventListener("click", (event) => {
+			const target = event.target as Element;
+			
+			// Close desktop dropdown
+			if (shareButton && shareDropdown && shareIcon) {
+				const desktopContainer = shareButton.closest("div");
+				if (desktopContainer && !desktopContainer.contains(target)) {
+					shareDropdown.classList.remove("show");
+					shareIcon.classList.remove("rotated");
+					shareButton.setAttribute("aria-expanded", "false");
+				}
+			}
+
+			// Close mobile dropdown
+			if (shareButtonMobile && shareDropdownMobile && shareIconMobile) {
+				const mobileContainer = shareButtonMobile.closest("div");
+				if (mobileContainer && !mobileContainer.contains(target)) {
+					shareDropdownMobile.classList.remove("show");
+					shareIconMobile.classList.remove("rotated");
+					shareButtonMobile.setAttribute("aria-expanded", "false");
+				}
+			}
+		});
+
+		// Close dropdowns on escape key
+		document.addEventListener("keydown", (event) => {
+			if (event.key === "Escape") {
+				if (shareButton && shareDropdown && shareIcon) {
+					shareDropdown.classList.remove("show");
+					shareIcon.classList.remove("rotated");
+					shareButton.setAttribute("aria-expanded", "false");
+				}
+				if (shareButtonMobile && shareDropdownMobile && shareIconMobile) {
+					shareDropdownMobile.classList.remove("show");
+					shareIconMobile.classList.remove("rotated");
+					shareButtonMobile.setAttribute("aria-expanded", "false");
+				}
+			}
+		});
+	});
+</script>

@@ -3,8 +3,13 @@ import type { AstroI18nextConfig } from "astro-i18next";
 const config: AstroI18nextConfig = {
   defaultLocale: "en",
   locales: ["en", "zh-TW"],
-  showDefaultLocale: false,
+  showDefaultLocale: true,
   routes: {
+    "en": {
+      about: "about",
+      posts: "posts", 
+      notes: "notes",
+    },
     "zh-TW": {
       about: "關於",
       posts: "文章", 
@@ -12,6 +17,8 @@ const config: AstroI18nextConfig = {
     },
   },
   load: ["server", "client"],
+  ns: ["common"],
+  fallbackNS: "common",
   i18nextServer: {
     debug: false,
   },

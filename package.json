@@ -24,6 +24,7 @@
     "astro-i18next": "^1.0.0-beta.21",
     "astro-icon": "^1.1.5",
     "astro-robots-txt": "^1.0.0",
+    "astro-seo": "^0.8.4",
     "astro-webmanifest": "^1.0.0",
     "cssnano": "^7.0.6",
     "hastscript": "^9.0.0",
@@ -62,6 +63,10 @@
     "typescript": "^5.7.2"
   },
   "pnpm": {
-    "onlyBuiltDependencies": ["@biomejs/biome", "esbuild", "sharp"]
+    "onlyBuiltDependencies": [
+      "@biomejs/biome",
+      "esbuild",
+      "sharp"
+    ]
   }
 }

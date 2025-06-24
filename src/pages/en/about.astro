@@ -38,27 +38,35 @@ const socialLinks = [
 
 <PageLayout meta={meta}>
   <!-- Hero Section -->
-  <div class="relative overflow-hidden bg-gradient-to-br from-accent-base/5 via-accent-two/5 to-transparent rounded-2xl p-8 md:p-12 mb-12">
+  <div
+    class="relative overflow-hidden bg-gradient-to-br from-accent-base/5 via-accent-two/5 to-transparent rounded-2xl p-8 md:p-12 mb-12 mt-12"
+  >
     <div class="flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
       <div class="relative">
-        <div class="absolute -inset-1 bg-gradient-to-r from-accent-base to-accent-two rounded-full opacity-75 blur"></div>
+        <div
+          class="absolute -inset-1 bg-gradient-to-r from-accent-base to-accent-two rounded-full opacity-75 blur"
+        >
+        </div>
         <img
           src="/selfPhoto.png"
           alt="Sam's profile picture"
           class="relative rounded-full w-48 h-48 md:w-56 md:h-56 object-cover shadow-xl border-4 border-bgColor"
         />
       </div>
-      
+
       <div class="text-center lg:text-left flex-1">
         <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-4">
-          <span class="bg-gradient-to-r from-accent-base to-accent-two bg-clip-text text-transparent">
+          <span
+            class="bg-gradient-to-r from-accent-base to-accent-two bg-clip-text text-transparent"
+          >
             Hi, I'm Sam
           </span>
         </h1>
         <p class="text-xl md:text-2xl text-textColor/80 mb-6 leading-relaxed">
-          Blockchain enthusiast & AI explorer sharing insights at the intersection of technology and innovation
+          Blockchain enthusiast & AI explorer sharing insights at the
+          intersection of technology and innovation
         </p>
-        
+
         <!-- Stats -->
         <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-8">
           <div class="text-center p-4 rounded-xl bg-special/50">
@@ -69,7 +77,9 @@ const socialLinks = [
             <div class="text-2xl font-bold text-accent-base">10K+</div>
             <div class="text-sm text-textColor/70">Readers</div>
           </div>
-          <div class="text-center p-4 rounded-xl bg-special/50 col-span-2 md:col-span-1">
+          <div
+            class="text-center p-4 rounded-xl bg-special/50 col-span-2 md:col-span-1"
+          >
             <div class="text-2xl font-bold text-accent-base">2+</div>
             <div class="text-sm text-textColor/70">Years Writing</div>
           </div>
@@ -83,17 +93,24 @@ const socialLinks = [
     <!-- About Section -->
     <div class="bg-special/30 rounded-xl p-6 md:p-8">
       <div class="flex items-center justify-start mb-4">
-        <Icon name="hugeicons:user-circle" class="h-8 w-8 text-accent-base mr-3 flex-shrink-0" />
-        <h2 class="text-2xl font-bold text-accent-base leading-none">About Me</h2>
+        <Icon
+          name="hugeicons:user-circle"
+          class="h-8 w-8 text-accent-base mr-3 flex-shrink-0"
+        />
+        <h2 class="text-2xl font-bold text-accent-base leading-none">
+          About Me
+        </h2>
       </div>
       <div class="prose prose-citrus max-w-none">
         <p class="text-textColor leading-relaxed mb-4">
-          I'm passionate about exploring the cutting-edge intersection of blockchain technology and artificial intelligence. 
-          Through my writing, I aim to demystify complex concepts and share practical insights.
+          I'm passionate about exploring the cutting-edge intersection of
+          blockchain technology and artificial intelligence. Through my writing,
+          I aim to demystify complex concepts and share practical insights.
         </p>
         <p class="text-textColor leading-relaxed">
-          When I'm not diving deep into the latest protocols or AI models, you'll find me researching emerging trends 
-          and building connections in the Web3 community.
+          When I'm not diving deep into the latest protocols or AI models,
+          you'll find me researching emerging trends and building connections in
+          the Web3 community.
         </p>
       </div>
     </div>
@@ -101,8 +118,13 @@ const socialLinks = [
     <!-- Expertise Section -->
     <div class="bg-special/30 rounded-xl p-6 md:p-8">
       <div class="flex items-center justify-start mb-4">
-        <Icon name="hugeicons:brain" class="h-8 w-8 text-accent-base mr-3 flex-shrink-0" />
-        <h2 class="text-2xl font-bold text-accent-base leading-none">Expertise</h2>
+        <Icon
+          name="hugeicons:brain"
+          class="h-8 w-8 text-accent-base mr-3 flex-shrink-0"
+        />
+        <h2 class="text-2xl font-bold text-accent-base leading-none">
+          Expertise
+        </h2>
       </div>
       <div class="space-y-4">
         <div class="flex items-center">
@@ -111,7 +133,9 @@ const socialLinks = [
         </div>
         <div class="flex items-center">
           <div class="w-3 h-3 bg-accent-two rounded-full mr-3"></div>
-          <span class="text-textColor">Artificial Intelligence & Machine Learning</span>
+          <span class="text-textColor"
+            >Artificial Intelligence & Machine Learning</span
+          >
         </div>
         <div class="flex items-center">
           <div class="w-3 h-3 bg-accent-base rounded-full mr-3"></div>
@@ -126,12 +150,15 @@ const socialLinks = [
   </div>
 
   <!-- Connect Section -->
-  <div class="bg-gradient-to-r from-accent-base/10 to-accent-two/10 rounded-xl p-8 text-center">
+  <div
+    class="bg-gradient-to-r from-accent-base/10 to-accent-two/10 rounded-xl p-8 text-center"
+  >
     <h2 class="text-3xl font-bold text-accent-base mb-4">Let's Connect</h2>
     <p class="text-textColor/80 mb-8 max-w-2xl mx-auto">
-      Follow my journey, share ideas, or just say hello. I love connecting with fellow enthusiasts and learners in the space.
+      Follow my journey, share ideas, or just say hello. I love connecting with
+      fellow enthusiasts and learners in the space.
     </p>
-    
+
     <div class="flex flex-wrap justify-center gap-4">
       {
         socialLinks.map(({ ariaLabel, icon, href }) => (

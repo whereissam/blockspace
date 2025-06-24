@@ -7,6 +7,36 @@ export async function getAllPosts(): Promise<CollectionEntry<"post">[]> {
 	});
 }
 
+/** get posts filtered by language */
+export async function getPostsByLanguage(language: string): Promise<CollectionEntry<"post">[]> {
+	const allPosts = await getAllPosts();
+	
+	// For now, only show English posts for English routes, empty for Chinese
+	if (language === 'en') {
+		return allPosts;
+	} else if (language === 'zh-TW') {
+		// Return empty array until Chinese translations are available
+		return allPosts.filter(post => post.data.language === 'zh-TW');
+	}
+	
+	return allPosts;
+}
+
+/** get notes filtered by language */
+export async function getNotesByLanguage(language: string): Promise<CollectionEntry<"note">[]> {
+	const allNotes = await getCollection("note");
+	
+	// For now, only show English notes for English routes, empty for Chinese
+	if (language === 'en') {
+		return allNotes;
+	} else if (language === 'zh-TW') {
+		// Return empty array until Chinese translations are available
+		return allNotes.filter(note => note.data.language === 'zh-TW');
+	}
+	
+	return allNotes;
+}
+
 /** groups posts by year (based on option siteConfig.sortPostsByUpdatedDate), using the year as the key
  *  Note: This function doesn't filter draft posts, pass it the result of getAllPosts above to do so.
  */
