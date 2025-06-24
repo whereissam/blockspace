@@ -29,7 +29,7 @@ const t = (key: string) => translations[currentLang][key] || key;
 
 <header
   id="main-header"
-  class="fixed px-4 md:px-0 left-0 z-30 flex items-center md:relative top-0 h-16 w-full bg-bgColor md:bg-transparent"
+  class="fixed left-0 top-0 z-30 w-full bg-bgColor/80 backdrop-blur-md border-b border-special-lighter/50 md:relative md:bg-transparent md:backdrop-blur-none md:border-none"
 >
   <!-- Background 
 			TODO: This approach is not optimal and requires improvements. 
@@ -37,8 +37,9 @@ const t = (key: string) => translations[currentLang][key] || key;
   		-->
   <!-- Background overlay removed to fix blog post header conflicts -->
 
-  <div class="w-full">
-    <div class="flex items-center justify-between gap-x-2">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="flex h-16 items-center justify-between">
+      <!-- Logo Section -->
       <a
         aria-label={siteConfig.title}
         aria-current={Astro.url.pathname === "/" ||
@@ -46,28 +47,30 @@ const t = (key: string) => translations[currentLang][key] || key;
         Astro.url.pathname === `/${currentLang}/`
           ? "page"
           : false}
-        class="group flex h-8 items-center hover:filter-none sm:relative flex-shrink-0"
+        class="group flex items-center space-x-3 transition-all duration-200 hover:scale-105"
         href={currentLang === "zh-TW" ? "/zh-TW" : "/en"}
       >
-        <div title={siteConfig.title}>
-          <img class="w-8 h-8 sm:w-10 sm:h-10" src="/brand.svg" alt="" />
+        <div class="relative">
+          <div
+            class="absolute -inset-1 bg-gradient-to-r from-accent-base to-accent-two rounded-full opacity-75 blur-sm group-hover:opacity-100 transition-opacity"
+          >
+          </div>
+          <img class="relative w-10 h-10" src="/brand.svg" alt="" />
         </div>
-
         <strong
-          class="bg-clip-text text-transparent bg-gradient-to-r from-accent-one to-accent-two hidden sm:block z-10 mb-0.5 ms-2 text-lg sm:text-xl group-hover:text-accent-one"
+          class="hidden sm:block text-xl font-bold bg-gradient-to-r from-accent-base to-accent-two bg-clip-text text-transparent group-hover:from-accent-two group-hover:to-accent-base transition-all duration-300"
         >
           {siteConfig.title}
         </strong>
       </a>
+      <!-- Desktop Navigation -->
       <nav
         aria-label="Main menu"
-        class="top-20 text-sm mx-auto ml-auto hidden flex-col items-end justify-center gap-x-4 rounded-md bg-bgColor font-medium text-accent-two shadow backdrop-blur group-[.menu-open]:z-50 group-[.menu-open]:flex sm:static sm:z-auto sm:flex-row sm:items-center sm:rounded-none sm:bg-transparent sm:shadow-none sm:backdrop-blur-none md:flex"
+        class="hidden md:flex items-center space-x-8"
         id="main-navigation-menu"
       >
-        <!-- Navigation Links -->
         {
           menuLinks.map((link) => {
-            // Generate language-aware URL
             const linkPath =
               currentLang === "zh-TW"
                 ? `/zh-TW${link.path}`
@@ -81,42 +84,71 @@ const t = (key: string) => translations[currentLang][key] || key;
             return (
               <a
                 aria-current={isCurrentPage ? "page" : false}
-                class="underline-offset-2 hover:underline"
+                class={`relative px-3 py-2 text-sm font-medium transition-all duration-200 rounded-lg hover:bg-special-light ${
+                  isCurrentPage
+                    ? "text-accent-base bg-special-light"
+                    : "text-textColor hover:text-accent-base"
+                }`}
                 data-astro-prefetch
                 href={linkPath}
               >
                 {t(link.key)}
+                {isCurrentPage && (
+                  <div class="absolute bottom-0 left-1/2 h-0.5 w-6 -translate-x-1/2 bg-gradient-to-r from-accent-base to-accent-two rounded-full" />
+                )}
               </a>
             );
           })
         }
       </nav>
-      <div class="flex items-center gap-x-2">
-        <!-- <div class=""> -->
-        <div id="buttons-panel" class="flex space-x-2">
+      <!-- Right Side Actions -->
+      <div class="flex items-center space-x-3">
+        <!-- Desktop Action Buttons -->
+        <div id="buttons-panel" class="hidden md:flex items-center space-x-2">
+          <div
+            class="p-1.5 rounded-lg bg-special/50 hover:bg-special transition-colors"
+          >
+            <Search />
+          </div>
+          <div
+            class="p-1.5 rounded-lg bg-special/50 hover:bg-special transition-colors"
+          >
+            <LanguageToggle />
+          </div>
+          <div
+            class="p-1.5 rounded-lg bg-special/50 hover:bg-special transition-colors"
+          >
+            <ThemeToggle />
+          </div>
+        </div>
+
+        <!-- Mobile Action Buttons -->
+        <div class="flex md:hidden items-center space-x-2">
           <Search />
           <LanguageToggle />
           <ThemeToggle />
         </div>
+
+        <!-- Mobile Menu Button -->
         <mobile-button
           aria-expanded="false"
           aria-haspopup="menu"
           aria-label="Open main menu"
-          class="group relative h-8 w-8 rounded-lg bg-color-100 hover:bg-accent-base/10 text-accent-base md:invisible md:hidden"
+          class="group relative h-10 w-10 rounded-lg bg-special/50 hover:bg-special transition-all duration-200 text-accent-base md:hidden"
           id="toggle-nav-menu-mobile"
           type="button"
         >
           <Icon
             id="open-nav-menu-icon"
             aria-hidden="true"
-            class="absolute start-1/2 top-1/2 h-6 w-6 -translate-x-1/2 -translate-y-1/2 scale-100 opacity-100 transition-all"
+            class="absolute start-1/2 top-1/2 h-6 w-6 -translate-x-1/2 -translate-y-1/2 scale-100 opacity-100 transition-all duration-200"
             focusable="false"
             name="hugeicons:menu-01"
           />
           <Icon
             id="close-nav-menu-icon"
             aria-hidden="true"
-            class="absolute start-1/2 top-1/2 h-6 w-6 -translate-x-1/2 -translate-y-1/2 scale-0 opacity-0 transition-all"
+            class="absolute start-1/2 top-1/2 h-6 w-6 -translate-x-1/2 -translate-y-1/2 scale-0 opacity-0 transition-all duration-200"
             focusable="false"
             name="hugeicons:cancel-01"
           />
@@ -181,10 +213,7 @@ const t = (key: string) => translations[currentLang][key] || key;
       class="absolute top-4 right-4 p-2 rounded-lg bg-accent-base/10 text-accent-base hover:bg-accent-base/20 transition-colors z-50"
       aria-label="Close menu"
     >
-      <Icon
-        class="h-6 w-6"
-        name="hugeicons:cancel-01"
-      />
+      <Icon class="h-6 w-6" name="hugeicons:cancel-01" />
     </button>
 
     <nav
@@ -259,7 +288,7 @@ const t = (key: string) => translations[currentLang][key] || key;
       openMenuIcon.classList.add("scale-100", "opacity-100");
       closeMenuIcon.classList.add("scale-0", "opacity-0");
       closeMenuIcon.classList.remove("scale-100", "opacity-100");
-      
+
       // Update button state
       toggleNavMenuMobileButton.setAttribute("aria-expanded", "false");
     };
