@@ -3,95 +3,118 @@ import { Icon } from "astro-icon/components";
 
 // Simple path-based locale detection and path generation
 const currentPath = Astro.url.pathname;
-const isZhTW = currentPath.startsWith('/zh-TW');
-const isEn = currentPath.startsWith('/en');
+const isZhTW = currentPath.startsWith("/zh-TW");
+const isEn = currentPath.startsWith("/en");
 
 // Get the base path without language prefix
-const basePath = currentPath.replace(/^\/(?:en|zh-TW)/, '') || '/';
+const basePath = currentPath.replace(/^\/(?:en|zh-TW)/, "") || "/";
 
 // Generate paths for both languages
 const enPath = `/en${basePath}`;
 const zhPath = `/zh-TW${basePath}`;
 
 const languages = [
-  { 
-    code: 'en', 
-    name: 'English',
-    flag: '🇺🇸',
+  {
+    code: "en",
+    name: "English",
+    flag: "🇺🇸",
     path: enPath,
-    active: isEn
+    active: isEn,
   },
-  { 
-    code: 'zh-TW', 
-    name: '繁體中文',
-    flag: '🇹🇼', 
+  {
+    code: "zh-TW",
+    name: "繁體中文",
+    flag: "🇹🇼",
     path: zhPath,
-    active: isZhTW
-  }
+    active: isZhTW,
+  },
 ];
 
-const currentLang = languages.find(lang => lang.active);
+const currentLang = languages.find((lang) => lang.active);
 ---
 
-<div class="relative group" style="position: relative; z-index: 1000;">
+<div class="relative group">
   <button
     class="flex h-8 w-8 items-center justify-center rounded-lg bg-color-100 hover:bg-accent-base/10 text-accent-base transition-colors"
     aria-label="Select language"
     aria-expanded="false"
     aria-haspopup="true"
     id="language-toggle"
+    onclick="window.toggleLanguageDropdown(event)"
+    style="-webkit-user-select: none; -webkit-touch-callout: none;"
   >
     <Icon name="hugeicons:globe-02" class="h-4 w-4" />
   </button>
-  
-  <div 
-    class="absolute right-0 top-full mt-2 w-36 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-xl hidden"
-    style="z-index: 9999;"
+
+  <div
+    class="fixed top-16 right-2 md:absolute md:right-0 md:top-full mt-2 w-36 bg-bgColor border border-special-lighter rounded-lg shadow-xl z-[9999] hidden"
     id="language-dropdown"
   >
-    {languages.map((lang) => (
-      <a
-        href={lang.path}
-        class={`block px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors first:rounded-t-lg last:rounded-b-lg ${
-          lang.active ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 font-medium' : 'text-gray-700 dark:text-gray-300'
-        }`}
-      >
-        <div class="flex items-center gap-2">
-          <span class="text-xs">{lang.flag}</span>
-          <span>{lang.name}</span>
-          {lang.active && <span class="ml-auto text-blue-600 dark:text-blue-400">✓</span>}
-        </div>
-      </a>
-    ))}
+    {
+      languages.map((lang) => (
+        <a
+          href={lang.path}
+          class={`block px-3 py-2 text-sm hover:bg-special-light transition-colors first:rounded-t-lg last:rounded-b-lg ${
+            lang.active
+              ? "bg-accent-base/10 text-accent-base font-medium"
+              : "text-textColor"
+          }`}
+        >
+          <div class="flex items-center gap-2">
+            <span class="text-xs">{lang.flag}</span>
+            <span>{lang.name}</span>
+            {lang.active && <span class="ml-auto text-accent-base">✓</span>}
+          </div>
+        </a>
+      ))
+    }
   </div>
 </div>
 
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const toggle = document.getElementById('language-toggle');
-    const dropdown = document.getElementById('language-dropdown');
-    
-    if (toggle && dropdown) {
-      toggle.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const isVisible = !dropdown.classList.contains('hidden');
+  // Simple toggle function for mobile compatibility
+  window.toggleLanguageDropdown = function (event) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    // Find the dropdown within the same parent container as the clicked button
+    const clickedButton = event.currentTarget;
+    const container = clickedButton.parentElement;
+    const dropdown = container.querySelector('[id="language-dropdown"]');
+
+    if (dropdown && clickedButton) {
+      const isHidden = dropdown.classList.contains("hidden");
+
+      if (isHidden) {
+        dropdown.classList.remove("hidden");
+        clickedButton.setAttribute("aria-expanded", "true");
+      } else {
+        dropdown.classList.add("hidden");
+        clickedButton.setAttribute("aria-expanded", "false");
+      }
+    }
+  };
+
+  document.addEventListener("DOMContentLoaded", () => {
+    // Close dropdown when clicking outside
+    document.addEventListener("click", (e) => {
+      // Find all language toggle instances on the page
+      const toggles = document.querySelectorAll('[id="language-toggle"]');
+      
+      toggles.forEach(toggle => {
+        const container = toggle.parentElement;
+        const dropdown = container.querySelector('[id="language-dropdown"]');
         
-        if (isVisible) {
-          dropdown.classList.add('hidden');
-          toggle.setAttribute('aria-expanded', 'false');
-        } else {
-          dropdown.classList.remove('hidden');
-          toggle.setAttribute('aria-expanded', 'true');
+        if (
+          toggle &&
+          dropdown &&
+          !toggle.contains(e.target) &&
+          !dropdown.contains(e.target)
+        ) {
+          dropdown.classList.add("hidden");
+          toggle.setAttribute("aria-expanded", "false");
         }
       });
-      
-      // Close dropdown when clicking outside
-      document.addEventListener('click', () => {
-        dropdown.classList.add('hidden');
-        toggle.setAttribute('aria-expanded', 'false');
-      });
-    } else {
-      console.error('Language toggle elements not found');
-    }
+    });
   });
 </script>

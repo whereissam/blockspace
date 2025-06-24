@@ -123,7 +123,7 @@ const t = (key: string) => translations[currentLang][key] || key;
         </div>
 
         <!-- Mobile Action Buttons -->
-        <div class="flex md:hidden items-center space-x-2">
+        <div class="flex md:hidden items-center space-x-2 relative z-40">
           <Search />
           <LanguageToggle />
           <ThemeToggle />
@@ -244,6 +244,7 @@ const t = (key: string) => translations[currentLang][key] || key;
           );
         })
       }
+
     </nav>
   </div>
 </div>
