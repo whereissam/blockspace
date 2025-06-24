@@ -34,6 +34,91 @@ A modern, multilingual blog built with **Astro** featuring blockchain, AI, and t
 - **Performance Optimized**: Static generation with minimal JavaScript
 - **Open Graph Images**: Automatic generation with custom styling
 
+## 🛠️ Tech Stack
+
+### Core Framework
+- **[Astro](https://astro.build/)** `5.1.2` - The web framework for content-driven websites
+- **[TypeScript](https://www.typescriptlang.org/)** `5.7.2` - JavaScript with syntax for types
+- **[Node.js](https://nodejs.org/)** `18+` - JavaScript runtime
+
+### Styling & UI
+- **[Tailwind CSS](https://tailwindcss.com/)** `3.4.17` - Utility-first CSS framework
+- **[@tailwindcss/typography](https://tailwindcss.com/docs/typography-plugin)** `0.5.15` - Beautiful typographic defaults
+- **[Autoprefixer](https://autoprefixer.github.io/)** `10.4.20` - CSS vendor prefixes
+- **[cssnano](https://cssnano.co/)** `7.0.6` - CSS optimization and minification
+
+### Icons & Assets
+- **[Astro Icon](https://astro-icon.dev/)** `1.1.5` - Icon component library
+- **[@iconify-json/hugeicons](https://iconify.design/)** `1.2.3` - HugeIcons icon set
+- **[@iconify-json/mdi](https://iconify.design/)** `1.2.2` - Material Design Icons
+- **[@iconify-json/solar](https://iconify.design/)** `1.2.2` - Solar icon set
+- **[Sharp](https://sharp.pixelplumbing.com/)** `0.33.5` - Image processing and optimization
+
+### Content & Markdown
+- **[@astrojs/mdx](https://docs.astro.build/en/guides/integrations-guide/mdx/)** `4.0.3` - MDX support for Astro
+- **[rehype-external-links](https://github.com/rehypejs/rehype-external-links)** `3.0.0` - Add rel and target to external links
+- **[rehype-pretty-code](https://rehype-pretty-code.netlify.app/)** `0.14.0` - Syntax highlighting for code blocks
+- **[rehype-unwrap-images](https://github.com/remarkjs/remark-unwrap-images)** `1.0.0` - Remove paragraph wrapping from images
+- **[remark-directive](https://github.com/remarkjs/remark-directive)** `3.0.0` - Support for directives (custom syntax)
+- **[mdast-util-directive](https://github.com/syntax-tree/mdast-util-directive)** `3.0.0` - MDX directive utilities
+- **[mdast-util-to-markdown](https://github.com/syntax-tree/mdast-util-to-markdown)** `2.1.2` - Serialize MDX to markdown
+- **[mdast-util-to-string](https://github.com/syntax-tree/mdast-util-to-string)** `4.0.0` - Get text content from MDX
+- **[unified](https://unifiedjs.com/)** `11.0.5` - Interface for parsing, inspecting, transforming, and serializing content
+- **[unist-util-visit](https://github.com/syntax-tree/unist-util-visit)** `5.0.0` - Utility to visit nodes in a syntax tree
+- **[reading-time](https://github.com/ngryman/reading-time)** `1.5.0` - Estimate reading time for articles
+
+### Search & SEO
+- **[Pagefind](https://pagefind.app/)** `1.3.0` - Static search library
+- **[@pagefind/default-ui](https://pagefind.app/)** `1.3.0` - Default search UI components
+- **[@astrojs/sitemap](https://docs.astro.build/en/guides/integrations-guide/sitemap/)** `3.2.1` - Automatic sitemap generation
+- **[@astrojs/rss](https://docs.astro.build/en/guides/rss/)** `4.0.11` - RSS feed generation
+- **[astro-robots-txt](https://github.com/alextim/astro-robots-txt)** `1.0.0` - robots.txt generation
+- **[astro-seo](https://github.com/jonasmerlin/astro-seo)** `0.8.4` - SEO meta tags
+- **[astro-webmanifest](https://github.com/alextim/astro-webmanifest)** `1.0.0` - Web app manifest generation
+
+### Internationalization
+- **[astro-i18next](https://github.com/yassinedoghri/astro-i18next)** `1.0.0-beta.21` - i18n integration for Astro
+- **[i18next](https://www.i18next.com/)** `25.2.1` - Internationalization framework
+
+### Open Graph Images
+- **[Satori](https://github.com/vercel/satori)** `0.12.0` - Generate images from HTML/CSS
+- **[satori-html](https://github.com/natemoo-re/satori-html)** `0.3.2` - HTML support for Satori
+- **[@resvg/resvg-js](https://github.com/yisibl/resvg-js)** `2.6.2` - SVG rendering for Node.js
+- **[hastscript](https://github.com/syntax-tree/hastscript)** `9.0.0` - Create HTML/SVG trees
+
+### Code Quality & Development
+- **[@biomejs/biome](https://biomejs.dev/)** `1.9.4` - Fast formatter and linter
+- **[Prettier](https://prettier.io/)** `3.4.2` - Code formatter
+- **[prettier-plugin-astro](https://github.com/withastro/prettier-plugin-astro)** `0.14.1` - Prettier plugin for Astro
+- **[prettier-plugin-tailwindcss](https://github.com/tailwindlabs/prettier-plugin-tailwindcss)** `0.6.9` - Prettier plugin for Tailwind CSS
+- **[@astrojs/check](https://docs.astro.build/en/reference/cli-reference/#astro-check)** `0.9.4` - Astro type checking
+
+### Syntax Highlighting
+- **[@shikijs/transformers](https://shiki.style/)** `1.25.1` - Code syntax highlighting transformers
+
+## 🚀 Astro Integrations
+
+### Official Astro Integrations
+- **[@astrojs/tailwind](https://docs.astro.build/en/guides/integrations-guide/tailwind/)** - Tailwind CSS integration
+- **[@astrojs/mdx](https://docs.astro.build/en/guides/integrations-guide/mdx/)** - MDX support for component-driven content
+- **[@astrojs/sitemap](https://docs.astro.build/en/guides/integrations-guide/sitemap/)** - Automatic sitemap generation
+- **[@astrojs/rss](https://docs.astro.build/en/guides/rss/)** - RSS feed generation
+
+### Third-Party Astro Integrations
+- **[astro-i18next](https://github.com/yassinedoghri/astro-i18next)** - Complete i18n solution with routing and content management
+- **[astro-icon](https://astro-icon.dev/)** - Optimized icon component system
+- **[astro-robots-txt](https://github.com/alextim/astro-robots-txt)** - robots.txt file generation
+- **[astro-seo](https://github.com/jonasmerlin/astro-seo)** - SEO meta tags and social media optimization
+- **[astro-webmanifest](https://github.com/alextim/astro-webmanifest)** - Progressive Web App manifest generation
+
+### Content Processing Pipeline
+- **Markdown Processing**: MDX → remark → rehype → HTML
+- **Syntax Highlighting**: Shiki with custom transformers for code blocks
+- **Image Optimization**: Sharp for resizing, format conversion, and compression
+- **Search Indexing**: Pagefind for client-side full-text search
+- **RSS Generation**: Multi-language feeds for posts and notes
+- **Open Graph**: Dynamic image generation using Satori
+
 ## 🚀 Quick Start
 
 ### Prerequisites
@@ -378,24 +463,6 @@ WEBMENTION_PINGBACK=https://webmention.io/yourdomain.com/webmention
 This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) file for details.
 
 ## 🙏 Acknowledgments
-
-Built with modern web technologies:
-
-**Core Framework**:
-- **[Astro](https://astro.build/)** - The web framework for content-driven websites
-- **[TypeScript](https://www.typescriptlang.org/)** - JavaScript with syntax for types
-
-**Styling & UI**:
-- **[Tailwind CSS](https://tailwindcss.com/)** - Utility-first CSS framework
-- **[Astro Icon](https://astro-icon.dev/)** - Icon component library
-
-**Content & Search**:
-- **[Pagefind](https://pagefind.app/)** - Static search library
-- **[MDX](https://mdxjs.com/)** - Markdown with JSX components
-
-**Development Tools**:
-- **[Biome](https://biomejs.dev/)** - Fast formatter and linter
-- **[Prettier](https://prettier.io/)** - Code formatter
 
 **Inspiration**:
 This theme was inspired by **[Astro Theme Cactus](https://github.com/chrismwilliams/astro-theme-cactus)** by Chris Williams and **[Astro Citrus](https://github.com/artemkutsan/astro-citrus)** by Artem Kutsan.
