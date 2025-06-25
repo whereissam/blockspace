@@ -6,6 +6,7 @@ import icon from "astro-icon";
 import robotsTxt from "astro-robots-txt";
 import webmanifest from "astro-webmanifest";
 import astroI18next from "astro-i18next";
+import netlify from "@astrojs/netlify";
 import { defineConfig, envField } from "astro/config";
 import { siteConfig } from "./src/site.config";
 
@@ -26,6 +27,8 @@ import {
 
 // https://astro.build/config
 export default defineConfig({
+  output: "static",
+  adapter: netlify(),
   image: {
     domains: ["webmention.io"],
   },

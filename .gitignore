@@ -4,6 +4,9 @@ dist/
 .astro/
 .idea/
 
+# netlify
+.netlify/
+
 # dependencies
 node_modules/
 
