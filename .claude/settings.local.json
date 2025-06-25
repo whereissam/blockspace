@@ -10,7 +10,8 @@
       "Bash(npx astro add:*)",
       "Bash(npm install:*)",
       "Bash(npm run build:*)",
-      "Bash(npm run lint)"
+      "Bash(npm run lint)",
+      "Bash(node:*)"
     ],
     "deny": []
   }
