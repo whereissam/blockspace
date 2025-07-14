@@ -191,8 +191,38 @@ src/
 
 ## 🌐 Content Management
 
+### Local CMS Interface
+
+This project includes a built-in content management system accessible at `/cms` when running the development server:
+
+```bash
+# Start the dev server
+npm run dev
+
+# Visit the CMS interface
+http://localhost:4321/cms
+```
+
+**CMS Features:**
+- **Form-based editing**: Title, description, content, tags, and series
+- **Image upload**: Cover image support with automatic optimization
+- **Draft system**: Create draft posts that won't appear in production
+- **Live preview**: See generated markdown before publishing
+- **Series integration**: Add posts to existing series
+- **Auto-slug generation**: Automatic URL-friendly slugs from titles
+
 ### Adding Blog Posts
 
+#### Method 1: Using the CMS Interface (Recommended)
+1. Navigate to `http://localhost:4321/cms`
+2. Fill out the form with your post details
+3. Choose "Published" or "Draft" status
+4. Upload a cover image (optional)
+5. Write your content in Markdown
+6. Click "Preview" to see the generated frontmatter
+7. Click "Create Post" to save the files
+
+#### Method 2: Manual File Creation
 Create a new Markdown file in `src/content/post/`:
 
 ```yaml
@@ -212,6 +242,11 @@ coverImage:
 
 Your content here...
 ```
+
+#### Draft System
+- **Published posts**: Set `draft: false` (default in CMS)
+- **Draft posts**: Set `draft: true` 
+- **Behavior**: Draft posts are excluded from production builds but visible in development
 
 ### Adding Notes
 
@@ -242,6 +277,30 @@ featured: true
 ```
 
 2. Add posts to the series using `seriesId` and `orderInSeries` in post frontmatter.
+
+### CMS API Endpoint
+
+The CMS also provides a REST API endpoint at `/api/cms` for programmatic content creation:
+
+```bash
+# Create a new post via API
+curl -X POST http://localhost:4321/api/cms \
+  -F "title=My New Post" \
+  -F "description=Post description" \
+  -F "content=# Hello World\n\nThis is my content." \
+  -F "tags=web3,blockchain,ai" \
+  -F "draft=false" \
+  -F "seriesId=my-series" \
+  -F "coverImage=@/path/to/image.jpg" \
+  -F "coverImageAlt=Cover image description"
+```
+
+**API Features:**
+- **Form data support**: Standard multipart/form-data
+- **Image upload**: Automatic processing and optimization
+- **Series validation**: Checks if series exists before creating posts
+- **Error handling**: Detailed error messages for debugging
+- **File generation**: Creates both markdown and image files automatically
 
 ## 🌍 Internationalization
 

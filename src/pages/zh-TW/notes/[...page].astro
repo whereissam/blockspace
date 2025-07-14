@@ -8,6 +8,8 @@ import type { GetStaticPaths, Page } from "astro";
 import { Icon } from "astro-icon/components";
 import { getNotesByLanguage } from "@/data/post";
 
+export const prerender = true;
+
 export const getStaticPaths = (async ({ paginate }) => {
   const MAX_NOTES_PER_PAGE = 5;
   const allNotes = await getNotesByLanguage("zh-TW");

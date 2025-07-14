@@ -5,6 +5,7 @@ import SeriesLayout from "@/layouts/Series.astro";
 import type { GetStaticPaths, InferGetStaticPropsType } from "astro";
 
 // If you're using an adaptor in SSR mode, getStaticPaths wont work -> https://docs.astro.build/en/guides/routing/#modifying-the-slug-example-for-ssr
+export const prerender = true;
 export const getStaticPaths = (async () => {
 	const allSeries = await getCollection("series");
 	return allSeries.map((series) => ({

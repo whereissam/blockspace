@@ -1,0 +1,286 @@
+---
+import PageLayout from "@/layouts/Base.astro";
+import { Icon } from "astro-icon/components";
+
+const meta = {
+  title: "Local CMS",
+  description: "Create and manage blog posts locally"
+};
+---
+
+<PageLayout meta={meta}>
+  <div class="text-center mb-8">
+    <h1 class="text-4xl font-bold text-accent-base mb-4">
+      <Icon name="hugeicons:edit-02" class="inline-block h-10 w-10 mr-3" />
+      Local CMS
+    </h1>
+    <p class="text-textColor/80 text-lg">Create new blog posts with ease</p>
+  </div>
+  
+  <div class="max-w-4xl mx-auto p-6">
+    <form id="cms-form" class="space-y-6">
+      <!-- Title -->
+      <div>
+        <label for="title" class="block text-sm font-medium text-accent-base mb-2">
+          Title *
+        </label>
+        <input
+          type="text"
+          id="title"
+          name="title"
+          required
+          maxlength="100"
+          class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent-base focus:border-transparent bg-white dark:bg-gray-800 dark:border-gray-600 dark:text-white"
+          placeholder="Enter post title..."
+        />
+      </div>
+
+      <!-- Description -->
+      <div>
+        <label for="description" class="block text-sm font-medium text-accent-base mb-2">
+          Description *
+        </label>
+        <textarea
+          id="description"
+          name="description"
+          required
+          rows="3"
+          class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent-base focus:border-transparent bg-white dark:bg-gray-800 dark:border-gray-600 dark:text-white"
+          placeholder="Enter post description..."
+        ></textarea>
+      </div>
+
+      <!-- Tags -->
+      <div>
+        <label for="tags" class="block text-sm font-medium text-accent-base mb-2">
+          Tags
+        </label>
+        <input
+          type="text"
+          id="tags"
+          name="tags"
+          class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent-base focus:border-transparent bg-white dark:bg-gray-800 dark:border-gray-600 dark:text-white"
+          placeholder="Enter tags separated by commas (e.g., web3, blockchain, ai)"
+        />
+      </div>
+
+      <!-- Cover Image -->
+      <div>
+        <label for="coverImage" class="block text-sm font-medium text-accent-base mb-2">
+          Cover Image
+        </label>
+        <input
+          type="file"
+          id="coverImage"
+          name="coverImage"
+          accept="image/*"
+          class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent-base focus:border-transparent bg-white dark:bg-gray-800 dark:border-gray-600 dark:text-white"
+        />
+        <input
+          type="text"
+          id="coverImageAlt"
+          name="coverImageAlt"
+          placeholder="Alt text for cover image"
+          class="w-full p-3 mt-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent-base focus:border-transparent bg-white dark:bg-gray-800 dark:border-gray-600 dark:text-white"
+        />
+      </div>
+
+      <!-- Series -->
+      <div>
+        <label for="seriesId" class="block text-sm font-medium text-accent-base mb-2">
+          Series (Optional)
+        </label>
+        <input
+          type="text"
+          id="seriesId"
+          name="seriesId"
+          class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent-base focus:border-transparent bg-white dark:bg-gray-800 dark:border-gray-600 dark:text-white"
+          placeholder="Enter series ID (e.g., ai-series)"
+        />
+      </div>
+
+      <!-- Draft Status -->
+      <div>
+        <label class="block text-sm font-medium text-accent-base mb-2">
+          Publication Status
+        </label>
+        <div class="flex items-center space-x-4">
+          <label class="flex items-center">
+            <input
+              type="radio"
+              id="published"
+              name="draft"
+              value="false"
+              checked
+              class="mr-2 text-accent-base focus:ring-accent-base"
+            />
+            <span class="text-sm">Published</span>
+          </label>
+          <label class="flex items-center">
+            <input
+              type="radio"
+              id="draft"
+              name="draft"
+              value="true"
+              class="mr-2 text-accent-base focus:ring-accent-base"
+            />
+            <span class="text-sm">Draft</span>
+          </label>
+        </div>
+        <p class="text-xs text-gray-500 mt-1">
+          Draft posts won't appear in your blog until you publish them
+        </p>
+      </div>
+
+      <!-- Content -->
+      <div>
+        <label for="content" class="block text-sm font-medium text-accent-base mb-2">
+          Content *
+        </label>
+        <textarea
+          id="content"
+          name="content"
+          required
+          rows="20"
+          class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent-base focus:border-transparent bg-white dark:bg-gray-800 dark:border-gray-600 dark:text-white font-mono text-sm"
+          placeholder="Write your markdown content here..."
+        ></textarea>
+      </div>
+
+      <!-- Actions -->
+      <div class="flex gap-4">
+        <button
+          type="submit"
+          class="px-6 py-3 bg-accent-base text-white rounded-lg hover:bg-accent-base/90 focus:ring-2 focus:ring-accent-base focus:ring-offset-2 transition-colors"
+        >
+          Create Post
+        </button>
+        <button
+          type="button"
+          id="preview-btn"
+          class="px-6 py-3 bg-gray-500 text-white rounded-lg hover:bg-gray-600 focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors"
+        >
+          Preview
+        </button>
+      </div>
+    </form>
+
+    <!-- Preview Area -->
+    <div id="preview-area" class="mt-8 p-6 border border-gray-300 rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-600 hidden">
+      <h3 class="text-lg font-semibold mb-4 text-accent-base">Preview</h3>
+      <pre id="preview-content" class="whitespace-pre-wrap text-sm bg-white dark:bg-gray-900 p-4 rounded border overflow-auto max-h-96"></pre>
+    </div>
+
+    <!-- Output Area -->
+    <div id="output-area" class="mt-8 p-6 border border-gray-300 rounded-lg bg-green-50 dark:bg-green-900/20 dark:border-green-700 hidden">
+      <h3 class="text-lg font-semibold mb-4 text-green-700 dark:text-green-400">Generated Files</h3>
+      <div id="output-content" class="text-sm"></div>
+    </div>
+  </div>
+</PageLayout>
+
+<script>
+  import { generateMarkdownFile, generateSlug } from '@/utils/cms';
+
+  const form = document.getElementById('cms-form') as HTMLFormElement;
+  const previewBtn = document.getElementById('preview-btn') as HTMLButtonElement;
+  const previewArea = document.getElementById('preview-area') as HTMLDivElement;
+  const previewContent = document.getElementById('preview-content') as HTMLPreElement;
+  const outputArea = document.getElementById('output-area') as HTMLDivElement;
+  const outputContent = document.getElementById('output-content') as HTMLDivElement;
+
+  // Preview functionality
+  previewBtn.addEventListener('click', () => {
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData.entries());
+    
+    const tags = data.tags ? (data.tags as string).split(',').map(tag => tag.trim()).filter(tag => tag) : [];
+    const slug = generateSlug(data.title as string);
+    
+    const markdownContent = generateMarkdownFile({
+      title: data.title as string,
+      description: data.description as string,
+      tags,
+      coverImage: data.coverImage && (data.coverImage as File).size > 0 ? {
+        src: `./cover.jpg`, // Will be the uploaded image
+        alt: data.coverImageAlt as string || data.title as string
+      } : undefined,
+      seriesId: data.seriesId as string || undefined,
+      content: data.content as string,
+      draft: data.draft === 'true'
+    });
+
+    previewContent.textContent = markdownContent;
+    previewArea.classList.remove('hidden');
+    previewArea.scrollIntoView({ behavior: 'smooth' });
+  });
+
+  // Form submission
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const formData = new FormData(form);
+    
+    try {
+      // Show loading state
+      outputContent.innerHTML = `
+        <div class="text-blue-600">
+          <p class="font-medium">⏳ Creating post...</p>
+        </div>
+      `;
+      outputArea.classList.remove('hidden');
+      
+      // Debug: Check if image is selected
+      const imageFile = formData.get('coverImage') as File;
+      if (imageFile && imageFile.size > 0) {
+        console.log('Uploading image:', imageFile.name, 'Size:', imageFile.size);
+      }
+      
+      // Submit to API
+      const response = await fetch('/api/cms', {
+        method: 'POST',
+        body: formData
+      });
+      
+      const result = await response.json();
+      
+      if (response.ok && result.success) {
+        // Show success message
+        outputContent.innerHTML = `
+          <div class="space-y-2">
+            <p class="text-green-600 font-medium">✅ Post created successfully!</p>
+            <p><strong>Slug:</strong> ${result.slug}</p>
+            <p><strong>Post URL:</strong> <a href="${result.url}" class="text-blue-600 hover:underline">${result.url}</a></p>
+            <p><strong>Files created:</strong></p>
+            <ul class="list-disc list-inside ml-4">
+              ${result.files.map((file: string) => `<li>${file}</li>`).join('')}
+            </ul>
+            <p class="text-sm text-gray-600 mt-4">
+              Files have been saved to your project. You can now run your dev server to see the new post.
+            </p>
+          </div>
+        `;
+        
+        // Reset form
+        form.reset();
+        previewArea.classList.add('hidden');
+        
+      } else {
+        throw new Error(result.error || 'Failed to create post');
+      }
+      
+      outputArea.scrollIntoView({ behavior: 'smooth' });
+      
+    } catch (error) {
+      console.error('Error creating post:', error);
+      outputContent.innerHTML = `
+        <div class="text-red-600">
+          <p class="font-medium">❌ Error creating post:</p>
+          <p class="text-sm">${error instanceof Error ? error.message : 'Unknown error'}</p>
+        </div>
+      `;
+      outputArea.classList.remove('hidden');
+      outputArea.scrollIntoView({ behavior: 'smooth' });
+    }
+  });
+</script>
