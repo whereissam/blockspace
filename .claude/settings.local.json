@@ -47,7 +47,9 @@
       "Bash(-F \"title=Test Draft Feature\" )",
       "Bash(-F \"description=Testing the new draft functionality\" )",
       "Bash(-F \"content=# Draft Test\n\nThis post is created as a draft.\" )",
-      "Bash(-F \"tags=test,draft,cms\" )"
+      "Bash(-F \"tags=test,draft,cms\" )",
+      "Bash(npm run preview:*)",
+      "Bash(npm uninstall:*)"
     ],
     "deny": []
   }

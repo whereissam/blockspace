@@ -4,7 +4,7 @@ import sitemap from "@astrojs/sitemap";
 import tailwind from "@astrojs/tailwind";
 import icon from "astro-icon";
 import robotsTxt from "astro-robots-txt";
-import webmanifest from "astro-webmanifest";
+import AstroPWA from "@vite-pwa/astro";
 import astroI18next from "astro-i18next";
 import netlify from "@astrojs/netlify";
 import { defineConfig, envField } from "astro/config";
@@ -42,44 +42,38 @@ export default defineConfig({
     mdx(),
     astroI18next(),
     robotsTxt(),
-    webmanifest({
-      // See: https://github.com/alextim/astro-lib/blob/main/packages/astro-webmanifest/README.md
-      /**
-       * required
-       **/
-      name: siteConfig.title,
-      /**
-       * optional
-       **/
-      // short_name: "Astro_Citrus",
-      description: siteConfig.description,
-      lang: siteConfig.lang,
-      icon: "public/brand.svg", // the source for generating favicon & icons
-      icons: [
-        {
-          src: "icons/apple-touch-icon.png", // used in src/components/BaseHead.astro L:26
-          sizes: "180x180",
-          type: "image/png",
-        },
-        {
-          src: "icons/icon-192.png",
-          sizes: "192x192",
-          type: "image/png",
-        },
-        {
-          src: "icons/icon-512.png",
-          sizes: "512x512",
-          type: "image/png",
-        },
-      ],
-      start_url: "/",
-      background_color: "#1d1f21",
-      theme_color: "#2bbc8a",
-      display: "standalone",
-      config: {
-        insertFaviconLinks: false,
-        insertThemeColorMeta: false,
-        insertManifestLink: false,
+    AstroPWA({
+      mode: "production",
+      base: "/",
+      scope: "/",
+      includeAssets: ["favicon.ico", "apple-touch-icon.png", "robots.txt"],
+      registerType: "autoUpdate",
+      manifest: {
+        name: siteConfig.title,
+        short_name: "Blockspace",
+        description: siteConfig.description,
+        theme_color: "#2bbc8a",
+        background_color: "#1d1f21",
+        display: "standalone",
+        icons: [
+          {
+            src: "icons/icon-192.png",
+            sizes: "192x192",
+            type: "image/png",
+          },
+          {
+            src: "icons/icon-512.png",
+            sizes: "512x512",
+            type: "image/png",
+          },
+        ],
+      },
+      workbox: {
+        navigateFallback: "/404",
+        globPatterns: ["**/*.{css,js,html,svg,png,ico,txt}"],
+      },
+      devOptions: {
+        enabled: false,
       },
     }),
   ],
