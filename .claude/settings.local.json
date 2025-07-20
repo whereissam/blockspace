@@ -49,7 +49,8 @@
       "Bash(-F \"content=# Draft Test\n\nThis post is created as a draft.\" )",
       "Bash(-F \"tags=test,draft,cms\" )",
       "Bash(npm run preview:*)",
-      "Bash(npm uninstall:*)"
+      "Bash(npm uninstall:*)",
+      "Bash(brew list:*)"
     ],
     "deny": []
   }
