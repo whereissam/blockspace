@@ -28,7 +28,6 @@
     "astro-seo": "^0.8.4",
     "cssnano": "^7.0.6",
     "hastscript": "^9.0.0",
-    "i18next": "^25.2.1",
     "mdast-util-directive": "^3.0.0",
     "mdast-util-to-markdown": "^2.1.2",
     "mdast-util-to-string": "^4.0.0",

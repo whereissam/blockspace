@@ -1,0 +1,559 @@
+---
+import { Icon } from "astro-icon/components";
+---
+
+<ai-chatbot class="ms-auto" id="ai-chat">
+	<button
+		class="relative flex h-8 w-8 items-center justify-center rounded-lg drop-shadow-[0px_1.5px_1.5px_rgba(0,0,0,0.175)] hover:text-accent-two group hidden"
+		data-open-modal
+		disabled
+		id="chat-button"
+	>
+		<Icon aria-hidden="true" class="h-6 w-6" focusable="false" name="hugeicons:message-01" />
+		<span class="absolute -top-1 -right-1 w-3 h-3 bg-accent-two rounded-full animate-pulse" id="chat-indicator"></span>
+		<div class="absolute bottom-full mb-2 hidden group-hover:block">
+			<div class="bg-bgColor text-textColor text-xs rounded px-2 py-1 whitespace-nowrap border">
+				AI Chat Assistant
+			</div>
+		</div>
+	</button>
+
+	<dialog
+		aria-label="AI Chat Assistant"
+		class="h-full max-h-full w-full max-w-full bg-bgColor backdrop:backdrop-blur-xl md:h-[80vh] md:max-h-[600px] md:my-auto md:w-[90%] md:max-w-[500px] md:rounded-lg overflow-hidden fixed inset-0 md:inset-auto md:top-1/2 md:left-1/2 md:transform md:-translate-x-1/2 md:-translate-y-1/2"
+	>	
+		<div class="dialog-frame flex flex-col h-full">
+			<!-- Header -->
+			<div class="sticky top-0 z-20 flex items-center justify-between bg-bgColor border-b border-color-400 px-3 py-2 md:px-4 md:py-3">
+				<div class="flex items-center space-x-2 md:space-x-3">
+					<div class="w-7 h-7 md:w-8 md:h-8 bg-accent-two rounded-full flex items-center justify-center">
+						<Icon aria-hidden="true" class="h-4 w-4 md:h-5 md:w-5 text-bgColor" focusable="false" name="hugeicons:ai-brain-04" />
+					</div>
+					<div>
+						<h4 class="title font-semibold text-textColor text-sm md:text-base">AI Assistant</h4>
+						<p class="text-xs text-lighter hidden sm:block">Ask about blog posts & insights</p>
+					</div>
+				</div>
+				<div class="flex items-center space-x-2">
+					<select id="search-type" class="text-xs border border-color-400 rounded px-2 py-1 bg-bgColor text-textColor hidden sm:block">
+						<option value="blog">📰 Blog Posts</option>
+						<option value="chat">📚 Documentation</option>
+						<option value="code">💻 Code</option>
+					</select>
+					<button
+						class="flex size-7 md:size-8 cursor-pointer items-center justify-center rounded-lg bg-color-100 text-textColor hover:text-accent-base hover:bg-accent-base/5"
+						data-close-modal
+					>	
+						<Icon aria-hidden="true" class="h-5 w-5 md:h-6 md:w-6" focusable="false" name="hugeicons:cancel-01" />
+					</button>
+				</div>
+			</div>
+			
+			<!-- Chat Messages -->
+			<div id="chat-messages" class="flex-1 overflow-y-auto p-3 md:p-4 space-y-2 md:space-y-3 min-h-0 max-h-[400px] md:max-h-[350px]">
+				<!-- Welcome Message -->
+				<div class="chat-message flex items-start space-x-3 animate-fade-in">
+					<div class="w-8 h-8 bg-accent-two rounded-full flex items-center justify-center flex-shrink-0">
+						<Icon aria-hidden="true" class="h-5 w-5 text-bgColor" focusable="false" name="hugeicons:ai-brain-04" />
+					</div>
+					<div class="bg-color-100 rounded-lg p-3 max-w-full border">
+						<p class="text-textColor text-sm mb-2">
+							👋 Hi! I can help you explore blog content.
+						</p>
+						<div class="grid grid-cols-1 sm:grid-cols-3 gap-1 text-xs text-lighter">
+							<span>📰 Blog Posts</span>
+							<span>📚 Documentation</span>
+							<span>💻 Code</span>
+						</div>
+						<p class="text-xs text-lighter mt-2 hidden sm:block">
+							Try: <em>"What about AI?"</em> or <em>"Blockchain posts"</em>
+						</p>
+					</div>
+				</div>
+			</div>
+
+			<!-- Input -->
+			<div class="border-t border-color-400 bg-bgColor p-3 md:p-4">
+				<div class="flex space-x-2 md:space-x-3">
+					<div class="flex-1 relative">
+						<input 
+							id="message-input" 
+							type="text" 
+							placeholder="Ask about the blog content..."
+							class="w-full bg-color-100 border border-color-400 rounded-lg px-3 md:px-4 py-2 md:py-3 pr-10 md:pr-12 focus:outline-none focus:ring-2 focus:ring-accent-two focus:border-transparent text-textColor text-sm placeholder-lighter"
+							autocomplete="off"
+							maxlength="500"
+						>
+						<button 
+							id="send-button"
+							class="absolute right-1 md:right-2 top-1/2 transform -translate-y-1/2 bg-accent-two text-bgColor p-1.5 md:p-2 rounded-md hover:bg-accent-base disabled:bg-color-400 disabled:text-lighter transition-colors"
+							disabled
+						>
+							<Icon aria-hidden="true" class="h-4 w-4" focusable="false" name="hugeicons:sent" />
+						</button>
+					</div>
+				</div>
+				<div class="flex items-center justify-between mt-2 text-xs text-lighter">
+					<span>Press Enter to send • AI responses powered by your content</span>
+					<span id="char-count">0 / 500</span>
+				</div>
+			</div>
+		</div>
+	</dialog>
+</ai-chatbot>
+
+<script>
+	class AIChatbot extends HTMLElement {
+		private closeBtn: HTMLButtonElement;
+		private dialog: HTMLDialogElement;
+		private dialogFrame: HTMLDivElement;
+		private openBtn: HTMLButtonElement;
+		private messagesContainer: HTMLElement;
+		private messageInput: HTMLInputElement;
+		private sendButton: HTMLButtonElement;
+		private searchType: HTMLSelectElement;
+		private charCount: HTMLElement;
+		private apiUrl: string;
+
+		closeModal = () => {
+			if (this.dialog.open) {
+				this.dialog.close();
+				document.body.classList.remove("overflow-hidden");
+				window.removeEventListener("click", this.onWindowClick);
+			}
+		};
+
+		onWindowClick = (event: MouseEvent) => {
+			const isLink = "href" in (event.target || {});
+			if (
+				isLink ||
+				(document.body.contains(event.target as Node) &&
+					!this.dialogFrame.contains(event.target as Node))
+			) {
+				this.closeModal();
+			}
+		};
+
+		onWindowKeydown = (e: KeyboardEvent) => {
+			// Check if it's Ctrl/Cmd + K for chat
+			if ((e.ctrlKey || e.metaKey) && e.key === 'k' && !this.dialog.open) {
+				this.openModal();
+				e.preventDefault();
+			}
+		};
+
+		openModal = (event?: MouseEvent) => {
+			this.dialog.showModal();
+			document.body.classList.add("overflow-hidden");
+			this.messageInput?.focus();
+			event?.stopPropagation();
+			window.addEventListener("click", this.onWindowClick);
+			this.checkApiHealth();
+		};
+
+		async checkApiHealth() {
+			try {
+				const response = await fetch(`${this.apiUrl}/health`);
+				const indicator = this.querySelector('#chat-indicator') as HTMLElement;
+				const chatButton = this.querySelector('#chat-button') as HTMLElement;
+				
+				if (response.ok) {
+					// API is healthy - show component and wrappers
+					this.style.display = '';
+					const wrapper = document.querySelector('.ai-chatbot-wrapper') as HTMLElement;
+					const mobileWrapper = document.querySelector('.ai-chatbot-mobile-wrapper') as HTMLElement;
+					if (wrapper) wrapper.style.display = '';
+					if (mobileWrapper) mobileWrapper.style.display = '';
+					
+					chatButton.classList.remove('hidden');
+					this.openBtn.disabled = false;
+					indicator.className = 'absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full';
+				} else {
+					throw new Error('API not healthy');
+				}
+			} catch (error) {
+				// API is not available - hide entire component and wrappers
+				const indicator = this.querySelector('#chat-indicator') as HTMLElement;
+				const chatButton = this.querySelector('#chat-button') as HTMLElement;
+				
+				this.style.display = 'none';
+				const wrapper = document.querySelector('.ai-chatbot-wrapper') as HTMLElement;
+				const mobileWrapper = document.querySelector('.ai-chatbot-mobile-wrapper') as HTMLElement;
+				if (wrapper) wrapper.style.display = 'none';
+				if (mobileWrapper) mobileWrapper.style.display = 'none';
+				
+				chatButton.classList.add('hidden');
+				this.openBtn.disabled = true;
+				indicator.className = 'absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full animate-pulse';
+				console.warn('AI Chat API not available:', error);
+			}
+		}
+
+		updateSendButton() {
+			const hasText = this.messageInput.value.trim().length > 0;
+			this.sendButton.disabled = !hasText;
+		}
+
+		updateCharCount() {
+			const length = this.messageInput.value.length;
+			this.charCount.textContent = `${length} / 500`;
+			
+			if (length > 450) {
+				this.charCount.className = 'text-yellow-500 text-xs';
+			} else if (length > 500) {
+				this.charCount.className = 'text-red-500 text-xs';
+			} else {
+				this.charCount.className = 'text-lighter text-xs';
+			}
+		}
+
+		async sendMessage() {
+			const message = this.messageInput.value.trim();
+			if (!message) return;
+
+			// Clear input
+			this.messageInput.value = '';
+			this.updateSendButton();
+			this.updateCharCount();
+
+			// Add user message
+			this.addMessage(message, 'user');
+
+			// Add typing indicator
+			const typingId = this.addTypingIndicator();
+
+			try {
+				const searchTypeValue = this.searchType.value;
+				const endpoint = `/ask/${searchTypeValue}`;
+				
+				const response = await fetch(`${this.apiUrl}${endpoint}`, {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify({
+						query: message,
+						top_k: 5
+					})
+				});
+
+				if (!response.ok) {
+					throw new Error(`HTTP error! status: ${response.status}`);
+				}
+
+				const data = await response.json();
+				
+				// Remove typing indicator
+				this.removeTypingIndicator(typingId);
+				
+				// Add AI response
+				this.addAIResponse(data);
+
+			} catch (error) {
+				this.removeTypingIndicator(typingId);
+				this.addMessage(
+					`❌ Sorry, I encountered an error: ${error.message}. The AI service might be offline.`,
+					'assistant'
+				);
+			}
+
+			this.scrollToBottom();
+		}
+
+		addMessage(text: string, sender: string) {
+			const messageDiv = document.createElement('div');
+			messageDiv.className = 'chat-message flex items-start space-x-3 animate-fade-in';
+
+			const isUser = sender === 'user';
+			const avatarClass = isUser ? 'bg-color-400' : 'bg-accent-two';
+			const bgClass = isUser ? 'bg-accent-base/10 ml-auto' : 'bg-color-100';
+
+			const iconHtml = isUser ? 
+				'<svg class="h-5 w-5 text-textColor" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/></svg>' : 
+				'<svg class="h-5 w-5 text-bgColor" fill="currentColor" viewBox="0 0 24 24"><path d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v9a2 2 0 002 2z"/></svg>';
+
+			messageDiv.innerHTML = `
+				<div class="w-8 h-8 ${avatarClass} rounded-full flex items-center justify-center flex-shrink-0">
+					${iconHtml}
+				</div>
+				<div class="${bgClass} rounded-lg border p-3 max-w-full md:max-w-[85%]">
+					<p class="text-textColor text-sm whitespace-pre-wrap">${this.escapeHtml(text)}</p>
+				</div>
+			`;
+
+			if (isUser) {
+				messageDiv.className += ' flex-row-reverse space-x-reverse';
+			}
+
+			this.messagesContainer.appendChild(messageDiv);
+			return messageDiv;
+		}
+
+		addAIResponse(data: any) {
+			const messageDiv = document.createElement('div');
+			messageDiv.className = 'chat-message flex items-start space-x-3 animate-fade-in';
+
+			let sourcesHtml = '';
+			if (data.sources && data.sources.length > 0) {
+				sourcesHtml = `
+					<div class="mt-4 pt-3 border-t border-color-400">
+						<p class="text-xs font-medium text-lighter mb-2">
+							📎 Sources (${data.sources.length}):
+						</p>
+						<div class="space-y-2">
+							${data.sources.map((source: any, index: number) => {
+								const title = source.file_path.replace('.md', '').replace('post/', '').replace('note/', '');
+								const titleDisplay = source.url ? 
+									`<a href="${source.url}" target="_blank" class="text-accent-base hover:text-accent-two font-medium">${title}</a>` : 
+									`<span class="font-medium text-accent-base">${title}</span>`;
+								
+								return `
+								<div class="p-2 rounded border-l-4 border-accent-two bg-color-50 text-xs">
+									<div class="flex items-center justify-between">
+										<span>${index + 1}. ${titleDisplay}</span>
+										<span class="text-lighter text-xs">
+											${(source.score * 100).toFixed(1)}%
+										</span>
+									</div>
+									<p class="text-textColor mt-1 line-clamp-2">
+										${this.escapeHtml(source.text.substring(0, 120))}...
+									</p>
+								</div>
+								`;
+							}).join('')}
+						</div>
+					</div>
+				`;
+			}
+
+			messageDiv.innerHTML = `
+				<div class="w-8 h-8 bg-accent-two rounded-full flex items-center justify-center flex-shrink-0">
+					<svg class="h-5 w-5 text-bgColor" fill="currentColor" viewBox="0 0 24 24"><path d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v9a2 2 0 002 2z"/></svg>
+				</div>
+				<div class="bg-color-100 rounded-lg border p-3 max-w-full md:max-w-[85%]">
+					<div class="flex items-center mb-2 text-xs text-lighter">
+						<svg class="h-3 w-3 mr-1" fill="currentColor" viewBox="0 0 24 24"><path d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v9a2 2 0 002 2z"/></svg>
+						<span>${data.ai_model || 'AI Assistant'}</span>
+					</div>
+					<div class="text-textColor text-sm">${this.parseMarkdown(data.response)}</div>
+					${sourcesHtml}
+				</div>
+			`;
+
+			this.messagesContainer.appendChild(messageDiv);
+			return messageDiv;
+		}
+
+		addTypingIndicator() {
+			const typingDiv = document.createElement('div');
+			typingDiv.className = 'chat-message flex items-start space-x-3 animate-fade-in';
+			const typingId = 'typing-' + Date.now();
+			typingDiv.id = typingId;
+
+			typingDiv.innerHTML = `
+				<div class="w-8 h-8 bg-accent-two rounded-full flex items-center justify-center flex-shrink-0">
+					<svg class="h-5 w-5 text-bgColor" fill="currentColor" viewBox="0 0 24 24"><path d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v9a2 2 0 002 2z"/></svg>
+				</div>
+				<div class="bg-color-100 rounded-lg border p-3">
+					<div class="flex items-center space-x-2">
+						<span class="text-lighter text-sm">Thinking</span>
+						<div class="flex space-x-1">
+							<div class="w-2 h-2 bg-accent-two rounded-full animate-bounce"></div>
+							<div class="w-2 h-2 bg-accent-two rounded-full animate-bounce" style="animation-delay: 0.1s;"></div>
+							<div class="w-2 h-2 bg-accent-two rounded-full animate-bounce" style="animation-delay: 0.2s;"></div>
+						</div>
+					</div>
+				</div>
+			`;
+
+			this.messagesContainer.appendChild(typingDiv);
+			this.scrollToBottom();
+			return typingId;
+		}
+
+		removeTypingIndicator(typingId: string) {
+			const typingDiv = document.getElementById(typingId);
+			if (typingDiv) {
+				typingDiv.remove();
+			}
+		}
+
+		scrollToBottom() {
+			setTimeout(() => {
+				this.messagesContainer.scrollTop = this.messagesContainer.scrollHeight;
+			}, 100);
+		}
+
+		escapeHtml(text: string) {
+			const div = document.createElement('div');
+			div.textContent = text;
+			return div.innerHTML;
+		}
+
+		parseMarkdown(text: string) {
+			// Simple markdown parser for basic formatting
+			let html = this.escapeHtml(text);
+			
+			// Bold text: **text** or __text__
+			html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+			html = html.replace(/__(.*?)__/g, '<strong>$1</strong>');
+			
+			// Italic text: *text* or _text_
+			html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
+			html = html.replace(/_(.*?)_/g, '<em>$1</em>');
+			
+			// Links: [text](url)
+			html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer" class="text-accent-two hover:text-accent-base underline">$1</a>');
+			
+			// Code: `code`
+			html = html.replace(/`([^`]+)`/g, '<code class="bg-color-200 px-1 py-0.5 rounded text-sm font-mono">$1</code>');
+			
+			// Line breaks
+			html = html.replace(/\n/g, '<br>');
+			
+			return html;
+		}
+
+		constructor() {
+			super();
+			this.apiUrl = 'http://localhost:8000'; // Default API URL
+			this.openBtn = this.querySelector<HTMLButtonElement>("button[data-open-modal]")!;
+			this.closeBtn = this.querySelector<HTMLButtonElement>("button[data-close-modal]")!;
+			this.dialog = this.querySelector("dialog")!;
+			this.dialogFrame = this.querySelector(".dialog-frame")!;
+			this.messagesContainer = this.querySelector("#chat-messages")!;
+			this.messageInput = this.querySelector<HTMLInputElement>("#message-input")!;
+			this.sendButton = this.querySelector<HTMLButtonElement>("#send-button")!;
+			this.searchType = this.querySelector<HTMLSelectElement>("#search-type")!;
+			this.charCount = this.querySelector<HTMLElement>("#char-count")!;
+
+			this.openBtn.addEventListener("click", this.openModal);
+			// Button starts disabled and hidden - health check will enable if API is ready
+			this.closeBtn.addEventListener("click", this.closeModal);
+
+			// Input handlers
+			this.messageInput.addEventListener('keypress', (e) => {
+				if (e.key === 'Enter' && !e.shiftKey) {
+					e.preventDefault();
+					this.sendMessage();
+				}
+			});
+			
+			this.messageInput.addEventListener('input', () => {
+				this.updateSendButton();
+				this.updateCharCount();
+			});
+			
+			this.sendButton.addEventListener('click', () => this.sendMessage());
+		}
+
+		connectedCallback() {
+			window.addEventListener("keydown", this.onWindowKeydown);
+			
+			// Initial health check
+			this.checkApiHealth();
+			
+			// Periodic health checks every 30 seconds
+			setInterval(() => {
+				this.checkApiHealth();
+			}, 30000);
+		}
+
+		disconnectedCallback() {
+			window.removeEventListener("keydown", this.onWindowKeydown);
+		}
+	}
+
+	customElements.define("ai-chatbot", AIChatbot);
+</script>
+
+<style>
+	@keyframes fade-in {
+		from { 
+			opacity: 0; 
+			transform: translateY(10px); 
+		}
+		to { 
+			opacity: 1; 
+			transform: translateY(0); 
+		}
+	}
+	
+	.animate-fade-in {
+		animation: fade-in 0.3s ease-out;
+	}
+	
+	.line-clamp-2 {
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+	}
+
+	/* Override default dialog styles to match theme */
+	ai-chatbot dialog {
+		color: var(--textColor);
+		background: var(--bgColor);
+	}
+
+	/* Center dialog on desktop */
+	@media (min-width: 768px) {
+		ai-chatbot dialog[open] {
+			position: fixed;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			margin: 0;
+			width: 90%;
+			max-width: 500px;
+			height: 80vh;
+			max-height: 600px;
+			border-radius: 0.5rem;
+		}
+	}
+
+	/* Improve mobile layout */
+	@media (max-width: 767px) {
+		ai-chatbot dialog[open] {
+			height: 100vh;
+			width: 100vw;
+			max-height: 100vh;
+			max-width: 100vw;
+		}
+		
+		ai-chatbot .dialog-frame {
+			height: 100vh;
+		}
+		
+		ai-chatbot #chat-messages {
+			max-height: calc(100vh - 160px);
+		}
+	}
+
+	/* Style markdown content in AI responses */
+	ai-chatbot .chat-message a {
+		color: rgb(var(--accent-two));
+		text-decoration: underline;
+		transition: color 0.2s ease;
+	}
+
+	ai-chatbot .chat-message a:hover {
+		color: rgb(var(--accent-base));
+	}
+
+	ai-chatbot .chat-message strong {
+		font-weight: 600;
+	}
+
+	ai-chatbot .chat-message em {
+		font-style: italic;
+	}
+
+	ai-chatbot .chat-message code {
+		background-color: rgb(var(--color-200));
+		padding: 0.125rem 0.25rem;
+		border-radius: 0.25rem;
+		font-size: 0.875rem;
+		font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Monaco, Consolas, 'DejaVu Sans Mono', monospace;
+	}
+</style>

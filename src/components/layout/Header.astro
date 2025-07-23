@@ -1,5 +1,6 @@
 ---
 import Search from "@/components/Search.astro";
+import AIChatbot from "@/components/AIChatbot.astro";
 import ThemeToggle from "@/components/ThemeToggle.astro";
 import LanguageToggle from "@/components/LanguageToggle.astro";
 import { siteConfig, menuLinks } from "@/site.config";
@@ -111,6 +112,11 @@ const t = (key: string) => translations[currentLang][key] || key;
             <Search />
           </div>
           <div
+            class="ai-chatbot-wrapper p-1.5 rounded-lg bg-special/50 hover:bg-special transition-colors"
+          >
+            <AIChatbot />
+          </div>
+          <div
             class="p-1.5 rounded-lg bg-special/50 hover:bg-special transition-colors"
           >
             <LanguageToggle />
@@ -125,6 +131,7 @@ const t = (key: string) => translations[currentLang][key] || key;
         <!-- Mobile Action Buttons -->
         <div class="flex md:hidden items-center space-x-2 relative z-40">
           <Search />
+          <span class="ai-chatbot-mobile-wrapper"><AIChatbot /></span>
           <LanguageToggle />
           <ThemeToggle />
         </div>
