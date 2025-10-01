@@ -61,7 +61,10 @@
       "Bash(git add:*)",
       "Bash(git commit:*)",
       "Bash(git push:*)",
-      "Bash(bun remove:*)"
+      "Bash(bun remove:*)",
+      "WebFetch(domain:blockspaces.xyz)",
+      "WebFetch(domain:pagefind.app)",
+      "Bash(bunx serve:*)"
     ],
     "deny": []
   }

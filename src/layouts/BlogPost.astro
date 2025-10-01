@@ -41,7 +41,7 @@ const currentUrl = Astro.url.pathname;
 	<Masthead content={post} />
 	
 	<div class="mt-6 md:flex md:items-start gap-x-8 2xl:gap-x-20 2xl:mb-16 px-3">
-		<article class="grid flex-grow grid-cols-1 break-words pt-4 2xl:max-w-4xl 2xl:mx-auto px-1 md:px-1" data-pagefind-body>
+		<article class="grid flex-grow grid-cols-1 break-words pt-4 2xl:max-w-4xl 2xl:mx-auto px-1 md:px-1" data-pagefind-body data-pagefind-meta={`url:${currentUrl}`}>
 			<div class="prose prose-citrus max-w-none flex-grow prose-headings:font-semibold prose-headings:text-accent-base prose-headings:before:text-accent-two sm:prose-headings:before:content-['#'] sm:prose-th:before:content-none prose-p:!text-[1.0625rem] prose-p:!leading-[1.75] md:prose-p:!text-base md:prose-p:!leading-relaxed prose-li:!text-[1.0625rem] prose-li:!leading-[1.75] md:prose-li:!text-base prose-a:!text-[1.0625rem] md:prose-a:!text-base">
 				<slot />
 			</div>
