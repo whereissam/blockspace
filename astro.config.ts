@@ -18,7 +18,6 @@ import { remarkReadingTime } from "./src/plugins/remark-reading-time";
 // Rehype plugins
 import rehypeExternalLinks from "rehype-external-links";
 import rehypeUnwrapImages from "rehype-unwrap-images";
-import rehypeMermaid from "rehype-mermaid";
 
 import rehypePrettyCode from "rehype-pretty-code";
 
@@ -82,10 +81,6 @@ export default defineConfig({
     }),
   ],
   markdown: {
-    syntaxHighlight: {
-      excludeLangs: ['mermaid'],
-    },
-
     remarkPlugins: [remarkReadingTime, remarkDirective, remarkAdmonitions],
     remarkRehype: {
       footnoteLabelProperties: {
@@ -100,12 +95,6 @@ export default defineConfig({
         {
           rel: ["nofollow", "noreferrer"],
           target: "_blank",
-        },
-      ],
-      [
-        rehypeMermaid,
-        {
-          strategy: "inline-svg",
         },
       ],
       rehypeUnwrapImages,
