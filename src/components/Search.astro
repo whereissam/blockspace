@@ -125,8 +125,8 @@ import { Icon } from "astro-icon/components";
 					element: "#citrus__search",
 					showImages: false,
 					showSubResults: true,
-					processTerm: (term) => term,
-					processResult: (result) => {
+					processTerm: (term: string) => term,
+					processResult: (result: any) => {
 						// Fix URL to include correct language prefix
 						if (result.url && !result.url.startsWith(`/${currentLang}/`)) {
 							// If URL doesn't have language prefix, add it
