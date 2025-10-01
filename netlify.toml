@@ -1,6 +1,7 @@
 [build]
-  command = "bun run build"
+  command = "npx playwright install --with-deps chromium && bun run build"
   publish = "dist"
 
 [build.environment]
   NODE_VERSION = "20"
+  PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD = "0"
