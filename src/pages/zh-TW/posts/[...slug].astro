@@ -16,7 +16,7 @@ export const getStaticPaths = (async () => {
 	}
 	
 	return blogEntries.map((post) => ({
-		params: { slug: post.id.replace('zh-tw/', '') },
+		params: { slug: post.id.split('/').slice(1).join('/') },
 		props: { post },
 	}));
 }) satisfies GetStaticPaths;
