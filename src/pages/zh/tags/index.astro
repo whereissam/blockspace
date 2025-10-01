@@ -3,7 +3,7 @@ import Badge from "@/components/Badge.astro";
 import { getPostsByLanguage, getUniqueTagsWithCount } from "@/data/post";
 import PageLayout from "@/layouts/Base.astro";
 
-const allPosts = await getPostsByLanguage('zh-TW');
+const allPosts = await getPostsByLanguage('zh');
 const allTags = getUniqueTagsWithCount(allPosts);
 
 const meta = {
@@ -24,7 +24,7 @@ const meta = {
 			{
 				allTags.map(([tag, val]) => (
 				<div class="flex items-center gap-x-2">
-					<a aria-label={`查看所有標籤為 ${tag} 的文章`} href={`/zh-TW/tags/${tag}`}>
+					<a aria-label={`查看所有標籤為 ${tag} 的文章`} href={`/zh/tags/${tag}`}>
 					<Badge variant="muted" title={tag}>
 						<span class="text-xs font-normal">
 							&nbsp;{val} 篇文章

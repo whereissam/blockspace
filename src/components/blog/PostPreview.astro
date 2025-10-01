@@ -14,14 +14,13 @@ const { as: Tag = "div", post, withDesc = false } = Astro.props;
 function getPostUrl(post: CollectionEntry<"post">): string {
 	const pathSegments = post.id.split('/');
 	const postLanguage = pathSegments[0]?.toLowerCase();
-	
-	if (postLanguage === 'zh-tw') {
-		const slug = post.id.replace('zh-tw/', '');
-		return `/zh-TW/posts/${slug}/`;
+	const slug = pathSegments.slice(1).join('/');
+
+	if (postLanguage === 'zh') {
+		return `/zh/posts/${slug}/`;
 	} else {
-		// Default to English (remove en/ prefix if present)
-		const slug = post.id.replace('en/', '');
-		return `/posts/${slug}/`;
+		// Default to English
+		return `/en/posts/${slug}/`;
 	}
 }
 ---

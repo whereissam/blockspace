@@ -12,7 +12,7 @@ export const prerender = true;
 
 export const getStaticPaths = (async ({ paginate }) => {
   const MAX_NOTES_PER_PAGE = 5;
-  const allNotes = await getNotesByLanguage("zh-TW");
+  const allNotes = await getNotesByLanguage("zh");
 
   // If no notes, create at least one empty page
   if (allNotes.length === 0) {
@@ -70,7 +70,7 @@ const paginationProps = {
   <section class="mt-12">
     <h1 class="title mb-6 flex items-center gap-2">
       筆記
-      <a class="text-accent-two" href="/zh-TW/notes/rss.xml" target="_blank">
+      <a class="text-accent-two" href="/zh/notes/rss.xml" target="_blank">
         <span class="sr-only">RSS 訂閱</span>
         <Icon
           aria-hidden="true"

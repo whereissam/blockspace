@@ -10,12 +10,30 @@ import { Icon } from "astro-icon/components";
 import Badge from "@/components/Badge.astro";
 
 export const prerender = true;
-
 export const getStaticPaths = (async ({ paginate }) => {
 	const MAX_POSTS_PER_PAGE = 5;
 	const MAX_TAGS = 20;
-	const allPosts = await getPostsByLanguage('en');
+	const allPosts = await getPostsByLanguage('zh');
 	const uniqueTags = getUniqueTags(allPosts).slice(0, MAX_TAGS);
+	
+	// If no posts, create at least one empty page
+	if (allPosts.length === 0) {
+		return [{
+			params: { page: undefined },
+			props: { 
+				page: {
+					data: [],
+					url: { prev: null, next: null },
+					currentPage: 1,
+					lastPage: 1,
+					size: MAX_POSTS_PER_PAGE,
+					total: 0
+				},
+				uniqueTags: []
+			}
+		}];
+	}
+	
 	return paginate(allPosts.sort(collectionDateSort), {
 		pageSize: MAX_POSTS_PER_PAGE,
 		props: { uniqueTags },
@@ -30,20 +48,20 @@ interface Props {
 const { page, uniqueTags } = Astro.props;
 
 const meta = {
-	description: "Read my collection of posts and the things that interest me",
-	title: "Posts",
+	description: "閱讀我的文章集和我感興趣的事物",
+	title: "文章",
 };
 
 const paginationProps = {
 	...(page.url.prev && {
 		prevUrl: {
-			text: "← Previous Page",
+			text: "← 上一頁",
 			url: page.url.prev,
 		},
 	}),
 	...(page.url.next && {
 		nextUrl: {
-			text: "Next Page →",
+			text: "下一頁 →",
 			url: page.url.next,
 		},
 	}),
@@ -55,15 +73,21 @@ const descYearKeys = Object.keys(groupedByYear).sort((a, b) => +b - +a);
 
 <PageLayout meta={meta}>
 	<h1 class="title mb-6 flex items-center gap-2">
-		Posts
-		<a class="text-accent-two" href="/rss.xml" target="_blank">
-			<span class="sr-only">RSS feed</span>
+		文章
+		<a class="text-accent-two" href="/zh/rss.xml" target="_blank">
+			<span class="sr-only">RSS 訂閱</span>
 			<Icon aria-hidden="true" class="h-6 w-6" focusable="false" name="mdi:rss" />
 		</a>
 	</h1>
 	<div class="grid gap-y-8 sm:grid-cols-[1fr_auto] sm:gap-x-8">
-		<section aria-label="Blog post list" class="grow">
-			{
+		<section aria-label="部落格文章列表" class="grow">
+			{page.data.length === 0 ? (
+				<div class="text-center py-16">
+					<h3 class="text-xl mb-4 text-textColor">繁體中文內容即將推出</h3>
+					<p class="text-gray-500 mb-4">Traditional Chinese content coming soon</p>
+					<p class="text-sm text-gray-400">目前所有內容都是英文，中文翻譯正在進行中</p>
+				</div>
+			) : (
 				descYearKeys.map((yearKey) => (
 					<>
 						<h4 class="title">{yearKey}</h4>
@@ -76,21 +100,18 @@ const descYearKeys = Object.keys(groupedByYear).sort((a, b) => +b - +a);
 						</ul>
 					</>
 				))
-			}
+			)}
 		</section>
 		{
 			!!uniqueTags.length && (
 				<aside class="md:min-w-[14rem] md:max-w-[14rem] md:basis-[14rem]">
 					<h4 class="title mb-4 flex gap-2">
-						Tags
-						{/*
-						<Icon aria-hidden="true" class="mb-1 h-6 w-6" focusable="false" name="hugeicons:tags" />
-						*/}
+						標籤
 					</h4>
 					<ul class="flex flex-wrap gap-2">
 						{uniqueTags.map((tag) => (
 							<li>
-								<a aria-label={`View all posts with the tag: ${tag}`} href={`/tags/${tag}`}>
+								<a aria-label={`查看所有標籤為 ${tag} 的文章`} href={`/zh/tags/${tag}`}>
 									<Badge variant="muted" title={tag} />
 								</a>
 							</li>
@@ -98,25 +119,14 @@ const descYearKeys = Object.keys(groupedByYear).sort((a, b) => +b - +a);
 
 						<span class="text-base ms-auto inline-flex items-center h-6 sm:text-end">
 							<a
-								aria-label="View all blog categories"
+								aria-label="查看所有文章分類"
 								class="font-medium text-accent sm:hover:text-accent-two"
-								href="/tags/"
+								href="/zh/tags/"
 							>
-								View all →
+								查看全部 →
 							</a>
 						</span>	
 					</ul>
-					{/*
-					<span class="mt-4 block sm:text-end">
-						<a
-							aria-label="View all blog categories"
-							class="font-medium text-accent sm:hover:text-accent-two"
-							href="/tags/"
-						>
-							View all →
-						</a>
-					</span>
-					*/}
 				</aside>
 			)
 		}

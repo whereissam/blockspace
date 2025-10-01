@@ -64,7 +64,9 @@
       "Bash(bun remove:*)",
       "WebFetch(domain:blockspaces.xyz)",
       "WebFetch(domain:pagefind.app)",
-      "Bash(bunx serve:*)"
+      "Bash(bunx serve:*)",
+      "Bash(xargs:*)",
+      "Bash(python3:*)"
     ],
     "deny": []
   }

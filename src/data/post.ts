@@ -16,9 +16,9 @@ export async function getPostsByLanguage(language: string): Promise<CollectionEn
 		const pathSegments = post.id.split('/');
 		const postLanguage = pathSegments[0];
 
-		// Normalize language codes for comparison (Astro converts zh-TW to zh-tw)
+		// Normalize language codes for comparison
 		const normalizeLanguage = (lang: string) => lang.toLowerCase();
-		const supportedLanguages = ['en', 'zh-tw'];
+		const supportedLanguages = ['en', 'zh'];
 		const normalizedPostLanguage = normalizeLanguage(postLanguage);
 		const normalizedTargetLanguage = normalizeLanguage(language);
 
@@ -40,9 +40,9 @@ export async function getNotesByLanguage(language: string): Promise<CollectionEn
 		const pathSegments = note.id.split('/');
 		const noteLanguage = pathSegments[0];
 		
-		// Normalize language codes for comparison (Astro converts zh-TW to zh-tw)
+		// Normalize language codes for comparison
 		const normalizeLanguage = (lang: string) => lang.toLowerCase();
-		const supportedLanguages = ['en', 'zh-tw'];
+		const supportedLanguages = ['en', 'zh'];
 		const normalizedNoteLanguage = normalizeLanguage(noteLanguage);
 		const normalizedTargetLanguage = normalizeLanguage(language);
 		

@@ -10,6 +10,20 @@ type Props<Tag extends HTMLTag> = Polymorphic<{ as: Tag }> & {
 
 const { as: Tag = "div", note, isPreview = false } = Astro.props;
 const { Content } = await render(note);
+
+// Generate correct URL based on note language
+function getNoteUrl(note: CollectionEntry<"note">): string {
+	const pathSegments = note.id.split('/');
+	const noteLanguage = pathSegments[0]?.toLowerCase();
+	const slug = pathSegments.slice(1).join('/');
+
+	if (noteLanguage === 'zh') {
+		return `/zh/notes/${slug}/`;
+	} else {
+		// Default to English
+		return `/en/notes/${slug}/`;
+	}
+}
 ---
 
 <article
@@ -19,7 +33,7 @@ const { Content } = await render(note);
 	<Tag class="flex items-end title md:sticky md:top-8 md:z-10" class:list={{ "text-base": isPreview }}>
 		{
 			isPreview ? (
-				<a class="citrus-link" href={`/notes/${note.id}/`}>
+				<a class="citrus-link" href={getNoteUrl(note)}>
 					{note.data.title}
 				</a>
 			) : (

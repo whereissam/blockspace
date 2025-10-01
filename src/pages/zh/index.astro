@@ -9,14 +9,14 @@ import { collectionDateSort } from "@/utils/date";
 
 // Posts
 const MAX_POSTS = 10;
-const allPosts = await getPostsByLanguage('zh-TW');
+const allPosts = await getPostsByLanguage('zh');
 const allPostsByDate = allPosts
   .sort(collectionDateSort)
   .slice(0, MAX_POSTS) as CollectionEntry<"post">[];
 
 // Notes
 const MAX_NOTES = 2;
-const allNotes = await getNotesByLanguage('zh-TW');
+const allNotes = await getNotesByLanguage('zh');
 const latestNotes = allNotes.sort(collectionDateSort).slice(0, MAX_NOTES);
 ---
 
@@ -47,7 +47,7 @@ const latestNotes = allNotes.sort(collectionDateSort).slice(0, MAX_NOTES);
   <!-- Posts Section -->
   <section aria-label="部落格文章列表" class="'mt-[-100vh] pt-[100vh]'">
     <h2 class="title mb-6 text-xl text-accent-two">
-      <a href="/zh-TW/posts/">文章</a>
+      <a href="/zh/posts/">文章</a>
     </h2>
     {allPostsByDate.length > 0 ? (
       <ul class="space-y-4 md:space-y-2" role="list">
@@ -72,7 +72,7 @@ const latestNotes = allNotes.sort(collectionDateSort).slice(0, MAX_NOTES);
     latestNotes.length > 0 && (
       <section class="mt-12">
         <h2 class="title mb-6 text-accent-two">
-          <a href="/zh-TW/notes/">筆記</a>
+          <a href="/zh/notes/">筆記</a>
         </h2>
         <div class="grid grid-cols-1 gap-8 sm:grid-cols-2">
           {latestNotes.map((note: any) => (

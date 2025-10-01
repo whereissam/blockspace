@@ -9,7 +9,7 @@ export const prerender = true;
 
 // If you're using an adaptor in SSR mode, getStaticPaths wont work -> https://docs.astro.build/en/guides/routing/#modifying-the-slug-example-for-ssr
 export const getStaticPaths = (async () => {
-	const allNotes = await getNotesByLanguage('zh-TW');
+	const allNotes = await getNotesByLanguage('zh');
 	
 	// If no notes, return empty array to prevent build errors
 	if (allNotes.length === 0) {
