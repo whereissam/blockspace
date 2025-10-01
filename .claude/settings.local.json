@@ -56,7 +56,11 @@
       "WebFetch(domain:localhost)",
       "WebFetch(domain:docs.astro.build)",
       "Bash(npm ls:*)",
-      "Bash(npx playwright:*)"
+      "Bash(npx playwright:*)",
+      "Bash(cat:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)"
     ],
     "deny": []
   }
