@@ -17,7 +17,7 @@ const toc = generateToc(headings);
 	<!-- Header -->
 	<div class="flex items-center gap-2 px-4 py-3 bg-gradient-to-r from-accent-base/5 to-accent-two/5 border-b border-color-150">
 		<Icon aria-hidden="true" class="h-5 w-5 text-accent-base" focusable="false" name="hugeicons:menu-03" />
-		<h4 class="font-semibold text-accent-base">Table of Contents</h4>
+		<div class="font-semibold text-accent-base">Table of Contents</div>
 	</div>
 	
 	<!-- Content -->
@@ -90,13 +90,13 @@ const toc = generateToc(headings);
 		}
 		
 		// Function to scroll TOC so active link is at the top
-		function scrollTocToActiveLink(activeLink) {
+		function scrollTocToActiveLink(activeLink: HTMLElement | null) {
 			const tocContent = document.getElementById('toc-content');
 			if (tocContent && activeLink) {
 				const linkRect = activeLink.getBoundingClientRect();
 				const containerRect = tocContent.getBoundingClientRect();
 				const relativeTop = linkRect.top - containerRect.top + tocContent.scrollTop;
-				
+
 				// Scroll to position the active link near the top with some padding
 				tocContent.scrollTo({
 					top: relativeTop - 20,

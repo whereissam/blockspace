@@ -40,7 +40,7 @@ if (!headings || headings.length === 0) {
   >
     <div class="bg-bgColor border border-special-lighter rounded-lg drop-shadow-xl p-4 max-h-80 overflow-y-auto">
       <div class="flex items-center justify-between mb-3">
-        <h3 class="text-sm font-semibold text-accent-base">Table of Contents</h3>
+        <div class="text-sm font-semibold text-accent-base">Table of Contents</div>
         <button
           id="mobile-toc-close"
           class="text-textColor hover:text-accent-base transition-colors"
@@ -69,31 +69,31 @@ if (!headings || headings.length === 0) {
 
 <script>
   document.addEventListener("DOMContentLoaded", () => {
-    const toggleButton = document.getElementById("mobile-toc-toggle");
-    const dropdown = document.getElementById("mobile-toc-dropdown");
-    const closeButton = document.getElementById("mobile-toc-close");
+    const toggleButton = document.getElementById("mobile-toc-toggle") as HTMLButtonElement | null;
+    const dropdown = document.getElementById("mobile-toc-dropdown") as HTMLDivElement | null;
+    const closeButton = document.getElementById("mobile-toc-close") as HTMLButtonElement | null;
 
     if (!toggleButton || !dropdown || !closeButton) {
       return;
     }
 
     function openDropdown() {
-      dropdown.classList.remove("opacity-0", "invisible", "translate-y-2", "pointer-events-none");
-      dropdown.classList.add("opacity-100", "visible", "translate-y-0", "pointer-events-auto");
-      toggleButton.setAttribute("aria-expanded", "true");
+      dropdown!.classList.remove("opacity-0", "invisible", "translate-y-2", "pointer-events-none");
+      dropdown!.classList.add("opacity-100", "visible", "translate-y-0", "pointer-events-auto");
+      toggleButton!.setAttribute("aria-expanded", "true");
     }
 
     function closeDropdown() {
-      dropdown.classList.add("opacity-0", "invisible", "translate-y-2", "pointer-events-none");
-      dropdown.classList.remove("opacity-100", "visible", "translate-y-0", "pointer-events-auto");
-      toggleButton.setAttribute("aria-expanded", "false");
+      dropdown!.classList.add("opacity-0", "invisible", "translate-y-2", "pointer-events-none");
+      dropdown!.classList.remove("opacity-100", "visible", "translate-y-0", "pointer-events-auto");
+      toggleButton!.setAttribute("aria-expanded", "false");
     }
 
     // Toggle dropdown
     toggleButton.addEventListener("click", (e) => {
       e.stopPropagation();
-      const isExpanded = toggleButton.getAttribute("aria-expanded") === "true";
-      
+      const isExpanded = toggleButton!.getAttribute("aria-expanded") === "true";
+
       if (isExpanded) {
         closeDropdown();
       } else {
@@ -110,13 +110,13 @@ if (!headings || headings.length === 0) {
     // Close when clicking outside
     document.addEventListener("click", (e) => {
       const target = e.target as Element;
-      if (!dropdown.contains(target) && !toggleButton.contains(target)) {
+      if (!dropdown!.contains(target) && !toggleButton!.contains(target)) {
         closeDropdown();
       }
     });
 
     // Close when clicking on a TOC link
-    const tocLinks = dropdown.querySelectorAll("a[href^='#']");
+    const tocLinks = dropdown!.querySelectorAll("a[href^='#']");
     tocLinks.forEach(link => {
       link.addEventListener("click", () => {
         closeDropdown();
