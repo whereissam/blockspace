@@ -40,8 +40,8 @@ const currentUrl = Astro.url.pathname;
 
 	<Masthead content={post} />
 	
-	<div class="mt-6 flex sm:grid-cols-[auto_1fr] md:items-start gap-x-8">
-		<article class="grid flex-grow grid-cols-1 break-words pt-4" data-pagefind-body>
+	<div class="mt-6 flex sm:grid-cols-[auto_1fr] md:items-start gap-x-8 2xl:gap-x-20 2xl:mb-16">
+		<article class="grid flex-grow grid-cols-1 break-words pt-4 2xl:max-w-4xl 2xl:mx-auto px-1" data-pagefind-body>
 			<div class="prose prose-citrus max-w-none flex-grow prose-headings:font-semibold prose-headings:text-accent-base prose-headings:before:text-accent-two sm:prose-headings:before:content-['#'] sm:prose-th:before:content-none">
 				<slot />
 			</div>
@@ -50,41 +50,40 @@ const currentUrl = Astro.url.pathname;
 		{!!headings.length && (
 			<aside 
 				id="toc-panel" 
-				class="md:sticky md:top-20 z-10 hidden md:w-[14rem] md:min-w-[14rem] md:rounded-lg md:block"
+				class="md:sticky md:top-20 z-10 hidden md:w-[14rem] md:min-w-[14rem] 2xl:w-[20rem] 2xl:min-w-[20rem] md:rounded-lg md:block"
 			>
 				<TOC headings={headings} />
 			</aside>
 		)}
 	</div>
 
-	<div class="left-0 right-12 z-50 ml-auto w-fit md:absolute">
-		<button
-			id="to-top-button"
-			class="fixed bottom-14 flex h-12 w-12 text-light translate-y-28 items-center justify-center rounded-full bg-bgColor text-3xl drop-shadow-xl transition-all duration-300 hover:text-accent-two data-[show=true]:translate-y-0 data-[show=true]:opacity-100"
-			aria-label="Back to Top"
-			data-show="false"
-		>	
-			<span class="absolute inset-0 rounded-full bg-special-lighter flex items-center justify-center" aria-hidden="true">
-				<svg
-					class="h-6 w-6"
-					fill="none"
-					focusable="false"
-					stroke="currentColor"
-					stroke-width="2"
-					viewBox="0 0 24 24"
-					xmlns="http://www.w3.org/2000/svg"
-				>
-					<path d="M4.5 15.75l7.5-7.5 7.5 7.5" stroke-linecap="round" stroke-linejoin="round"></path>
-				</svg>
-			</span>
-		</button>
-	</div>
+	<!-- Back to top button positioned relative to content -->
+	<button
+		id="to-top-button"
+		class="fixed bottom-6 right-6 flex h-12 w-12 text-light translate-y-28 items-center justify-center rounded-full bg-bgColor text-3xl drop-shadow-xl transition-all duration-300 hover:text-accent-two data-[show=true]:translate-y-0 data-[show=true]:opacity-100 z-50"
+		aria-label="Back to Top"
+		data-show="false"
+	>	
+		<span class="absolute inset-0 rounded-full bg-special-lighter flex items-center justify-center" aria-hidden="true">
+			<svg
+				class="h-6 w-6"
+				fill="none"
+				focusable="false"
+				stroke="currentColor"
+				stroke-width="2"
+				viewBox="0 0 24 24"
+				xmlns="http://www.w3.org/2000/svg"
+			>
+				<path d="M4.5 15.75l7.5-7.5 7.5 7.5" stroke-linecap="round" stroke-linejoin="round"></path>
+			</svg>
+		</span>
+	</button>
 
 	<!-- Series button for mobile screens -->
 	{seriesId && (
 		<mobile-button
 			id="toggle-panel-mobile"
-			class="size-12 flex items-center justify-center block sm:hidden fixed bottom-4 shadow-[0px_10px_25px_rgba(0,0,0,0.15)] border border-special-lighter right-4 z-50 rounded-lg bg-bgColor text-accent-base hover:text-bg-accent-base/90"
+			class="size-12 flex items-center justify-center sm:hidden fixed bottom-4 shadow-[0px_10px_25px_rgba(0,0,0,0.15)] border border-special-lighter right-4 z-50 rounded-lg bg-bgColor text-accent-base hover:text-bg-accent-base/90"
 			aria-label="Toggle Series Panel"
 		>
 			<span class="absolute inset-0 rounded-lg flex items-center justify-center bg-special-light hover:text-accent-base/90">

@@ -10,31 +10,49 @@ export async function getAllPosts(): Promise<CollectionEntry<"post">[]> {
 /** get posts filtered by language */
 export async function getPostsByLanguage(language: string): Promise<CollectionEntry<"post">[]> {
 	const allPosts = await getAllPosts();
-	
-	// For now, only show English posts for English routes, empty for Chinese
-	if (language === 'en') {
-		return allPosts;
-	} else if (language === 'zh-TW') {
-		// Return empty array until Chinese translations are available
-		return allPosts.filter(post => post.data.language === 'zh-TW');
-	}
-	
-	return allPosts;
+
+	// Filter posts based on language folder structure
+	return allPosts.filter(post => {
+		const pathSegments = post.id.split('/');
+		const postLanguage = pathSegments[0];
+
+		// Normalize language codes for comparison (Astro converts zh-TW to zh-tw)
+		const normalizeLanguage = (lang: string) => lang.toLowerCase();
+		const supportedLanguages = ['en', 'zh-tw'];
+		const normalizedPostLanguage = normalizeLanguage(postLanguage);
+		const normalizedTargetLanguage = normalizeLanguage(language);
+
+		// If no language folder or unsupported language, assume English
+		if (pathSegments.length === 1 || !supportedLanguages.includes(normalizedPostLanguage)) {
+			return normalizedTargetLanguage === 'en';
+		}
+
+		return normalizedPostLanguage === normalizedTargetLanguage;
+	});
 }
 
 /** get notes filtered by language */
 export async function getNotesByLanguage(language: string): Promise<CollectionEntry<"note">[]> {
 	const allNotes = await getCollection("note");
 	
-	// For now, only show English notes for English routes, empty for Chinese
-	if (language === 'en') {
-		return allNotes;
-	} else if (language === 'zh-TW') {
-		// Return empty array until Chinese translations are available
-		return allNotes.filter(note => note.data.language === 'zh-TW');
-	}
-	
-	return allNotes;
+	// Filter notes based on language folder structure
+	return allNotes.filter(note => {
+		const pathSegments = note.id.split('/');
+		const noteLanguage = pathSegments[0];
+		
+		// Normalize language codes for comparison (Astro converts zh-TW to zh-tw)
+		const normalizeLanguage = (lang: string) => lang.toLowerCase();
+		const supportedLanguages = ['en', 'zh-tw'];
+		const normalizedNoteLanguage = normalizeLanguage(noteLanguage);
+		const normalizedTargetLanguage = normalizeLanguage(language);
+		
+		// If no language folder or unsupported language, assume English
+		if (pathSegments.length === 1 || !supportedLanguages.includes(normalizedNoteLanguage)) {
+			return normalizedTargetLanguage === 'en';
+		}
+		
+		return normalizedNoteLanguage === normalizedTargetLanguage;
+	});
 }
 
 /** groups posts by year (based on option siteConfig.sortPostsByUpdatedDate), using the year as the key

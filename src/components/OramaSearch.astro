@@ -1,0 +1,287 @@
+---
+import { Icon } from "astro-icon/components";
+---
+
+<orama-search class="ms-auto" id="orama-search">
+	<button
+		class="flex h-8 w-8 items-center justify-center rounded-lg drop-shadow-[0px_1.5px_1.5px_rgba(0,0,0,0.175)] hover:text-accent-two"
+		data-open-modal
+		type="button"
+	>
+		<Icon aria-hidden="true" class="h-6 w-6" focusable="false" name="hugeicons:search-01" />
+	</button>
+
+	<dialog
+		aria-label="search"
+		class="h-full max-h-full w-full max-w-full md:h-fit bg-bgColor backdrop:backdrop-blur-xl md:my-8 md:min-h-[6.5rem] 'md:w-5/6' md:max-w-[44rem] md:rounded-lg overflow-y-hidden"
+	>	
+		<div class="dialog-frame flex flex-col h-[100%] px-4 pt-4 pb-4 md:px-8 md:py-8 gap-4">
+			<div class="md:hidden sticky top-0 z-20 flex items-center justify-between bg-bgColor">
+				<h4 class="title flex items-end font-semibold">Search with Orama</h4>
+			 	<button
+					class="flex size-8 cursor-pointer items-center justify-center rounded-lg bg-color-100 text-textColor hover:text-accent-base hover:bg-accent-base/5"
+					data-close-modal
+				>	
+					<Icon aria-hidden="true" class="h-6 w-6" focusable="false" name="hugeicons:cancel-01" />
+				</button>
+			</div>
+			
+			<div class="search-container h-full">
+				<div class="relative mb-4">
+					<input
+						type="search"
+						id="orama-search-input"
+						placeholder="Search posts and notes..."
+						class="bg-color-100 rounded-lg border-none text-base text-textColor font-normal w-full flex h-10 py-0 px-10 outline-none"
+					/>
+					<div class="absolute left-3 top-3 w-4 h-4 opacity-70 pointer-events-none">
+						<Icon aria-hidden="true" class="h-4 w-4" focusable="false" name="hugeicons:search-01" />
+					</div>
+				</div>
+				
+				<div id="orama-search-results" class="max-h-[calc(100vh-13.5rem)] md:max-h-[calc(100vh-13rem)] overflow-y-auto">
+					<div id="results-list"></div>
+					<div id="orama-no-results" class="hidden text-base font-normal text-lighter">
+						No results found.
+					</div>
+					<div id="orama-initial-message" class="text-base font-normal text-lighter">
+						Start typing to search through posts and notes...
+					</div>
+				</div>
+			</div>
+		</div>
+	</dialog>
+</orama-search>
+
+<script>
+	import { create, insertMultiple, search } from '@orama/orama';
+
+	class OramaSearch extends HTMLElement {
+		constructor() {
+			super();
+			
+			// Initialize DOM element references
+			this.openBtn = this.querySelector("button[data-open-modal]");
+			this.closeBtn = this.querySelector("button[data-close-modal]");
+			this.dialog = this.querySelector("dialog");
+			this.dialogFrame = this.querySelector(".dialog-frame");
+			this.searchInput = this.querySelector("#orama-search-input");
+			this.searchResults = this.querySelector("#orama-search-results");
+			this.resultsList = this.querySelector("#results-list");
+			this.noResults = this.querySelector("#orama-no-results");
+			this.initialMessage = this.querySelector("#orama-initial-message");
+			
+			// Initialize Orama database
+			this.db = null;
+			
+			// Bind event listeners
+			this.openBtn?.addEventListener("click", this.openModal);
+			this.closeBtn?.addEventListener("click", this.closeModal);
+			this.searchInput?.addEventListener("input", this.handleSearch);
+		}
+
+		async connectedCallback() {
+			// Listen for keyboard shortcut
+			window.addEventListener("keydown", this.onWindowKeydown);
+			
+			// Initialize Orama database
+			await this.initializeOrama();
+			
+			console.log('OramaSearch component connected');
+		}
+
+		disconnectedCallback() {
+			window.removeEventListener("keydown", this.onWindowKeydown);
+		}
+
+		async initializeOrama() {
+			try {
+				// Fetch search data from API
+				console.log('Fetching search data...');
+				const response = await fetch('/api/search-data');
+				if (!response.ok) {
+					throw new Error(`HTTP error! status: ${response.status}`);
+				}
+				
+				const searchData = await response.json();
+				console.log('Initializing Orama with', searchData.length, 'documents');
+				
+				// Create the database
+				this.db = await create({
+					schema: {
+						id: 'string',
+						title: 'string',
+						description: 'string',
+						content: 'string',
+						url: 'string',
+						type: 'string',
+						tags: 'string[]',
+					}
+				});
+
+				// Insert all the search data
+				await insertMultiple(this.db, searchData.map(item => ({
+					...item,
+					tags: item.tags || []
+				})));
+
+				console.log('Orama database initialized successfully with', searchData.length, 'documents');
+			} catch (error) {
+				console.error('Failed to initialize Orama:', error);
+			}
+		}
+
+		handleSearch = async (event) => {
+			const target = event.target;
+			const query = target.value.trim();
+
+			if (query.length < 2) {
+				this.showInitialMessage();
+				return;
+			}
+
+			try {
+				const searchResult = await search(this.db, {
+					term: query,
+					properties: ['title', 'description', 'content'],
+					limit: 10,
+				});
+
+				this.displayResults(searchResult.hits, query);
+			} catch (error) {
+				console.error('Search error:', error);
+				this.showNoResults();
+			}
+		};
+
+		displayResults(hits, query) {
+			this.hideMessages();
+
+			if (hits.length === 0) {
+				this.showNoResults();
+				return;
+			}
+
+			const resultsHTML = hits.map(hit => {
+				const doc = hit.document;
+				const typeColor = doc.type === 'post' ? 'text-accent-base' : 'text-accent-two';
+				const excerpt = this.truncateText(doc.description || doc.content, 120);
+				
+				return `
+					<div class="border-none p-0 mb-6">
+						<div class="flex-1 flex flex-col items-start mt-0">
+							<a href="${doc.url}" class="title text-base bg-transparent text-accent-base font-medium hover:underline">
+								${this.highlightText(doc.title, query)}
+							</a>
+							<div class="flex items-center gap-2 mt-1 mb-2">
+								<span class="text-xs ${typeColor} font-medium uppercase">${doc.type}</span>
+								${doc.tags && doc.tags.length > 0 ? `
+									<span class="text-xs text-lighter">•</span>
+									<div class="flex gap-1">
+										${doc.tags.slice(0, 3).map(tag => `
+											<span class="text-xs px-2 py-1 bg-color-100 rounded text-textColor">${tag}</span>
+										`).join('')}
+									</div>
+								` : ''}
+							</div>
+							<p class="inline-block font-normal text-sm text-textColor mt-0 mb-0 line-clamp-2">
+								${this.highlightText(excerpt, query)}
+							</p>
+						</div>
+					</div>
+				`;
+			}).join('');
+
+			this.resultsList.innerHTML = resultsHTML;
+		}
+
+		escapeRegExp(string) {
+			return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+		}
+
+		highlightText(text, query) {
+			if (!query || !text) return text;
+			const safeQuery = this.escapeRegExp(query);
+			const regex = new RegExp(`(${safeQuery})`, 'gi');
+			return text.replace(regex, '<mark class="text-accent-two bg-transparent font-medium">$1</mark>');
+		}
+
+		truncateText(text, maxLength) {
+			if (!text || text.length <= maxLength) return text || '';
+			return text.substring(0, maxLength) + '...';
+		}
+
+		showInitialMessage() {
+			this.hideMessages();
+			this.initialMessage.classList.remove('hidden');
+			this.resultsList.innerHTML = '';
+		}
+
+		showNoResults() {
+			this.hideMessages();
+			this.noResults.classList.remove('hidden');
+			this.resultsList.innerHTML = '';
+		}
+
+		hideMessages() {
+			this.noResults.classList.add('hidden');
+			this.initialMessage.classList.add('hidden');
+		}
+
+		closeModal = () => {
+			if (this.dialog.open) {
+				this.dialog.close();
+				document.body.classList.remove("overflow-hidden");
+				window.removeEventListener("click", this.onWindowClick);
+				this.searchInput.value = '';
+				this.showInitialMessage();
+			}
+		};
+
+		onWindowClick = (event) => {
+			const isLink = "href" in (event.target || {});
+			if (
+				isLink ||
+				(document.body.contains(event.target) &&
+					!this.dialogFrame.contains(event.target))
+			)
+				this.closeModal();
+		};
+
+		onWindowKeydown = (e) => {
+			// Check if it's the Ctrl+K key combination
+			if ((e.ctrlKey || e.metaKey) && e.key === 'k' && !this.dialog.open) {
+				this.openModal();
+				e.preventDefault();
+			}
+		};
+
+		openModal = (event) => {
+			console.log('Opening Orama search modal');
+			this.dialog.showModal();
+			document.body.classList.add("overflow-hidden");
+			this.searchInput.focus();
+			if (event) event.stopPropagation();
+			window.addEventListener("click", this.onWindowClick);
+		};
+	}
+
+	customElements.define("orama-search", OramaSearch);
+</script>
+
+<style is:global>
+	#orama-search-input::placeholder {
+		@apply opacity-60;
+	}
+
+	#orama-search-results mark {
+		@apply text-accent-two bg-transparent font-medium;
+	}
+
+	#orama-search-results .line-clamp-2 {
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+	}
+</style>

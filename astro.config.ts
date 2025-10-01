@@ -5,7 +5,7 @@ import tailwind from "@astrojs/tailwind";
 import icon from "astro-icon";
 import robotsTxt from "astro-robots-txt";
 import AstroPWA from "@vite-pwa/astro";
-import astroI18next from "astro-i18next";
+// import astroI18next from "astro-i18next";
 import netlify from "@astrojs/netlify";
 import { defineConfig, envField } from "astro/config";
 import { siteConfig } from "./src/site.config";
@@ -18,17 +18,21 @@ import { remarkReadingTime } from "./src/plugins/remark-reading-time";
 // Rehype plugins
 import rehypeExternalLinks from "rehype-external-links";
 import rehypeUnwrapImages from "rehype-unwrap-images";
+import rehypeMermaid from "rehype-mermaid";
 
 import rehypePrettyCode from "rehype-pretty-code";
-import {
-  transformerMetaHighlight,
-  transformerNotationDiff,
-} from "@shikijs/transformers";
 
 // https://astro.build/config
 export default defineConfig({
   output: "server",
   adapter: netlify(),
+  i18n: {
+    defaultLocale: "en",
+    locales: ["en", "zh-TW"],
+    routing: {
+      prefixDefaultLocale: false
+    }
+  },
   image: {
     domains: ["webmention.io"],
   },
@@ -40,7 +44,7 @@ export default defineConfig({
     }),
     sitemap(),
     mdx(),
-    astroI18next(),
+    // astroI18next(),
     robotsTxt(),
     AstroPWA({
       mode: "production",
@@ -78,7 +82,9 @@ export default defineConfig({
     }),
   ],
   markdown: {
-    syntaxHighlight: false,
+    syntaxHighlight: {
+      excludeLangs: ['mermaid'],
+    },
 
     remarkPlugins: [remarkReadingTime, remarkDirective, remarkAdmonitions],
     remarkRehype: {
@@ -96,16 +102,10 @@ export default defineConfig({
           target: "_blank",
         },
       ],
-
       [
-        rehypePrettyCode,
+        rehypeMermaid,
         {
-          theme: {
-            light: "rose-pine-dawn", // after changing the theme, the server needs to be restarted
-            dark: "rose-pine", // after changing the theme, the server needs to be restarted
-          },
-
-          transformers: [transformerNotationDiff(), transformerMetaHighlight()],
+          strategy: "inline-svg",
         },
       ],
       rehypeUnwrapImages,

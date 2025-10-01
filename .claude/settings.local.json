@@ -50,7 +50,13 @@
       "Bash(-F \"tags=test,draft,cms\" )",
       "Bash(npm run preview:*)",
       "Bash(npm uninstall:*)",
-      "Bash(brew list:*)"
+      "Bash(brew list:*)",
+      "Bash(npm run check:*)",
+      "Bash(timeout:*)",
+      "WebFetch(domain:localhost)",
+      "WebFetch(domain:docs.astro.build)",
+      "Bash(npm ls:*)",
+      "Bash(npx playwright:*)"
     ],
     "deny": []
   }
