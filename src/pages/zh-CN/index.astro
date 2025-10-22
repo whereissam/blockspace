@@ -9,18 +9,18 @@ import { collectionDateSort } from "@/utils/date";
 
 // Posts
 const MAX_POSTS = 10;
-const allPosts = await getPostsByLanguage('zh');
+const allPosts = await getPostsByLanguage('zh-CN');
 const allPostsByDate = allPosts
   .sort(collectionDateSort)
   .slice(0, MAX_POSTS) as CollectionEntry<"post">[];
 
 // Notes
 const MAX_NOTES = 2;
-const allNotes = await getNotesByLanguage('zh');
+const allNotes = await getNotesByLanguage('zh-CN');
 const latestNotes = allNotes.sort(collectionDateSort).slice(0, MAX_NOTES);
 ---
 
-<PageLayout meta={{ title: "首頁" }}>
+<PageLayout meta={{ title: "首页" }}>
   <!-- Hero section -->
   <!-- Background blur -->
   <div
@@ -45,9 +45,9 @@ const latestNotes = allNotes.sort(collectionDateSort).slice(0, MAX_NOTES);
   </div>
 
   <!-- Posts Section -->
-  <section aria-label="部落格文章列表" class="'mt-[-100vh] pt-[100vh]'">
+  <section aria-label="博客文章列表" class="'mt-[-100vh] pt-[100vh]'">
     <h2 class="title mb-6 text-xl text-accent-two">
-      <a href="/zh/posts/">文章</a>
+      <a href="/zh-CN/posts/">文章</a>
     </h2>
     {allPostsByDate.length > 0 ? (
       <ul class="space-y-4 md:space-y-2" role="list">
@@ -61,8 +61,8 @@ const latestNotes = allNotes.sort(collectionDateSort).slice(0, MAX_NOTES);
       </ul>
     ) : (
       <div class="text-center py-8">
-        <p class="text-textColor mb-4">繁體中文內容即將推出</p>
-        <p class="text-sm text-gray-500">Traditional Chinese content coming soon</p>
+        <p class="text-textColor mb-4">简体中文内容即将推出</p>
+        <p class="text-sm text-gray-500">Simplified Chinese content coming soon</p>
       </div>
     )}
   </section>
@@ -72,7 +72,7 @@ const latestNotes = allNotes.sort(collectionDateSort).slice(0, MAX_NOTES);
     latestNotes.length > 0 && (
       <section class="mt-12">
         <h2 class="title mb-6 text-accent-two">
-          <a href="/zh/notes/">筆記</a>
+          <a href="/zh-CN/notes/">笔记</a>
         </h2>
         <div class="grid grid-cols-1 gap-8 sm:grid-cols-2">
           {latestNotes.map((note: any) => (

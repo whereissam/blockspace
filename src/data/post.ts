@@ -18,7 +18,7 @@ export async function getPostsByLanguage(language: string): Promise<CollectionEn
 
 		// Normalize language codes for comparison
 		const normalizeLanguage = (lang: string) => lang.toLowerCase();
-		const supportedLanguages = ['en', 'zh'];
+		const supportedLanguages = ['en', 'zh-tw', 'zh-cn'];
 		const normalizedPostLanguage = normalizeLanguage(postLanguage);
 		const normalizedTargetLanguage = normalizeLanguage(language);
 
@@ -34,23 +34,23 @@ export async function getPostsByLanguage(language: string): Promise<CollectionEn
 /** get notes filtered by language */
 export async function getNotesByLanguage(language: string): Promise<CollectionEntry<"note">[]> {
 	const allNotes = await getCollection("note");
-	
+
 	// Filter notes based on language folder structure
 	return allNotes.filter(note => {
 		const pathSegments = note.id.split('/');
 		const noteLanguage = pathSegments[0];
-		
+
 		// Normalize language codes for comparison
 		const normalizeLanguage = (lang: string) => lang.toLowerCase();
-		const supportedLanguages = ['en', 'zh'];
+		const supportedLanguages = ['en', 'zh-tw', 'zh-cn'];
 		const normalizedNoteLanguage = normalizeLanguage(noteLanguage);
 		const normalizedTargetLanguage = normalizeLanguage(language);
-		
+
 		// If no language folder or unsupported language, assume English
 		if (pathSegments.length === 1 || !supportedLanguages.includes(normalizedNoteLanguage)) {
 			return normalizedTargetLanguage === 'en';
 		}
-		
+
 		return normalizedNoteLanguage === normalizedTargetLanguage;
 	});
 }

@@ -7,7 +7,11 @@ import { siteConfig, menuLinks } from "@/site.config";
 import { Icon } from "astro-icon/components";
 // Detect current language from URL
 const currentPath = Astro.url.pathname;
-const currentLang = currentPath.startsWith("/zh-TW") ? "zh-TW" : "en";
+const currentLang = currentPath.startsWith("/zh-TW")
+  ? "zh-TW"
+  : currentPath.startsWith("/zh-CN")
+    ? "zh-CN"
+    : "en";
 
 // Simple translation function
 const translations = {
@@ -22,6 +26,12 @@ const translations = {
     "navigation.about": "關於",
     "navigation.blog": "部落格",
     "navigation.notes": "筆記",
+  },
+  "zh-CN": {
+    "navigation.home": "首页",
+    "navigation.about": "关于",
+    "navigation.blog": "博客",
+    "navigation.notes": "笔记",
   },
 } as const;
 
@@ -53,7 +63,7 @@ const t = (key: string) => {
           ? "page"
           : false}
         class="group flex items-center space-x-3 transition-all duration-200 hover:scale-105"
-        href={currentLang === "zh-TW" ? "/zh-TW" : "/en"}
+        href={currentLang === "en" ? "/en" : `/${currentLang}`}
       >
         <div class="relative">
           <div
@@ -76,10 +86,7 @@ const t = (key: string) => {
       >
         {
           menuLinks.map((link) => {
-            const linkPath =
-              currentLang === "zh-TW"
-                ? `/zh-TW${link.path}`
-                : `/en${link.path}`;
+            const linkPath = `/${currentLang}${link.path}`;
             const isCurrentPage =
               Astro.url.pathname === linkPath ||
               (link.path === "/" &&
@@ -235,8 +242,7 @@ const t = (key: string) => {
       <!-- Mobile Navigation Links -->
       {
         menuLinks.map((link) => {
-          const linkPath =
-            currentLang === "zh-TW" ? `/zh-TW${link.path}` : `/en${link.path}`;
+          const linkPath = `/${currentLang}${link.path}`;
           const isCurrentPage =
             Astro.url.pathname === linkPath ||
             (link.path === "/" &&

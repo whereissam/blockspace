@@ -3,28 +3,28 @@ import Badge from "@/components/Badge.astro";
 import { getPostsByLanguage, getUniqueTagsWithCount } from "@/data/post";
 import PageLayout from "@/layouts/Base.astro";
 
-const allPosts = await getPostsByLanguage('zh');
+const allPosts = await getPostsByLanguage('zh-CN');
 const allTags = getUniqueTagsWithCount(allPosts);
 
 const meta = {
 	description: "我在文章中寫過的所有主題列表",
-	title: "所有標籤",
+	title: "所有标签",
 };
 ---
 
 <PageLayout meta={meta}>
-	<h1 class="title mb-6">標籤</h1>
+	<h1 class="title mb-6">标签</h1>
 	{allTags.length === 0 ? (
 		<div class="text-center py-16">
-			<h3 class="text-xl mb-4 text-textColor">暫無標籤</h3>
-			<p class="text-gray-500">繁體中文內容即將推出</p>
+			<h3 class="text-xl mb-4 text-textColor">暂无标签</h3>
+			<p class="text-gray-500">简体中文内容即将推出</p>
 		</div>
 	) : (
 		<div class="flex flex-wrap items-center gap-2">
 			{
 				allTags.map(([tag, val]) => (
 				<div class="flex items-center gap-x-2">
-					<a aria-label={`查看所有標籤為 ${tag} 的文章`} href={`/zh/tags/${tag}`}>
+					<a aria-label={`查看所有标签為 ${tag} 的文章`} href={`/zh/tags/${tag}`}>
 					<Badge variant="muted" title={tag}>
 						<span class="text-xs font-normal">
 							&nbsp;{val} 篇文章

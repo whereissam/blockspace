@@ -13,7 +13,7 @@ export const prerender = true;
 export const getStaticPaths = (async ({ paginate }) => {
 	const MAX_POSTS_PER_PAGE = 5;
 	const MAX_TAGS = 20;
-	const allPosts = await getPostsByLanguage('zh');
+	const allPosts = await getPostsByLanguage('zh-TW');
 	const uniqueTags = getUniqueTags(allPosts).slice(0, MAX_TAGS);
 	
 	// If no posts, create at least one empty page
@@ -74,7 +74,7 @@ const descYearKeys = Object.keys(groupedByYear).sort((a, b) => +b - +a);
 <PageLayout meta={meta}>
 	<h1 class="title mb-6 flex items-center gap-2">
 		文章
-		<a class="text-accent-two" href="/zh/rss.xml" target="_blank">
+		<a class="text-accent-two" href="/zh-TW/rss.xml" target="_blank">
 			<span class="sr-only">RSS 訂閱</span>
 			<Icon aria-hidden="true" class="h-6 w-6" focusable="false" name="mdi:rss" />
 		</a>
@@ -121,7 +121,7 @@ const descYearKeys = Object.keys(groupedByYear).sort((a, b) => +b - +a);
 							<a
 								aria-label="查看所有文章分類"
 								class="font-medium text-accent sm:hover:text-accent-two"
-								href="/zh/tags/"
+								href="/zh-TW/tags/"
 							>
 								查看全部 →
 							</a>

@@ -17,12 +17,15 @@ function getNoteUrl(note: CollectionEntry<"note">): string {
 	const noteLanguage = pathSegments[0]?.toLowerCase();
 	const slug = pathSegments.slice(1).join('/');
 
-	if (noteLanguage === 'zh') {
-		return `/zh/notes/${slug}/`;
-	} else {
-		// Default to English
-		return `/en/notes/${slug}/`;
-	}
+	// Map language codes to URL paths
+	const langMap: Record<string, string> = {
+		'zh-tw': 'zh-TW',
+		'zh-cn': 'zh-CN',
+		'en': 'en'
+	};
+
+	const urlLang = langMap[noteLanguage] || 'en';
+	return `/${urlLang}/notes/${slug}/`;
 }
 ---
 

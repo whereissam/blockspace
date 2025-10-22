@@ -4,14 +4,16 @@ import { Icon } from "astro-icon/components";
 // Simple path-based locale detection and path generation
 const currentPath = Astro.url.pathname;
 const isZhTW = currentPath.startsWith("/zh-TW");
+const isZhCN = currentPath.startsWith("/zh-CN");
 const isEn = currentPath.startsWith("/en");
 
 // Get the base path without language prefix
-const basePath = currentPath.replace(/^\/(?:en|zh-TW)/, "") || "/";
+const basePath = currentPath.replace(/^\/(?:en|zh-TW|zh-CN)/, "") || "/";
 
-// Generate paths for both languages
+// Generate paths for all languages
 const enPath = `/en${basePath}`;
-const zhPath = `/zh-TW${basePath}`;
+const zhTWPath = `/zh-TW${basePath}`;
+const zhCNPath = `/zh-CN${basePath}`;
 
 const languages = [
   {
@@ -25,8 +27,15 @@ const languages = [
     code: "zh-TW",
     name: "繁體中文",
     flag: "🇹🇼",
-    path: zhPath,
+    path: zhTWPath,
     active: isZhTW,
+  },
+  {
+    code: "zh-CN",
+    name: "简体中文",
+    flag: "🇨🇳",
+    path: zhCNPath,
+    active: isZhCN,
   },
 ];
 
@@ -47,7 +56,7 @@ const currentLang = languages.find((lang) => lang.active);
   </button>
 
   <div
-    class="fixed top-16 right-2 md:absolute md:right-0 md:top-full mt-2 w-36 bg-bgColor border border-special-lighter rounded-lg shadow-xl z-[9999] hidden"
+    class="fixed top-16 right-2 md:absolute md:right-0 md:top-full mt-2 w-40 bg-bgColor border border-special-lighter rounded-lg shadow-xl z-[9999] hidden"
     id="language-dropdown"
   >
     {

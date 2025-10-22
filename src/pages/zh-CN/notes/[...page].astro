@@ -46,8 +46,8 @@ interface Props {
 const { page } = Astro.props;
 
 const meta = {
-  description: "閱讀我的筆記集",
-  title: "筆記",
+  description: "阅读我的笔记集",
+  title: "笔记",
 };
 
 const paginationProps = {
@@ -69,8 +69,8 @@ const paginationProps = {
 <PageLayout meta={meta}>
   <section class="mt-12">
     <h1 class="title mb-6 flex items-center gap-2">
-      筆記
-      <a class="text-accent-two" href="/zh/notes/rss.xml" target="_blank">
+      笔记
+      <a class="text-accent-two" href="/zh-CN/notes/rss.xml" target="_blank">
         <span class="sr-only">RSS 訂閱</span>
         <Icon
           aria-hidden="true"
@@ -83,12 +83,12 @@ const paginationProps = {
     {
       page.data.length === 0 ? (
         <div class="text-center py-16">
-          <h3 class="text-xl mb-4 text-textColor">繁體中文筆記即將推出</h3>
+          <h3 class="text-xl mb-4 text-textColor">繁體中文笔记即將推出</h3>
           <p class="text-gray-500 mb-4">
             Traditional Chinese notes coming soon
           </p>
           <p class="text-sm text-gray-400">
-            目前所有筆記都是英文，中文翻譯正在進行中
+            目前所有笔记都是英文，中文翻译正在进行中
           </p>
         </div>
       ) : (

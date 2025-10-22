@@ -4,7 +4,11 @@ const year = new Date().getFullYear();
 
 // Detect current language from URL
 const currentPath = Astro.url.pathname;
-const currentLang = currentPath.startsWith("/zh-TW") ? "zh-TW" : "en";
+const currentLang = currentPath.startsWith("/zh-TW")
+  ? "zh-TW"
+  : currentPath.startsWith("/zh-CN")
+    ? "zh-CN"
+    : "en";
 
 // Simple translation function
 const translations = {
@@ -26,6 +30,15 @@ const translations = {
     "footer.tagline": "探索科技與創新的交匯點",
     "footer.social": "關注我們",
   },
+  "zh-CN": {
+    "navigation.home": "首页",
+    "navigation.about": "关于",
+    "navigation.blog": "博客",
+    "navigation.notes": "笔记",
+    "footer.copyright": `© ${year} ${siteConfig.title}。保留所有权利。`,
+    "footer.tagline": "探索科技与创新的交汇点",
+    "footer.social": "关注我们",
+  },
 };
 
 const t = (key: string) => translations[currentLang][key] || key;
@@ -45,7 +58,7 @@ const t = (key: string) => translations[currentLang][key] || key;
             ? "page"
             : false}
           class="group flex h-8 items-center hover:filter-none sm:relative mb-4"
-          href={currentLang === "zh-TW" ? "/zh-TW" : "/en"}
+          href={currentLang === "en" ? "/en" : `/${currentLang}`}
         >
           <div title={siteConfig.title}>
             <img class="w-10 h-10" src="/brand.svg" alt="" />
@@ -90,10 +103,7 @@ const t = (key: string) => translations[currentLang][key] || key;
         <ul class="space-y-3">
           {
             menuLinks.map((link) => {
-              const linkPath =
-                currentLang === "zh-TW"
-                  ? `/zh-TW${link.path}`
-                  : `/en${link.path}`;
+              const linkPath = `/${currentLang}${link.path}`;
 
               return (
                 <li>

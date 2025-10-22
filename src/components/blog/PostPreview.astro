@@ -16,12 +16,15 @@ function getPostUrl(post: CollectionEntry<"post">): string {
 	const postLanguage = pathSegments[0]?.toLowerCase();
 	const slug = pathSegments.slice(1).join('/');
 
-	if (postLanguage === 'zh') {
-		return `/zh/posts/${slug}/`;
-	} else {
-		// Default to English
-		return `/en/posts/${slug}/`;
-	}
+	// Map language codes to URL paths
+	const langMap: Record<string, string> = {
+		'zh-tw': 'zh-TW',
+		'zh-cn': 'zh-CN',
+		'en': 'en'
+	};
+
+	const urlLang = langMap[postLanguage] || 'en';
+	return `/${urlLang}/posts/${slug}/`;
 }
 ---
 

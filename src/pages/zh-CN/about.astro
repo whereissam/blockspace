@@ -1,0 +1,152 @@
+---
+import PageLayout from "@/layouts/Base.astro";
+import { Icon } from "astro-icon/components";
+
+const meta = {
+  description: "Sam 的个人区块链博客与作品集",
+  title: "关于",
+};
+
+const socialLinks = [
+  {
+    ariaLabel: "X",
+    icon: "hugeicons:new-twitter-rectangle",
+    href: "https://twitter.com/bungeegumeee",
+  },
+  {
+    ariaLabel: "Instagram",
+    icon: "hugeicons:instagram",
+    href: "https://www.instagram.com/the.blockspace",
+  },
+  {
+    ariaLabel: "Telegram",
+    icon: "hugeicons:telegram",
+    href: "https://t.me/theblockspaces",
+  },
+  {
+    ariaLabel: "Linkedin",
+    icon: "hugeicons:linkedin-01",
+    href: "https://www.linkedin.com/in/sam-hbz/",
+  },
+  {
+    ariaLabel: "Github",
+    icon: "hugeicons:github-01",
+    href: "https://github.com/whereissam/blockspace",
+  },
+];
+---
+
+<PageLayout meta={meta}>
+  <!-- Hero Section -->
+  <div class="relative overflow-hidden bg-gradient-to-br from-accent-base/5 via-accent-two/5 to-transparent rounded-2xl p-8 md:p-12 mb-12">
+    <div class="flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
+      <div class="relative">
+        <div class="absolute -inset-1 bg-gradient-to-r from-accent-base to-accent-two rounded-full opacity-75 blur"></div>
+        <img
+          src="/selfPhoto.png"
+          alt="Sam 的个人照片"
+          class="relative rounded-full w-48 h-48 md:w-56 md:h-56 object-cover shadow-xl border-4 border-bgColor"
+        />
+      </div>
+      
+      <div class="text-center lg:text-left flex-1">
+        <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-4">
+          <span class="bg-gradient-to-r from-accent-base to-accent-two bg-clip-text text-transparent">
+            嗨，我是 Sam
+          </span>
+        </h1>
+        <p class="text-xl md:text-2xl text-textColor/80 mb-6 leading-relaxed">
+          区块链爱好者与 AI 探索者，分享科技与创新交汇点的见解
+        </p>
+        
+        <!-- Stats -->
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-8">
+          <div class="text-center p-4 rounded-xl bg-special/50">
+            <div class="text-2xl font-bold text-accent-base">50+</div>
+            <div class="text-sm text-textColor/70">文章</div>
+          </div>
+          <div class="text-center p-4 rounded-xl bg-special/50">
+            <div class="text-2xl font-bold text-accent-base">10K+</div>
+            <div class="text-sm text-textColor/70">读者</div>
+          </div>
+          <div class="text-center p-4 rounded-xl bg-special/50 col-span-2 md:col-span-1">
+            <div class="text-2xl font-bold text-accent-base">2+</div>
+            <div class="text-sm text-textColor/70">年写作经验</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Content Sections -->
+  <div class="grid md:grid-cols-2 gap-8 mb-12">
+    <!-- About Section -->
+    <div class="bg-special/30 rounded-xl p-6 md:p-8">
+      <div class="flex items-center justify-start mb-4">
+        <Icon name="hugeicons:user-circle" class="h-8 w-8 text-accent-base mr-3 flex-shrink-0" />
+        <h2 class="text-2xl font-bold text-accent-base leading-none">关于我</h2>
+      </div>
+      <div class="prose prose-citrus max-w-none">
+        <p class="text-textColor leading-relaxed mb-4">
+          我热衷于探索区块链技术与人工智慧的前沿交汇点。
+          透过我的文章，我致力于深入浅出地解释复杂概念，并分享实用的见解。
+        </p>
+        <p class="text-textColor leading-relaxed">
+          当我不在研究最新协议或 AI 模型时，您会发现我正在研究新兴趋势，
+          并在 Web3 社群中建立联系。
+        </p>
+      </div>
+    </div>
+
+    <!-- Expertise Section -->
+    <div class="bg-special/30 rounded-xl p-6 md:p-8">
+      <div class="flex items-center justify-start mb-4">
+        <Icon name="hugeicons:brain" class="h-8 w-8 text-accent-base mr-3 flex-shrink-0" />
+        <h2 class="text-2xl font-bold text-accent-base leading-none">专业领域</h2>
+      </div>
+      <div class="space-y-4">
+        <div class="flex items-center">
+          <div class="w-3 h-3 bg-accent-base rounded-full mr-3"></div>
+          <span class="text-textColor">区块链技术与 DeFi</span>
+        </div>
+        <div class="flex items-center">
+          <div class="w-3 h-3 bg-accent-two rounded-full mr-3"></div>
+          <span class="text-textColor">人工智慧与机器学习</span>
+        </div>
+        <div class="flex items-center">
+          <div class="w-3 h-3 bg-accent-base rounded-full mr-3"></div>
+          <span class="text-textColor">Web3 开发与 dApps</span>
+        </div>
+        <div class="flex items-center">
+          <div class="w-3 h-3 bg-accent-two rounded-full mr-3"></div>
+          <span class="text-textColor">技术写作与研究</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Connect Section -->
+  <div class="bg-gradient-to-r from-accent-base/10 to-accent-two/10 rounded-xl p-8 text-center">
+    <h2 class="text-3xl font-bold text-accent-base mb-4">让我们联系</h2>
+    <p class="text-textColor/80 mb-8 max-w-2xl mx-auto">
+      追踪我的旅程，分享想法，或者只是打个招呼。我喜欢与这个领域的爱好者和学习者建立联系。
+    </p>
+    
+    <div class="flex flex-wrap justify-center gap-4">
+      {
+        socialLinks.map(({ ariaLabel, icon, href }) => (
+          <a
+            href={href}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={ariaLabel}
+            class="group flex items-center gap-3 px-6 py-3 bg-bgColor hover:bg-accent-base text-textColor hover:text-white rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105"
+          >
+            <Icon name={icon} class="h-5 w-5" />
+            <span class="font-medium">{ariaLabel}</span>
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</PageLayout>

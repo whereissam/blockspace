@@ -6,7 +6,7 @@
     "dev": "astro dev",
     "start": "astro dev",
     "build": "astro build",
-    "postbuild": "pagefind --site dist",
+    "postbuild": "pagefind --site dist --root-selector html",
     "preview": "netlify dev",
     "lint": "biome lint .",
     "format": "bun run format:code && bun run format:imports",
