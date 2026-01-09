@@ -1,52 +1,52 @@
-import SFProRoundedBold from "@/assets/fonts/SF-Pro-Rounded-Bold.latin.base.ttf";
-import SFProRoundedSemibold from "@/assets/fonts/SF-Pro-Rounded-Semibold.latin.base.ttf";
-import SFProRoundedMedium from "@/assets/fonts/SF-Pro-Rounded-Medium.latin.base.ttf";
-import SFProRoundedRegular from "@/assets/fonts/SF-Pro-Rounded-Regular.latin.base.ttf";
-import { getAllPosts } from "@/data/post";
-import { siteConfig } from "@/site.config";
-import { getFormattedDate } from "@/utils/date";
+import { readFile } from "node:fs/promises";
+import { join } from "node:path";
 import { Resvg } from "@resvg/resvg-js";
 import type { APIContext, InferGetStaticPropsType } from "astro";
 import satori, { type SatoriOptions } from "satori";
 import { html } from "satori-html";
-import { readFile } from "node:fs/promises";
-import { join } from "node:path";
+import SFProRoundedBold from "@/assets/fonts/SF-Pro-Rounded-Bold.latin.base.ttf";
+import SFProRoundedMedium from "@/assets/fonts/SF-Pro-Rounded-Medium.latin.base.ttf";
+import SFProRoundedRegular from "@/assets/fonts/SF-Pro-Rounded-Regular.latin.base.ttf";
+import SFProRoundedSemibold from "@/assets/fonts/SF-Pro-Rounded-Semibold.latin.base.ttf";
+import { getAllPosts } from "@/data/post";
+import { siteConfig } from "@/site.config";
+import { getFormattedDate } from "@/utils/date";
 
 const ogOptions: SatoriOptions = {
-  // debug: true,
-  fonts: [
-    {
-      data: Buffer.from(SFProRoundedRegular),
-      name: "SF Pro Rounded",
-      style: "normal",
-      weight: 400,
-    },
-	
-    {
-      data: Buffer.from(SFProRoundedMedium),
-      name: "SF Pro Rounded",
-      style: "normal",
-      weight: 500,
-    },
-    {
-      data: Buffer.from(SFProRoundedSemibold),
-      name: "SF Pro Rounded",
-      style: "normal",
-      weight: 600,
-    },
-    {
-      data: Buffer.from(SFProRoundedBold),
-      name: "SF Pro Rounded",
-      style: "normal",
-      weight: 700,
-    },
-  ],
-  height: 630,
-  width: 1200,
+	// debug: true,
+	fonts: [
+		{
+			data: Buffer.from(SFProRoundedRegular),
+			name: "SF Pro Rounded",
+			style: "normal",
+			weight: 400,
+		},
+
+		{
+			data: Buffer.from(SFProRoundedMedium),
+			name: "SF Pro Rounded",
+			style: "normal",
+			weight: 500,
+		},
+		{
+			data: Buffer.from(SFProRoundedSemibold),
+			name: "SF Pro Rounded",
+			style: "normal",
+			weight: 600,
+		},
+		{
+			data: Buffer.from(SFProRoundedBold),
+			name: "SF Pro Rounded",
+			style: "normal",
+			weight: 700,
+		},
+	],
+	height: 630,
+	width: 1200,
 };
 
 const markup = (title: string, pubDate: string, coverImageBase64: string) =>
-  html` <div tw="flex w-full h-full bg-gradient-to-br from-[#1a1a1a] to-[#2d2d2d] text-white">
+	html` <div tw="flex w-full h-full bg-gradient-to-br from-[#1a1a1a] to-[#2d2d2d] text-white">
     <!-- Background cover image with overlay -->
     <div tw="absolute inset-0 opacity-20">
       <img
@@ -88,83 +88,82 @@ type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 export const prerender = false;
 
 export async function GET(context: APIContext) {
-  try {
-    // Get slug from params
-    const { slug, ext } = context.params;
-    
-    // Find the post
-    const posts = await getAllPosts();
-    const post = posts.find(p => p.id === slug);
-    
-    if (!post) {
-      return new Response('Post not found', { status: 404 });
-    }
-    
-    const { title, publishDate, updatedDate } = post.data;
-    const pubDate = updatedDate ?? publishDate;
-    
-    const postDate = getFormattedDate(pubDate, {
-      month: "long",
-      weekday: "long",
-    });
-    
-    // Load and convert cover image to base64
-    const coverImagePath = join(process.cwd(), 'public', 'cover.png');
-    const coverImageBuffer = await readFile(coverImagePath);
-    const coverImageBase64 = coverImageBuffer.toString('base64');
-    
-    const svg = await satori(markup(title, postDate, coverImageBase64), ogOptions);
+	try {
+		// Get slug from params
+		const { slug, ext } = context.params;
 
-    // Check if user requests PNG
-    if (ext === "png") {
-      const png = new Resvg(svg).render().asPng();
-      return new Response(png, {
-        headers: {
-          "Cache-Control": "public, max-age=31536000, immutable",
-          "Content-Type": "image/png",
-        },
-      });
-    }
+		// Find the post
+		const posts = await getAllPosts();
+		const post = posts.find((p) => p.id === slug);
 
-    // Check if user requests SVG
-    if (ext === "svg") {
-      return new Response(svg, {
-        headers: {
-          "Cache-Control": "public, max-age=31536000",
-          "Content-Type": "image/svg+xml; charset=utf-8",
-        },
-      });
-    }
+		if (!post) {
+			return new Response("Post not found", { status: 404 });
+		}
 
-    // If request doesn't end with .png or .svg, return error
-    return new Response("Unsupported format", { status: 400 });
-    
-  } catch (error) {
-    console.error('OG Image generation error:', error);
-    return new Response('Error generating image', { status: 500 });
-  }
+		const { title, publishDate, updatedDate } = post.data;
+		const pubDate = updatedDate ?? publishDate;
+
+		const postDate = getFormattedDate(pubDate, {
+			month: "long",
+			weekday: "long",
+		});
+
+		// Load and convert cover image to base64
+		const coverImagePath = join(process.cwd(), "public", "cover.png");
+		const coverImageBuffer = await readFile(coverImagePath);
+		const coverImageBase64 = coverImageBuffer.toString("base64");
+
+		const svg = await satori(markup(title, postDate, coverImageBase64), ogOptions);
+
+		// Check if user requests PNG
+		if (ext === "png") {
+			const png = new Resvg(svg).render().asPng();
+			return new Response(png, {
+				headers: {
+					"Cache-Control": "public, max-age=31536000, immutable",
+					"Content-Type": "image/png",
+				},
+			});
+		}
+
+		// Check if user requests SVG
+		if (ext === "svg") {
+			return new Response(svg, {
+				headers: {
+					"Cache-Control": "public, max-age=31536000",
+					"Content-Type": "image/svg+xml; charset=utf-8",
+				},
+			});
+		}
+
+		// If request doesn't end with .png or .svg, return error
+		return new Response("Unsupported format", { status: 400 });
+	} catch (error) {
+		console.error("OG Image generation error:", error);
+		return new Response("Error generating image", { status: 500 });
+	}
 }
 
 export async function getStaticPaths() {
-  const posts = await getAllPosts();
-  return posts
-    .filter(({ data }) => !data.ogImage)
-    .flatMap((post) => {
-      return [
-        {
-          params: { slug: post.id, ext: "png" },
-          props: {
-            pubDate: post.data.updatedDate ?? post.data.publishDate,
-            title: post.data.title,
-          },
-        },
-        {
-          params: { slug: post.id, ext: "svg" },
-          props: {
-            pubDate: post.data.updatedDate ?? post.data.publishDate,
-            title: post.data.title,
-          },
-        },
-      ];
-    });
+	const posts = await getAllPosts();
+	return posts
+		.filter(({ data }) => !data.ogImage)
+		.flatMap((post) => {
+			return [
+				{
+					params: { slug: post.id, ext: "png" },
+					props: {
+						pubDate: post.data.updatedDate ?? post.data.publishDate,
+						title: post.data.title,
+					},
+				},
+				{
+					params: { slug: post.id, ext: "svg" },
+					props: {
+						pubDate: post.data.updatedDate ?? post.data.publishDate,
+						title: post.data.title,
+					},
+				},
+			];
+		});
 }

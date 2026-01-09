@@ -16,27 +16,27 @@ const zhTWPath = `/zh-TW${basePath}`;
 const zhCNPath = `/zh-CN${basePath}`;
 
 const languages = [
-  {
-    code: "en",
-    name: "English",
-    flag: "🇺🇸",
-    path: enPath,
-    active: isEn,
-  },
-  {
-    code: "zh-TW",
-    name: "繁體中文",
-    flag: "🇹🇼",
-    path: zhTWPath,
-    active: isZhTW,
-  },
-  {
-    code: "zh-CN",
-    name: "简体中文",
-    flag: "🇨🇳",
-    path: zhCNPath,
-    active: isZhCN,
-  },
+	{
+		code: "en",
+		name: "English",
+		flag: "🇺🇸",
+		path: enPath,
+		active: isEn,
+	},
+	{
+		code: "zh-TW",
+		name: "繁體中文",
+		flag: "🇹🇼",
+		path: zhTWPath,
+		active: isZhTW,
+	},
+	{
+		code: "zh-CN",
+		name: "简体中文",
+		flag: "🇨🇳",
+		path: zhCNPath,
+		active: isZhCN,
+	},
 ];
 
 const currentLang = languages.find((lang) => lang.active);
@@ -44,11 +44,10 @@ const currentLang = languages.find((lang) => lang.active);
 
 <div class="relative group">
   <button
-    class="flex h-8 w-8 items-center justify-center rounded-lg bg-color-100 hover:bg-accent-base/10 text-accent-base transition-colors"
+    class="language-toggle flex h-8 w-8 items-center justify-center rounded-lg bg-color-100 hover:bg-accent-base/10 text-accent-base transition-colors"
     aria-label="Select language"
     aria-expanded="false"
     aria-haspopup="true"
-    id="language-toggle"
     onclick="window.toggleLanguageDropdown(event)"
     style="-webkit-user-select: none; -webkit-touch-callout: none;"
   >
@@ -56,8 +55,7 @@ const currentLang = languages.find((lang) => lang.active);
   </button>
 
   <div
-    class="fixed top-16 right-2 md:absolute md:right-0 md:top-full mt-2 w-40 bg-bgColor border border-special-lighter rounded-lg shadow-xl z-[9999] hidden"
-    id="language-dropdown"
+    class="language-dropdown fixed top-16 right-2 md:absolute md:right-0 md:top-full mt-2 w-40 bg-bgColor border border-special-lighter rounded-lg shadow-xl z-[9999] hidden"
   >
     {
       languages.map((lang) => (
@@ -89,7 +87,7 @@ const currentLang = languages.find((lang) => lang.active);
     // Find the dropdown within the same parent container as the clicked button
     const clickedButton = event.currentTarget;
     const container = clickedButton.parentElement;
-    const dropdown = container.querySelector('[id="language-dropdown"]');
+    const dropdown = container.querySelector('.language-dropdown');
 
     if (dropdown && clickedButton) {
       const isHidden = dropdown.classList.contains("hidden");
@@ -108,12 +106,12 @@ const currentLang = languages.find((lang) => lang.active);
     // Close dropdown when clicking outside
     document.addEventListener("click", (e) => {
       // Find all language toggle instances on the page
-      const toggles = document.querySelectorAll('[id="language-toggle"]');
-      
+      const toggles = document.querySelectorAll('.language-toggle');
+
       toggles.forEach(toggle => {
         const container = toggle.parentElement;
-        const dropdown = container.querySelector('[id="language-dropdown"]');
-        
+        const dropdown = container.querySelector('.language-dropdown');
+
         if (
           toggle &&
           dropdown &&

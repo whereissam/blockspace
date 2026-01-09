@@ -12,19 +12,19 @@ export async function getPostsByLanguage(language: string): Promise<CollectionEn
 	const allPosts = await getAllPosts();
 
 	// Filter posts based on language folder structure
-	return allPosts.filter(post => {
-		const pathSegments = post.id.split('/');
+	return allPosts.filter((post) => {
+		const pathSegments = post.id.split("/");
 		const postLanguage = pathSegments[0];
 
 		// Normalize language codes for comparison
 		const normalizeLanguage = (lang: string) => lang.toLowerCase();
-		const supportedLanguages = ['en', 'zh-tw', 'zh-cn'];
+		const supportedLanguages = ["en", "zh-tw", "zh-cn"];
 		const normalizedPostLanguage = normalizeLanguage(postLanguage);
 		const normalizedTargetLanguage = normalizeLanguage(language);
 
 		// If no language folder or unsupported language, assume English
 		if (pathSegments.length === 1 || !supportedLanguages.includes(normalizedPostLanguage)) {
-			return normalizedTargetLanguage === 'en';
+			return normalizedTargetLanguage === "en";
 		}
 
 		return normalizedPostLanguage === normalizedTargetLanguage;
@@ -36,19 +36,19 @@ export async function getNotesByLanguage(language: string): Promise<CollectionEn
 	const allNotes = await getCollection("note");
 
 	// Filter notes based on language folder structure
-	return allNotes.filter(note => {
-		const pathSegments = note.id.split('/');
+	return allNotes.filter((note) => {
+		const pathSegments = note.id.split("/");
 		const noteLanguage = pathSegments[0];
 
 		// Normalize language codes for comparison
 		const normalizeLanguage = (lang: string) => lang.toLowerCase();
-		const supportedLanguages = ['en', 'zh-tw', 'zh-cn'];
+		const supportedLanguages = ["en", "zh-tw", "zh-cn"];
 		const normalizedNoteLanguage = normalizeLanguage(noteLanguage);
 		const normalizedTargetLanguage = normalizeLanguage(language);
 
 		// If no language folder or unsupported language, assume English
 		if (pathSegments.length === 1 || !supportedLanguages.includes(normalizedNoteLanguage)) {
-			return normalizedTargetLanguage === 'en';
+			return normalizedTargetLanguage === "en";
 		}
 
 		return normalizedNoteLanguage === normalizedTargetLanguage;

@@ -1,5 +1,4 @@
 ---
-import { Image } from "astro:assets";
 import type { WebmentionsChildren } from "@/types";
 
 interface Props {
@@ -10,7 +9,7 @@ const { mentions } = Astro.props;
 const MAX_LIKES = 10;
 
 const likes = mentions.filter((mention) => mention["wm-property"] === "like-of");
-const likesToShow = likes
+const _likesToShow = likes
 	.filter((like) => like.author?.photo && like.author.photo !== "")
 	.slice(0, MAX_LIKES);
 ---

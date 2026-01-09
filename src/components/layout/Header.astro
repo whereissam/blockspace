@@ -5,40 +5,41 @@ import ThemeToggle from "@/components/ThemeToggle.astro";
 import LanguageToggle from "@/components/LanguageToggle.astro";
 import { siteConfig, menuLinks } from "@/site.config";
 import { Icon } from "astro-icon/components";
+
 // Detect current language from URL
 const currentPath = Astro.url.pathname;
 const currentLang = currentPath.startsWith("/zh-TW")
-  ? "zh-TW"
-  : currentPath.startsWith("/zh-CN")
-    ? "zh-CN"
-    : "en";
+	? "zh-TW"
+	: currentPath.startsWith("/zh-CN")
+		? "zh-CN"
+		: "en";
 
 // Simple translation function
 const translations = {
-  en: {
-    "navigation.home": "Home",
-    "navigation.about": "About",
-    "navigation.blog": "Blog",
-    "navigation.notes": "Notes",
-  },
-  "zh-TW": {
-    "navigation.home": "首頁",
-    "navigation.about": "關於",
-    "navigation.blog": "部落格",
-    "navigation.notes": "筆記",
-  },
-  "zh-CN": {
-    "navigation.home": "首页",
-    "navigation.about": "关于",
-    "navigation.blog": "博客",
-    "navigation.notes": "笔记",
-  },
+	en: {
+		"navigation.home": "Home",
+		"navigation.about": "About",
+		"navigation.blog": "Blog",
+		"navigation.notes": "Notes",
+	},
+	"zh-TW": {
+		"navigation.home": "首頁",
+		"navigation.about": "關於",
+		"navigation.blog": "部落格",
+		"navigation.notes": "筆記",
+	},
+	"zh-CN": {
+		"navigation.home": "首页",
+		"navigation.about": "关于",
+		"navigation.blog": "博客",
+		"navigation.notes": "笔记",
+	},
 } as const;
 
 type TranslationKey = keyof typeof translations.en;
 const t = (key: string) => {
-  const translationKey = key as TranslationKey;
-  return translations[currentLang][translationKey] || key;
+	const translationKey = key as TranslationKey;
+	return translations[currentLang][translationKey] || key;
 };
 ---
 
@@ -117,32 +118,16 @@ const t = (key: string) => {
       <div class="flex items-center space-x-3">
         <!-- Desktop Action Buttons -->
         <div id="buttons-panel" class="hidden md:flex items-center space-x-2">
-          <div
-            class="p-1.5 rounded-lg bg-special/50 hover:bg-special transition-colors"
-          >
-            <OramaSearch />
-          </div>
-          <div
-            class="ai-chatbot-wrapper p-1.5 rounded-lg bg-special/50 hover:bg-special transition-colors"
-          >
-            <AIChatbot />
-          </div>
-          <div
-            class="p-1.5 rounded-lg bg-special/50 hover:bg-special transition-colors"
-          >
-            <LanguageToggle />
-          </div>
-          <div
-            class="p-1.5 rounded-lg bg-special/50 hover:bg-special transition-colors"
-          >
-            <ThemeToggle />
-          </div>
+          <OramaSearch />
+          <AIChatbot />
+          <LanguageToggle />
+          <ThemeToggle />
         </div>
 
         <!-- Mobile Action Buttons -->
         <div class="flex md:hidden items-center space-x-2 relative z-40">
           <OramaSearch />
-          <span class="ai-chatbot-mobile-wrapper"><AIChatbot /></span>
+          <AIChatbot />
           <LanguageToggle />
           <ThemeToggle />
         </div>

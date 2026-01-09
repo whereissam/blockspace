@@ -1,44 +1,47 @@
 ---
-import { menuLinks, siteConfig } from "@/site.config";
+import { Icon } from "astro-icon/components";
+import { siteConfig, menuLinks } from "@/site.config";
+import SocialList from "@/components/SocialList.astro";
+
 const year = new Date().getFullYear();
 
 // Detect current language from URL
 const currentPath = Astro.url.pathname;
 const currentLang = currentPath.startsWith("/zh-TW")
-  ? "zh-TW"
-  : currentPath.startsWith("/zh-CN")
-    ? "zh-CN"
-    : "en";
+	? "zh-TW"
+	: currentPath.startsWith("/zh-CN")
+		? "zh-CN"
+		: "en";
 
 // Simple translation function
 const translations = {
-  en: {
-    "navigation.home": "Home",
-    "navigation.about": "About",
-    "navigation.blog": "Blog",
-    "navigation.notes": "Notes",
-    "footer.copyright": `© ${year} ${siteConfig.title}. All rights reserved.`,
-    "footer.tagline": "Exploring the intersection of technology and innovation",
-    "footer.social": "Follow Us",
-  },
-  "zh-TW": {
-    "navigation.home": "首頁",
-    "navigation.about": "關於",
-    "navigation.blog": "部落格",
-    "navigation.notes": "筆記",
-    "footer.copyright": `© ${year} ${siteConfig.title}。保留所有權利。`,
-    "footer.tagline": "探索科技與創新的交匯點",
-    "footer.social": "關注我們",
-  },
-  "zh-CN": {
-    "navigation.home": "首页",
-    "navigation.about": "关于",
-    "navigation.blog": "博客",
-    "navigation.notes": "笔记",
-    "footer.copyright": `© ${year} ${siteConfig.title}。保留所有权利。`,
-    "footer.tagline": "探索科技与创新的交汇点",
-    "footer.social": "关注我们",
-  },
+	en: {
+		"navigation.home": "Home",
+		"navigation.about": "About",
+		"navigation.blog": "Blog",
+		"navigation.notes": "Notes",
+		"footer.copyright": `© ${year} ${siteConfig.title}. All rights reserved.`,
+		"footer.tagline": "Exploring the intersection of technology and innovation",
+		"footer.social": "Follow Us",
+	},
+	"zh-TW": {
+		"navigation.home": "首頁",
+		"navigation.about": "關於",
+		"navigation.blog": "部落格",
+		"navigation.notes": "筆記",
+		"footer.copyright": `© ${year} ${siteConfig.title}。保留所有權利。`,
+		"footer.tagline": "探索科技與創新的交匯點",
+		"footer.social": "關注我們",
+	},
+	"zh-CN": {
+		"navigation.home": "首页",
+		"navigation.about": "关于",
+		"navigation.blog": "博客",
+		"navigation.notes": "笔记",
+		"footer.copyright": `© ${year} ${siteConfig.title}。保留所有权利。`,
+		"footer.tagline": "探索科技与创新的交汇点",
+		"footer.social": "关注我们",
+	},
 };
 
 const t = (key: string) => translations[currentLang][key] || key;

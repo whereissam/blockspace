@@ -1,39 +1,41 @@
 ---
 import type { CollectionEntry } from "astro:content";
-import Pagination from "@/components/Paginator.astro";
-import PostPreview from "@/components/blog/PostPreview.astro";
-import { getPostsByLanguage, getUniqueTags, groupPostsByYear } from "@/data/post";
-import PageLayout from "@/layouts/Base.astro";
-import { collectionDateSort } from "@/utils/date";
-import type { GetStaticPaths, Page } from "astro";
 import { Icon } from "astro-icon/components";
+import PostPreview from "@/components/blog/PostPreview.astro";
+import Pagination from "@/components/Paginator.astro";
 import Badge from "@/components/Badge.astro";
+import PageLayout from "@/layouts/Base.astro";
+import type { GetStaticPaths, Page } from "astro";
+import { getPostsByLanguage, getUniqueTags, groupPostsByYear } from "@/data/post";
+import { collectionDateSort } from "@/utils/date";
 
 export const prerender = true;
 export const getStaticPaths = (async ({ paginate }) => {
 	const MAX_POSTS_PER_PAGE = 5;
 	const MAX_TAGS = 20;
-	const allPosts = await getPostsByLanguage('zh-TW');
+	const allPosts = await getPostsByLanguage("zh-TW");
 	const uniqueTags = getUniqueTags(allPosts).slice(0, MAX_TAGS);
-	
+
 	// If no posts, create at least one empty page
 	if (allPosts.length === 0) {
-		return [{
-			params: { page: undefined },
-			props: { 
-				page: {
-					data: [],
-					url: { prev: null, next: null },
-					currentPage: 1,
-					lastPage: 1,
-					size: MAX_POSTS_PER_PAGE,
-					total: 0
+		return [
+			{
+				params: { page: undefined },
+				props: {
+					page: {
+						data: [],
+						url: { prev: null, next: null },
+						currentPage: 1,
+						lastPage: 1,
+						size: MAX_POSTS_PER_PAGE,
+						total: 0,
+					},
+					uniqueTags: [],
 				},
-				uniqueTags: []
-			}
-		}];
+			},
+		];
 	}
-	
+
 	return paginate(allPosts.sort(collectionDateSort), {
 		pageSize: MAX_POSTS_PER_PAGE,
 		props: { uniqueTags },

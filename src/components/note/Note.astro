@@ -1,7 +1,7 @@
 ---
 import { type CollectionEntry, render } from "astro:content";
-import FormattedDate from "@/components/FormattedDate.astro";
 import type { HTMLTag, Polymorphic } from "astro/types";
+import FormattedDate from "@/components/FormattedDate.astro";
 
 type Props<Tag extends HTMLTag> = Polymorphic<{ as: Tag }> & {
 	note: CollectionEntry<"note">;
@@ -13,18 +13,18 @@ const { Content } = await render(note);
 
 // Generate correct URL based on note language
 function getNoteUrl(note: CollectionEntry<"note">): string {
-	const pathSegments = note.id.split('/');
+	const pathSegments = note.id.split("/");
 	const noteLanguage = pathSegments[0]?.toLowerCase();
-	const slug = pathSegments.slice(1).join('/');
+	const slug = pathSegments.slice(1).join("/");
 
 	// Map language codes to URL paths
 	const langMap: Record<string, string> = {
-		'zh-tw': 'zh-TW',
-		'zh-cn': 'zh-CN',
-		'en': 'en'
+		"zh-tw": "zh-TW",
+		"zh-cn": "zh-CN",
+		en: "en",
 	};
 
-	const urlLang = langMap[noteLanguage] || 'en';
+	const urlLang = langMap[noteLanguage] || "en";
 	return `/${urlLang}/notes/${slug}/`;
 }
 ---

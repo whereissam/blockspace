@@ -1,10 +1,13 @@
 ---
-import Badge from "@/components/Badge.astro";
 import { getPostsByLanguage, getUniqueTagsWithCount } from "@/data/post";
+import { Icon } from "astro-icon/components";
+import PostPreview from "@/components/blog/PostPreview.astro";
+import Pagination from "@/components/Paginator.astro";
 import PageLayout from "@/layouts/Base.astro";
+import Badge from "@/components/Badge.astro";
 
-const allPosts = await getPostsByLanguage('zh-CN');
-const allTags = getUniqueTagsWithCount(allPosts);
+const allPosts = await getPostsByLanguage("zh-CN");
+const _allTags = getUniqueTagsWithCount(allPosts);
 
 const meta = {
 	description: "我在文章中寫過的所有主題列表",

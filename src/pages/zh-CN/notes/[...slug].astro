@@ -1,21 +1,21 @@
 ---
-import { getNotesByLanguage } from "@/data/post";
+import type { GetStaticPaths, InferGetStaticPropsType } from "astro";
 
 import Note from "@/components/note/Note.astro";
 import PageLayout from "@/layouts/Base.astro";
-import type { GetStaticPaths, InferGetStaticPropsType } from "astro";
+import { getNotesByLanguage } from "@/data/post";
 
 export const prerender = true;
 
 // If you're using an adaptor in SSR mode, getStaticPaths wont work -> https://docs.astro.build/en/guides/routing/#modifying-the-slug-example-for-ssr
 export const getStaticPaths = (async () => {
-	const allNotes = await getNotesByLanguage('zh-CN');
-	
+	const allNotes = await getNotesByLanguage("zh-CN");
+
 	// If no notes, return empty array to prevent build errors
 	if (allNotes.length === 0) {
 		return [];
 	}
-	
+
 	return allNotes.map((note) => ({
 		params: { slug: note.id },
 		props: { note },
@@ -28,8 +28,7 @@ const { note } = Astro.props;
 
 const meta = {
 	description:
-		note.data.description ||
-		`阅读我于 ${note.data.publishDate.toLocaleDateString()} 发布的笔记`,
+		note.data.description || `阅读我于 ${note.data.publishDate.toLocaleDateString()} 发布的笔记`,
 	title: note.data.title,
 };
 ---

@@ -1,18 +1,17 @@
 ---
 import { type CollectionEntry, getCollection } from "astro:content";
-import SocialList from "@/components/SocialList.astro";
+import Base from "@/layouts/Base.astro";
 import PostPreview from "@/components/blog/PostPreview.astro";
 import Note from "@/components/note/Note.astro";
 import { getPostsByLanguage } from "@/data/post";
-import PageLayout from "@/layouts/Base.astro";
 import { collectionDateSort } from "@/utils/date";
 
 // Posts
 const MAX_POSTS = 10;
-const allPosts = await getPostsByLanguage('en');
+const allPosts = await getPostsByLanguage("en");
 const allPostsByDate = allPosts
-  .sort(collectionDateSort)
-  .slice(0, MAX_POSTS) as CollectionEntry<"post">[];
+	.sort(collectionDateSort)
+	.slice(0, MAX_POSTS) as CollectionEntry<"post">[];
 
 // Notes
 const MAX_NOTES = 2;
@@ -20,7 +19,7 @@ const allNotes = await getCollection("note");
 const latestNotes = allNotes.sort(collectionDateSort).slice(0, MAX_NOTES);
 ---
 
-<PageLayout meta={{ title: "Home" }}>
+<Base meta={{ title: "Home" }}>
   <!-- Hero section -->
   <!-- Background blur -->
   <div
@@ -77,4 +76,4 @@ const latestNotes = allNotes.sort(collectionDateSort).slice(0, MAX_NOTES);
       </section>
     )
   }
-</PageLayout>
+</Base>

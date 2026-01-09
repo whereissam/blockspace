@@ -2,14 +2,14 @@
 import type { MarkdownHeading } from "astro";
 
 interface Props {
-  headings: MarkdownHeading[];
+	headings: MarkdownHeading[];
 }
 
 const { headings } = Astro.props;
 
 // Only show TOC if there are headings
 if (!headings || headings.length === 0) {
-  return null;
+	return null;
 }
 ---
 

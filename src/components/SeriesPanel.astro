@@ -3,7 +3,7 @@ import { Icon } from "astro-icon/components";
 import { type CollectionEntry, getCollection } from "astro:content";
 
 const { seriesId } = Astro.props;
-const currentPath = Astro.url.pathname;
+const _currentPath = Astro.url.pathname;
 
 const posts = await getCollection("post");
 const series = await getCollection("series");
@@ -11,14 +11,14 @@ const series = await getCollection("series");
 // Find the series by the `seriesId` specified in the post
 const postsSeries = series.find((s) => s.id === seriesId);
 if (!postsSeries) {
-  	console.warn(`Series with ID '${seriesId}' not found. Skipping series panel.`);
-  	// Return early if series not found - don't render the component
+	console.warn(`Series with ID '${seriesId}' not found. Skipping series panel.`);
+	// Return early if series not found - don't render the component
 }
 // console.log("Post(s) Series:", postsSeries); // Debug. Log the found series
 
-let seriesPosts: CollectionEntry<"post">[] = [];
+let _seriesPosts: CollectionEntry<"post">[] = [];
 if (seriesId && postsSeries) {
-	seriesPosts = posts
+	_seriesPosts = posts
 		.filter((p) => p.data.seriesId === seriesId)
 		.sort((a, b) => (a.data.orderInSeries || 0) - (b.data.orderInSeries || 0));
 }

@@ -32,8 +32,8 @@ const post = defineCollection({
 				.optional()
 				.transform((str) => (str ? new Date(str) : undefined)),
 			// Series
-			seriesId: z.string().optional(), 
-      		orderInSeries: z.number().optional(), 
+			seriesId: z.string().optional(),
+			orderInSeries: z.number().optional(),
 			// End
 		}),
 });
@@ -56,7 +56,7 @@ const series = defineCollection({
 		id: z.string(),
 		title: z.string(),
 		description: z.string(),
-		featured: z.boolean().default(false), 
+		featured: z.boolean().default(false),
 	}),
 });
 // End

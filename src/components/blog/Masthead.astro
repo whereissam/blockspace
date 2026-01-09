@@ -1,19 +1,15 @@
 ---
-import { Image } from "astro:assets";
-import { type CollectionEntry, getCollection } from "astro:content";
-import FormattedDate from "@/components/FormattedDate.astro";
 import { Icon } from "astro-icon/components";
-import Badge from '@/components/Badge.astro';
-import Separator from "../Separator.astro";
+import FormattedDate from "@/components/FormattedDate.astro";
+import Separator from "@/components/Separator.astro";
+import Badge from "@/components/Badge.astro";
+import { type CollectionEntry, getCollection } from "astro:content";
 
 interface Props {
 	content: CollectionEntry<"post">;
 }
 
-const {
-	content,
-
-} = Astro.props;
+const { content } = Astro.props;
 
 // console.log("data:", data); // Debug
 // console.log("headings:", content.rendered?.metadata?.headings); // Debug
@@ -24,13 +20,13 @@ const dateTimeOptions: Intl.DateTimeFormatOptions = {
 };
 
 const postSeries = content.data.seriesId
-    ? await getCollection("series")
-          .then(series => series.find(s => s.id === content.data.seriesId))
-          .catch(err => {
-            console.error("Failed to find series:", err);
-            return null;
-          })
-    : null;
+	? await getCollection("series")
+			.then((series) => series.find((s) => s.id === content.data.seriesId))
+			.catch((err) => {
+				console.error("Failed to find series:", err);
+				return null;
+			})
+	: null;
 ---
 
 <div class="md:sticky md:top-8 md:z-10 mt-6 md:mt-9">

@@ -1,22 +1,22 @@
 ---
 import { render } from "astro:content";
-import { getPostsByLanguage } from "@/data/post";
-import PostLayout from "@/layouts/BlogPost.astro";
+import BlogPost from "@/layouts/BlogPost.astro";
 import type { GetStaticPaths, InferGetStaticPropsType } from "astro";
+import { getPostsByLanguage } from "@/data/post";
 
 export const prerender = true;
 
 // If you're using an adaptor in SSR mode, getStaticPaths wont work -> https://docs.astro.build/en/guides/routing/#modifying-the-slug-example-for-ssr
 export const getStaticPaths = (async () => {
-	const blogEntries = await getPostsByLanguage('zh-TW');
-	
+	const blogEntries = await getPostsByLanguage("zh-TW");
+
 	// If no posts, return empty array to prevent build errors
 	if (blogEntries.length === 0) {
 		return [];
 	}
-	
+
 	return blogEntries.map((post) => ({
-		params: { slug: post.id.split('/').slice(1).join('/') },
+		params: { slug: post.id.split("/").slice(1).join("/") },
 		props: { post },
 	}));
 }) satisfies GetStaticPaths;
@@ -27,6 +27,6 @@ const { post } = Astro.props;
 const { Content } = await render(post);
 ---
 
-<PostLayout post={post}>
+<BlogPost post={post}>
 	<Content />
-</PostLayout>
+</BlogPost>

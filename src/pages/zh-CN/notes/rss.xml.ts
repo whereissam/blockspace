@@ -1,12 +1,12 @@
+import rss from "@astrojs/rss";
 import { getNotesByLanguage } from "@/data/post";
 import { siteConfig } from "@/site.config";
-import rss from "@astrojs/rss";
 
 export const GET = async () => {
-	const notes = await getNotesByLanguage('zh');
+	const notes = await getNotesByLanguage("zh");
 
 	return rss({
-		title: siteConfig.title + " - 筆記",
+		title: `${siteConfig.title} - 筆記`,
 		description: siteConfig.description,
 		site: import.meta.env.SITE,
 		items: notes.map((note) => ({

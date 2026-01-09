@@ -1,16 +1,18 @@
 ---
 import type { CollectionEntry } from "astro:content";
-import Pagination from "@/components/Paginator.astro";
+import { Icon } from "astro-icon/components";
 import PostPreview from "@/components/blog/PostPreview.astro";
-import { getPostsByLanguage, getUniqueTags } from "@/data/post";
+import Pagination from "@/components/Paginator.astro";
 import PageLayout from "@/layouts/Base.astro";
-import { collectionDateSort } from "@/utils/date";
+import Badge from "@/components/Badge.astro";
 import type { GetStaticPaths, Page } from "astro";
+import { getPostsByLanguage, getUniqueTags } from "@/data/post";
+import { collectionDateSort } from "@/utils/date";
 
 export const prerender = true;
 
 export const getStaticPaths: GetStaticPaths = async ({ paginate }) => {
-	const allPosts = await getPostsByLanguage('zh-CN');
+	const allPosts = await getPostsByLanguage("zh-CN");
 	const sortedPosts = allPosts.sort(collectionDateSort);
 	const uniqueTags = getUniqueTags(sortedPosts);
 
