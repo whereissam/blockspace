@@ -10,6 +10,19 @@ export const prerender = false;
 
 export const POST: APIRoute = async ({ request }) => {
 	try {
+		if (!import.meta.env.DEV) {
+			return new Response(
+				JSON.stringify({
+					error:
+						"CMS write API is disabled in production. This endpoint writes to local files and only works in local development.",
+				}),
+				{
+					status: 501,
+					headers: { "Content-Type": "application/json" },
+				},
+			);
+		}
+
 		const formData = await request.formData();
 
 		const title = formData.get("title") as string;

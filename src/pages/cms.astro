@@ -6,9 +6,17 @@ const meta = {
 	title: "Local CMS",
 	description: "Create and manage blog posts locally",
 };
+const isDev = import.meta.env.DEV;
 ---
 
 <PageLayout meta={meta}>
+  {
+    !isDev && (
+      <div class="mb-6 rounded-lg border border-amber-300 bg-amber-50 p-4 text-amber-800 dark:border-amber-700 dark:bg-amber-900/20 dark:text-amber-200">
+        This CMS writes directly to local files and is only available in local development. It is disabled on deployed environments (Cloudflare/Netlify/Vercel).
+      </div>
+    )
+  }
   <div class="text-center mb-8">
     <h1 class="text-4xl font-bold text-accent-base mb-4">
       <Icon name="hugeicons:edit-02" class="inline-block h-10 w-10 mr-3" />
@@ -151,6 +159,7 @@ const meta = {
       <div class="flex gap-4">
         <button
           type="submit"
+          disabled={!isDev}
           class="px-6 py-3 bg-accent-base text-white rounded-lg hover:bg-accent-base/90 focus:ring-2 focus:ring-accent-base focus:ring-offset-2 transition-colors"
         >
           Create Post
@@ -158,6 +167,7 @@ const meta = {
         <button
           type="button"
           id="preview-btn"
+          disabled={!isDev}
           class="px-6 py-3 bg-gray-500 text-white rounded-lg hover:bg-gray-600 focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors"
         >
           Preview
@@ -266,7 +276,7 @@ const meta = {
         previewArea.classList.add('hidden');
         
       } else {
-        throw new Error(result.error || 'Failed to create post');
+        throw new Error(result.details ? `${result.error}: ${result.details}` : (result.error || 'Failed to create post'));
       }
       
       outputArea.scrollIntoView({ behavior: 'smooth' });
