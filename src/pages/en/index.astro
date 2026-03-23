@@ -1,4 +1,6 @@
 ---
+export const prerender = true;
+
 import { type CollectionEntry, getCollection } from "astro:content";
 import Base from "@/layouts/Base.astro";
 import PostPreview from "@/components/blog/PostPreview.astro";
@@ -19,7 +21,7 @@ const allNotes = await getCollection("note");
 const latestNotes = allNotes.sort(collectionDateSort).slice(0, MAX_NOTES);
 ---
 
-<Base meta={{ title: "Home" }}>
+<Base meta={{ title: "Home", description: "Blockspace — Sam's blog exploring blockchain, AI, Web3, DeFi, and emerging technology with deep dives and practical insights" }}>
   <!-- Hero section -->
   <!-- Background blur -->
   <div

@@ -7,7 +7,7 @@ import PageLayout from "@/layouts/Base.astro";
 import Badge from "@/components/Badge.astro";
 
 const allPosts = await getPostsByLanguage("zh-CN");
-const _allTags = getUniqueTagsWithCount(allPosts);
+const allTags = getUniqueTagsWithCount(allPosts);
 
 const meta = {
 	description: "我在文章中寫過的所有主題列表",
@@ -27,7 +27,7 @@ const meta = {
 			{
 				allTags.map(([tag, val]) => (
 				<div class="flex items-center gap-x-2">
-					<a aria-label={`查看所有标签為 ${tag} 的文章`} href={`/zh/tags/${tag}`}>
+					<a aria-label={`查看所有标签為 ${tag} 的文章`} href={`/zh-CN/tags/${tag}/`}>
 					<Badge variant="muted" title={tag}>
 						<span class="text-xs font-normal">
 							&nbsp;{val} 篇文章

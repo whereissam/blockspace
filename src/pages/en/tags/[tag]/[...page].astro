@@ -1,0 +1,76 @@
+---
+import type { CollectionEntry } from "astro:content";
+import PostPreview from "@/components/blog/PostPreview.astro";
+import Pagination from "@/components/Paginator.astro";
+import PageLayout from "@/layouts/Base.astro";
+import type { GetStaticPaths, Page } from "astro";
+import { getPostsByLanguage, getUniqueTags } from "@/data/post";
+import { collectionDateSort } from "@/utils/date";
+
+export const prerender = true;
+
+export const getStaticPaths: GetStaticPaths = async ({ paginate }) => {
+	const allPosts = await getPostsByLanguage("en");
+	const sortedPosts = allPosts.sort(collectionDateSort);
+	const uniqueTags = getUniqueTags(sortedPosts);
+
+	if (allPosts.length === 0) {
+		return [];
+	}
+
+	return uniqueTags.flatMap((tag) => {
+		const filterPosts = sortedPosts.filter((post) => post.data.tags.includes(tag));
+		return paginate(filterPosts, {
+			pageSize: 10,
+			params: { tag },
+		});
+	});
+};
+
+interface Props {
+	page: Page<CollectionEntry<"post">>;
+}
+
+const { page } = Astro.props;
+const { tag } = Astro.params;
+
+const meta = {
+	description: `Browse all posts tagged with ${tag}`,
+	title: `Tag: ${tag}`,
+};
+
+const paginationProps = {
+	...(page.url.prev && {
+		prevUrl: {
+			text: "\u2190 Previous Tags",
+			url: page.url.prev,
+		},
+	}),
+	...(page.url.next && {
+		nextUrl: {
+			text: "Next Tags \u2192",
+			url: page.url.next,
+		},
+	}),
+};
+---
+
+<PageLayout meta={meta}>
+	<h1 class="title mb-6 flex items-center">
+		<a class="text-accent-two sm:hover:underline" href="/en/tags/">Tags</a>
+		<span class="me-3 ms-2">&rarr;</span>
+		<span class="text-2xl">#{tag}</span>
+	</h1>
+	<section aria-label="Blog post list">
+		<ul class="space-y-4">
+			{
+				page.data.map((p) => (
+					<li class="grid-cols-[auto_1fr]">
+						<PostPreview post={p} />
+					</li>
+				))
+			}
+		</ul>
+		<Pagination {...paginationProps} />
+	</section>
+</PageLayout>

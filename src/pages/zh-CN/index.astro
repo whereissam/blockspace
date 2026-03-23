@@ -1,4 +1,6 @@
 ---
+export const prerender = true;
+
 import type { CollectionEntry } from "astro:content";
 import PageLayout from "@/layouts/Base.astro";
 import PostPreview from "@/components/blog/PostPreview.astro";
@@ -19,7 +21,7 @@ const allNotes = await getNotesByLanguage("zh-CN");
 const latestNotes = allNotes.sort(collectionDateSort).slice(0, MAX_NOTES);
 ---
 
-<PageLayout meta={{ title: "首页" }}>
+<PageLayout meta={{ title: "首页", description: "Blockspace — Sam 的博客，探索区块链、AI、Web3、DeFi 与新兴科技的深度文章与实用见解" }}>
   <!-- Hero section -->
   <!-- Background blur -->
   <div

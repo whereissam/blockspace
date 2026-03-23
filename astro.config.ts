@@ -37,10 +37,25 @@ export default defineConfig({
 			applyBaseStyles: false,
 			nesting: true,
 		}),
-		sitemap(),
+		sitemap({
+			filter: (page) =>
+				!page.includes("/cms") &&
+				!page.includes("/api/") &&
+				!page.includes("/og-image/") &&
+				page !== "https://blockspaces.xyz/" &&
+				page !== "https://blockspaces.xyz/about/",
+		}),
 		mdx(),
 		// astroI18next(),
-		robotsTxt(),
+		robotsTxt({
+			policy: [
+				{
+					userAgent: "*",
+					allow: "/",
+					disallow: ["/api/", "/og-image/", "/cms"],
+				},
+			],
+		}),
 		AstroPWA({
 			mode: "production",
 			base: "/",
@@ -50,7 +65,7 @@ export default defineConfig({
 			manifest: {
 				name: siteConfig.title,
 				short_name: "Blockspace",
-				description: siteConfig.description,
+				description: "Sam's blog on blockchain, AI, Web3, and emerging technology",
 				theme_color: "#2bbc8a",
 				background_color: "#1d1f21",
 				display: "standalone",

@@ -1,36 +1,35 @@
 ---
+export const prerender = true;
+
 import { getPostsByLanguage, getUniqueTagsWithCount } from "@/data/post";
-import { Icon } from "astro-icon/components";
-import PostPreview from "@/components/blog/PostPreview.astro";
-import Pagination from "@/components/Paginator.astro";
 import PageLayout from "@/layouts/Base.astro";
 import Badge from "@/components/Badge.astro";
 
-const allPosts = await getPostsByLanguage("zh-TW");
+const allPosts = await getPostsByLanguage("en");
 const allTags = getUniqueTagsWithCount(allPosts);
 
 const meta = {
-	description: "我在文章中寫過的所有主題列表",
-	title: "所有標籤",
+	description: "Browse all topics and tags covered in Blockspace articles",
+	title: "All Tags",
 };
 ---
 
 <PageLayout meta={meta}>
-	<h1 class="title mb-6">標籤</h1>
+	<h1 class="title mb-6">Tags</h1>
 	{allTags.length === 0 ? (
 		<div class="text-center py-16">
-			<h3 class="text-xl mb-4 text-textColor">暫無標籤</h3>
-			<p class="text-gray-500">繁體中文內容即將推出</p>
+			<h3 class="text-xl mb-4 text-textColor">No tags yet</h3>
+			<p class="text-gray-500">Tags will appear once posts are published</p>
 		</div>
 	) : (
 		<div class="flex flex-wrap items-center gap-2">
 			{
 				allTags.map(([tag, val]) => (
 				<div class="flex items-center gap-x-2">
-					<a aria-label={`查看所有標籤為 ${tag} 的文章`} href={`/zh-TW/tags/${tag}/`}>
+					<a aria-label={`View all posts tagged ${tag}`} href={`/en/tags/${tag}/`}>
 					<Badge variant="muted" title={tag}>
 						<span class="text-xs font-normal">
-							&nbsp;{val} 篇文章
+							&nbsp;{val} posts
 						</span>
 					</Badge>
 					</a>

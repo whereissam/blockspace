@@ -12,6 +12,31 @@ const titleSeparator = "•";
 const siteTitle = `${title} ${titleSeparator} ${siteConfig.title}`;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const socialImageURL = new URL(ogImage ? ogImage : "/social-card.png", Astro.url).href;
+
+// Locale-aware og:locale
+const pathname = Astro.url.pathname;
+const localeMap: Record<string, string> = {
+	"zh-TW": "zh_TW",
+	"zh-CN": "zh_CN",
+	en: "en_US",
+};
+const currentLocale = pathname.startsWith("/zh-TW/")
+	? "zh-TW"
+	: pathname.startsWith("/zh-CN/")
+		? "zh-CN"
+		: "en";
+const ogLocale = localeMap[currentLocale] || "en_US";
+
+// Build hreflang alternates
+const locales = ["en", "zh-TW", "zh-CN"];
+const pathWithoutLocale = pathname
+	.replace(/^\/(en|zh-TW|zh-CN)\//, "/")
+	.replace(/^\//, "");
+const alternateUrls = locales.map((locale) => ({
+	locale,
+	hreflang: locale.toLowerCase(),
+	url: new URL(`/${locale}/${pathWithoutLocale}`, Astro.site).href,
+}));
 ---
 
 <meta charset="utf-8" />
@@ -35,6 +60,12 @@ const socialImageURL = new URL(ogImage ? ogImage : "/social-card.png", Astro.url
 {/* Canonical URL */}
 <link href={canonicalURL} rel="canonical" />
 
+{/* Hreflang alternate language tags */}
+{alternateUrls.map(({ hreflang, url }) => (
+  <link rel="alternate" hreflang={hreflang} href={url} />
+))}
+<link rel="alternate" hreflang="x-default" href={new URL(`/en/${pathWithoutLocale}`, Astro.site).href} />
+
 {/* Primary Meta Tags */}
 <meta content={siteTitle} name="title" />
 <meta content={description} name="description" />
@@ -49,7 +80,7 @@ const socialImageURL = new URL(ogImage ? ogImage : "/social-card.png", Astro.url
 <meta content={description} property="og:description" />
 <meta content={canonicalURL} property="og:url" />
 <meta content={siteConfig.title} property="og:site_name" />
-<meta content={siteConfig.ogLocale} property="og:locale" />
+<meta content={ogLocale} property="og:locale" />
 <meta content={socialImageURL} property="og:image" />
 <meta content="1200" property="og:image:width" />
 <meta content="630" property="og:image:height" />
@@ -63,11 +94,11 @@ const socialImageURL = new URL(ogImage ? ogImage : "/social-card.png", Astro.url
 }
 
 {/* Twitter */}
-<meta content="summary_large_image" property="twitter:card" />
-<meta content={canonicalURL} property="twitter:url" />
-<meta content={title} property="twitter:title" />
-<meta content={description} property="twitter:description" />
-<meta content={socialImageURL} property="twitter:image" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:url" content={canonicalURL.toString()} />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={socialImageURL} />
 
 {/* Sitemap */}
 <link href="/sitemap-index.xml" rel="sitemap" />
@@ -93,3 +124,44 @@ const socialImageURL = new URL(ogImage ? ogImage : "/social-card.png", Astro.url
 }
 
 <meta content={Astro.generator} name="generator" />
+
+{/* JSON-LD Structured Data */}
+{
+  articleDate ? (
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": title,
+      "description": description,
+      "author": {
+        "@type": "Person",
+        "name": siteConfig.author,
+      },
+      "datePublished": articleDate,
+      "image": socialImageURL,
+      "url": canonicalURL.toString(),
+      "publisher": {
+        "@type": "Organization",
+        "name": siteConfig.title,
+        "logo": {
+          "@type": "ImageObject",
+          "url": new URL("/brand.svg", Astro.site).href,
+        },
+      },
+      "inLanguage": currentLocale === "zh-TW" ? "zh-Hant" : currentLocale === "zh-CN" ? "zh-Hans" : "en",
+    })} />
+  ) : (
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": siteConfig.title,
+      "description": description,
+      "url": Astro.site?.toString(),
+      "author": {
+        "@type": "Person",
+        "name": siteConfig.author,
+      },
+      "inLanguage": currentLocale === "zh-TW" ? "zh-Hant" : currentLocale === "zh-CN" ? "zh-Hans" : "en",
+    })} />
+  )
+}
