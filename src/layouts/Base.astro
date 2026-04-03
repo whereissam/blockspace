@@ -14,11 +14,24 @@ interface Props {
 const {
 	meta: { articleDate, description = siteConfig.description, ogImage, title },
 } = Astro.props;
+
+// Derive lang from URL path for correct i18n
+const pathname = Astro.url.pathname;
+const langMap: Record<string, string> = {
+	"zh-TW": "zh-Hant",
+	"zh-CN": "zh-Hans",
+};
+const detectedLocale = pathname.startsWith("/zh-TW/")
+	? "zh-TW"
+	: pathname.startsWith("/zh-CN/")
+		? "zh-CN"
+		: null;
+const htmlLang = detectedLocale ? langMap[detectedLocale] : siteConfig.lang;
 ---
 
 <html
   class="overflow-x-hidden grid scroll-pt-20 scroll-smooth font-sans text-textColor text-base antialiased"
-  lang={siteConfig.lang}
+  lang={htmlLang}
 >
   <head>
     <BaseHead

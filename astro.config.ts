@@ -54,6 +54,14 @@ export default defineConfig({
 					allow: "/",
 					disallow: ["/api/", "/og-image/", "/cms"],
 				},
+				// Explicitly allow AI search engine crawlers
+				{ userAgent: "GPTBot", allow: "/" },
+				{ userAgent: "ChatGPT-User", allow: "/" },
+				{ userAgent: "PerplexityBot", allow: "/" },
+				{ userAgent: "ClaudeBot", allow: "/" },
+				{ userAgent: "anthropic-ai", allow: "/" },
+				{ userAgent: "Google-Extended", allow: "/" },
+				{ userAgent: "Bytespider", allow: "/" },
 			],
 		}),
 		AstroPWA({
@@ -104,7 +112,7 @@ export default defineConfig({
 			[
 				rehypeExternalLinks,
 				{
-					rel: ["nofollow", "noreferrer"],
+					rel: ["noreferrer"],
 					target: "_blank",
 				},
 			],
