@@ -6,6 +6,7 @@ import Masthead from "@/components/blog/Masthead.astro";
 import MobileTOC from "@/components/blog/MobileTOC.astro";
 import SeriesPanel from "@/components/SeriesPanel.astro";
 import ShareButton from "@/components/blog/ShareButton.astro";
+import RelatedPosts from "@/components/blog/RelatedPosts.astro";
 import TOC from "@/components/blog/TOC.astro";
 import WebMentions from "@/components/blog/webmentions/index.astro";
 
@@ -47,6 +48,7 @@ const currentUrl = Astro.url.pathname;
 				<slot />
 			</div>
 			<WebMentions />
+			<RelatedPosts currentPost={post} />
 		</article>
 		{!!headings.length && (
 			<aside

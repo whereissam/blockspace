@@ -1,0 +1,58 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { getPostsByLanguage } from "@/data/post";
+import { collectionDateSort } from "@/utils/date";
+import FormattedDate from "@/components/FormattedDate.astro";
+
+interface Props {
+	currentPost: CollectionEntry<"post">;
+	maxPosts?: number;
+}
+
+const { currentPost, maxPosts = 3 } = Astro.props;
+
+// Detect language from URL
+const pathname = Astro.url.pathname;
+const locale = pathname.startsWith("/zh-TW/") ? "zh-TW" : pathname.startsWith("/zh-CN/") ? "zh-CN" : "en";
+
+const allPosts = await getPostsByLanguage(locale);
+const currentTags = currentPost.data.tags ?? [];
+
+// Score posts by number of shared tags, exclude current post
+const related = allPosts
+	.filter((p) => p.id !== currentPost.id && !p.data.draft)
+	.map((p) => {
+		const shared = p.data.tags.filter((t) => currentTags.includes(t)).length;
+		return { post: p, score: shared };
+	})
+	.filter((r) => r.score > 0)
+	.sort((a, b) => b.score - a.score || b.post.data.publishDate.getTime() - a.post.data.publishDate.getTime())
+	.slice(0, maxPosts);
+
+function getPostUrl(post: CollectionEntry<"post">): string {
+	const pathSegments = post.id.split("/");
+	const slug = pathSegments.slice(1).join("/");
+	return `/${locale}/posts/${slug}/`;
+}
+---
+
+{related.length > 0 && (
+	<section class="mt-12 mb-4 border-t border-color-200 pt-8">
+		<h2 class="text-xl font-semibold text-accent-base mb-6">Related Posts</h2>
+		<div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
+			{related.map(({ post }) => (
+				<a href={getPostUrl(post)} class="group block rounded-lg bg-special/30 p-4 hover:bg-special/50 transition-colors" data-astro-prefetch>
+					<FormattedDate
+						class="text-xs text-lighter"
+						date={post.data.publishDate}
+						dateTimeOptions={{ year: "numeric", month: "short", day: "numeric" }}
+					/>
+					<h3 class="mt-1 text-sm font-medium text-accent-base group-hover:underline underline-offset-2 line-clamp-2">
+						{post.data.title}
+					</h3>
+					<p class="mt-1.5 text-xs text-textColor/70 line-clamp-2">{post.data.description}</p>
+				</a>
+			))}
+		</div>
+	</section>
+)}
