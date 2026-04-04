@@ -6,13 +6,16 @@ import Masthead from "@/components/blog/Masthead.astro";
 import MobileTOC from "@/components/blog/MobileTOC.astro";
 import SeriesPanel from "@/components/SeriesPanel.astro";
 import ShareButton from "@/components/blog/ShareButton.astro";
-import RelatedPosts from "@/components/blog/RelatedPosts.astro";
+import SidebarRelated from "@/components/blog/SidebarRelated.astro";
 import TOC from "@/components/blog/TOC.astro";
 import WebMentions from "@/components/blog/webmentions/index.astro";
 
 interface Props {
 	post: CollectionEntry<"post">;
 }
+
+import { getPostsByLanguage } from "@/data/post";
+import { collectionDateSort } from "@/utils/date";
 
 const { post } = Astro.props;
 const { ogImage, title, description, updatedDate, publishDate, seriesId } = post.data;
@@ -24,6 +27,15 @@ const { headings } = await render(post);
 
 // Generate current post URL for sharing
 const currentUrl = Astro.url.pathname;
+
+// Find next (older) post for infinite scroll
+const pathname = Astro.url.pathname;
+const locale = pathname.startsWith("/zh-TW/") ? "zh-TW" : pathname.startsWith("/zh-CN/") ? "zh-CN" : "en";
+const allPosts = await getPostsByLanguage(locale);
+const sorted = allPosts.filter((p) => !p.data.draft).sort(collectionDateSort);
+const currentIndex = sorted.findIndex((p) => p.id === post.id);
+const nextPost = currentIndex < sorted.length - 1 ? sorted[currentIndex + 1] : null;
+const nextPostUrl = nextPost ? `/${locale}/posts/${nextPost.id.split("/").slice(1).join("/")}/` : null;
 ---
 
 <BaseLayout meta={{ articleDate, description, ogImage: socialImage, title, updatedDate: modifiedDate }}>
@@ -43,22 +55,37 @@ const currentUrl = Astro.url.pathname;
 	<Masthead content={post} />
 	
 	<div class="mt-6 md:flex md:items-start gap-x-8 2xl:gap-x-20 2xl:mb-16 px-3">
-		<article class="grid flex-grow grid-cols-1 break-words pt-4 2xl:max-w-4xl 2xl:mx-auto px-1 md:px-1 overflow-hidden" data-pagefind-body data-pagefind-meta={`url:${currentUrl}`}>
-			<div class="prose prose-citrus max-w-none flex-grow prose-headings:font-semibold prose-headings:text-accent-base prose-headings:before:text-accent-two sm:prose-headings:before:content-['#'] sm:prose-th:before:content-none prose-p:!text-[1.0625rem] prose-p:!leading-[1.75] md:prose-p:!text-base md:prose-p:!leading-relaxed prose-li:!text-[1.0625rem] prose-li:!leading-[1.75] md:prose-li:!text-base prose-a:!text-[1.0625rem] md:prose-a:!text-base">
+		<article class="grid flex-grow grid-cols-1 break-words pt-4 2xl:max-w-5xl 2xl:mx-auto px-1 md:px-1 overflow-hidden" data-pagefind-body data-pagefind-meta={`url:${currentUrl}`}>
+			<div class="prose prose-citrus prose-lg max-w-none flex-grow prose-headings:font-semibold prose-headings:text-accent-base prose-headings:before:text-accent-two sm:prose-headings:before:content-['#'] sm:prose-th:before:content-none">
 				<slot />
 			</div>
 			<WebMentions />
-			<RelatedPosts currentPost={post} />
 		</article>
-		{!!headings.length && (
-			<aside
-				id="toc-panel"
-				class="hidden md:sticky md:top-20 z-10 md:w-[14rem] md:min-w-[14rem] 2xl:w-[20rem] 2xl:min-w-[20rem] md:rounded-lg md:block backdrop-blur-sm"
-			>
-				<TOC headings={headings} />
-			</aside>
-		)}
+		<aside
+			id="toc-panel"
+			class="hidden md:sticky md:top-20 md:max-h-[calc(100vh-6rem)] md:overflow-y-auto z-10 md:w-[14rem] md:min-w-[14rem] 2xl:w-[20rem] 2xl:min-w-[20rem] md:rounded-lg md:block backdrop-blur-sm scrollbar-thin"
+		>
+			{!!headings.length && <TOC headings={headings} />}
+			<SidebarRelated currentPost={post} />
+		</aside>
 	</div>
+
+	<!-- Infinite scroll: next article loads here -->
+	{nextPostUrl && (
+		<div id="seamless-scroll" data-next-url={nextPostUrl} class="px-3">
+			<div id="scroll-loader" class="py-12 text-center">
+				<div class="inline-flex items-center gap-3 text-lighter text-sm">
+					<span class="flex gap-1">
+						<span class="w-2 h-2 rounded-full bg-accent-base/40 animate-bounce" style="animation-delay: 0ms"></span>
+						<span class="w-2 h-2 rounded-full bg-accent-base/40 animate-bounce" style="animation-delay: 150ms"></span>
+						<span class="w-2 h-2 rounded-full bg-accent-base/40 animate-bounce" style="animation-delay: 300ms"></span>
+					</span>
+					<span>Continue reading</span>
+				</div>
+			</div>
+			<div id="next-article-container"></div>
+		</div>
+	)}
 
 	<!-- Back to top button positioned relative to content -->
 	<button
@@ -290,4 +317,111 @@ const currentUrl = Astro.url.pathname;
 
 	const observer = new IntersectionObserver(callback);
 	observer.observe(targetHeader);
+</script>
+
+<!-- Infinite scroll: load next article -->
+<script>
+	document.addEventListener("astro:page-load", () => {
+		const wrapper = document.getElementById("seamless-scroll");
+		if (!wrapper) return;
+
+		const loader = document.getElementById("scroll-loader");
+		const container = document.getElementById("next-article-container");
+		if (!loader || !container) return;
+
+		let loading = false;
+		const nextUrl: string | null = wrapper.dataset.nextUrl || null;
+
+		const scrollObserver = new IntersectionObserver(
+			async (entries) => {
+				if (!entries[0].isIntersecting || loading || !nextUrl) return;
+				loading = true;
+
+				try {
+					const res = await fetch(nextUrl);
+					if (!res.ok) throw new Error("Failed to fetch");
+					const html = await res.text();
+
+					const parser = new DOMParser();
+					const doc = parser.parseFromString(html, "text/html");
+
+					const nextTitle = doc.querySelector("h1")?.textContent || "";
+					const nextArticle = doc.querySelector("article");
+					if (!nextArticle) throw new Error("No article found");
+
+					// Build section with safe DOM methods
+					const section = document.createElement("div");
+					section.className = "border-t-2 border-accent-base/20 mt-8 pt-8";
+					section.setAttribute("data-article-url", nextUrl);
+
+					// Divider
+					const divider = document.createElement("div");
+					divider.className = "flex items-center gap-4 mb-8 text-lighter text-sm";
+					const line1 = document.createElement("span");
+					line1.className = "flex-1 h-px bg-color-200";
+					const label = document.createElement("span");
+					label.textContent = "Continue reading";
+					const line2 = document.createElement("span");
+					line2.className = "flex-1 h-px bg-color-200";
+					divider.append(line1, label, line2);
+					section.appendChild(divider);
+
+					// Article prose content (cloned from same-origin parsed doc)
+					const proseEl = nextArticle.querySelector(".prose");
+					if (proseEl) {
+						const contentWrap = document.createElement("div");
+						contentWrap.className = "mt-6 px-1";
+						contentWrap.appendChild(proseEl.cloneNode(true));
+						section.appendChild(contentWrap);
+					}
+
+					loader.style.display = "none";
+					container.appendChild(section);
+
+					// Re-render mermaid diagrams in the new content
+					if (typeof window.mermaid !== "undefined") {
+						const mermaidBlocks = section.querySelectorAll(".mermaid, pre.language-mermaid, code.language-mermaid");
+						if (mermaidBlocks.length) {
+							window.mermaid.run({ nodes: mermaidBlocks });
+						}
+					}
+
+					// Update URL when scrolling into the next article
+					const urlObserver = new IntersectionObserver(
+						(ents) => {
+							if (ents[0].isIntersecting) {
+								history.replaceState(null, "", nextUrl);
+								document.title = nextTitle ? `${nextTitle} \u2022 Blockspace` : document.title;
+							}
+						},
+						{ rootMargin: "-30% 0px -70% 0px" }
+					);
+					urlObserver.observe(section);
+
+					scrollObserver.disconnect();
+				} catch {
+					loader.style.display = "none";
+					scrollObserver.disconnect();
+				}
+			},
+			{ rootMargin: "400px" }
+		);
+
+		scrollObserver.observe(loader);
+
+		// Restore original URL when scrolling back to top
+		const originalUrl = window.location.pathname;
+		const originalTitle = document.title;
+		const topObserver = new IntersectionObserver(
+			(entries) => {
+				if (entries[0].isIntersecting) {
+					history.replaceState(null, "", originalUrl);
+					document.title = originalTitle;
+				}
+			},
+			{ rootMargin: "-30% 0px -70% 0px" }
+		);
+		const firstArticle = document.querySelector("article");
+		if (firstArticle) topObserver.observe(firstArticle);
+	});
 </script>

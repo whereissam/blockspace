@@ -5,7 +5,6 @@ publishDate: "2025-08-22"
 tags: ["Alephium", "developer experience"]
 ---
 
-# Alphium Replaces Node Parser with SoftParser: What's the Impact on Our Developer Experience?
 
 I recently saw an update from Alphium announcing a change to their Language Server Protocol (LSP). They swapped out the original **Node parser for SoftParser**. To many developers, this might seem like a minor, low-level detail, not as exciting as a new framework or feature. But if you think about it, it actually affects the most frustrating part of our daily experience in VSCode, Cursor, or Windsurf: **Why do my IDE's smart features suddenly break when I'm in the middle of writing code?**
 

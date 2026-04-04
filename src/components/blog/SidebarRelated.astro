@@ -1,0 +1,55 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { getPostsByLanguage } from "@/data/post";
+
+interface Props {
+	currentPost: CollectionEntry<"post">;
+	maxPosts?: number;
+}
+
+const { currentPost, maxPosts = 5 } = Astro.props;
+
+const pathname = Astro.url.pathname;
+const locale = pathname.startsWith("/zh-TW/") ? "zh-TW" : pathname.startsWith("/zh-CN/") ? "zh-CN" : "en";
+
+const allPosts = await getPostsByLanguage(locale);
+const currentTags = currentPost.data.tags ?? [];
+
+const related = allPosts
+	.filter((p) => p.id !== currentPost.id && !p.data.draft)
+	.map((p) => ({
+		post: p,
+		score: p.data.tags.filter((t) => currentTags.includes(t)).length,
+	}))
+	.filter((r) => r.score > 0)
+	.sort((a, b) => b.score - a.score || b.post.data.publishDate.getTime() - a.post.data.publishDate.getTime())
+	.slice(0, maxPosts);
+
+function getPostUrl(post: CollectionEntry<"post">): string {
+	const slug = post.id.split("/").slice(1).join("/");
+	return `/${locale}/posts/${slug}/`;
+}
+---
+
+{related.length > 0 && (
+	<div class="mt-2">
+		<div class="flex items-center gap-2 px-1 mb-3">
+			<span class="w-1 h-4 rounded-full bg-accent-two"></span>
+			<h3 class="text-xs font-semibold text-lighter uppercase tracking-wider">Related</h3>
+		</div>
+		<ul class="space-y-1">
+			{related.map(({ post }, i) => (
+				<li>
+					<a
+						href={getPostUrl(post)}
+						class="group flex items-start gap-2 px-2 py-1.5 rounded-md hover:bg-accent-base/5 transition-colors"
+						data-astro-prefetch
+					>
+						<span class="text-[0.65rem] font-bold text-accent-two/60 mt-0.5 shrink-0">{String(i + 1).padStart(2, "0")}</span>
+						<span class="text-xs text-textColor/80 group-hover:text-accent-base line-clamp-2 leading-relaxed transition-colors">{post.data.title}</span>
+					</a>
+				</li>
+			))}
+		</ul>
+	</div>
+)}

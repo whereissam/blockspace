@@ -5,8 +5,6 @@ publishDate: "2025-06-02"
 tags: ["web3", "DeSci", "molecule", "bioDAO", "blockchain"]
 ---
 
-# European Web3 Exploration | Episode 6: Molecule x Bio - The Ultimate DeSci Guide
-
 ![Imgur](https://i.imgur.com/uJinUkC.png)
 
 Have you ever spent countless hours researching new drug structures, only to discover that patent applications cost tens of thousands of dollars and take years to process? Or perhaps your research findings were rejected by journals and ended up forgotten in a drawer? This isn't just one scientist's personal struggle—it's a pain point of the entire scientific research ecosystem.

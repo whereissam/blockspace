@@ -1,0 +1,52 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { getPostsByLanguage } from "@/data/post";
+import { collectionDateSort } from "@/utils/date";
+import FormattedDate from "@/components/FormattedDate.astro";
+
+interface Props {
+	currentPost: CollectionEntry<"post">;
+}
+
+const { currentPost } = Astro.props;
+
+const pathname = Astro.url.pathname;
+const locale = pathname.startsWith("/zh-TW/") ? "zh-TW" : pathname.startsWith("/zh-CN/") ? "zh-CN" : "en";
+
+const allPosts = await getPostsByLanguage(locale);
+const sorted = allPosts.filter((p) => !p.data.draft).sort(collectionDateSort);
+const currentIndex = sorted.findIndex((p) => p.id === currentPost.id);
+
+// Get previous (older) and next (newer) posts
+const olderPost = currentIndex < sorted.length - 1 ? sorted[currentIndex + 1] : null;
+const newerPost = currentIndex > 0 ? sorted[currentIndex - 1] : null;
+
+function getPostUrl(post: CollectionEntry<"post">): string {
+	const slug = post.id.split("/").slice(1).join("/");
+	return `/${locale}/posts/${slug}/`;
+}
+
+const labels = {
+	en: { older: "Older Post", newer: "Newer Post" },
+	"zh-TW": { older: "舊文章", newer: "新文章" },
+	"zh-CN": { older: "旧文章", newer: "新文章" },
+};
+const label = labels[locale] || labels.en;
+---
+
+{(olderPost || newerPost) && (
+	<nav class="mt-12 border-t border-color-200 pt-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
+		{olderPost ? (
+			<a href={getPostUrl(olderPost)} class="group block rounded-lg bg-special/30 p-4 hover:bg-special/50 transition-colors" data-astro-prefetch>
+				<span class="text-xs text-lighter">&larr; {label.older}</span>
+				<h3 class="mt-1 text-sm font-medium text-accent-base group-hover:underline underline-offset-2 line-clamp-2">{olderPost.data.title}</h3>
+			</a>
+		) : <div />}
+		{newerPost && (
+			<a href={getPostUrl(newerPost)} class="group block rounded-lg bg-special/30 p-4 hover:bg-special/50 transition-colors text-right" data-astro-prefetch>
+				<span class="text-xs text-lighter">{label.newer} &rarr;</span>
+				<h3 class="mt-1 text-sm font-medium text-accent-base group-hover:underline underline-offset-2 line-clamp-2">{newerPost.data.title}</h3>
+			</a>
+		)}
+	</nav>
+)}
