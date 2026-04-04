@@ -226,7 +226,7 @@ const currentUrl = new URL(url, Astro.site).toString();
 </style>
 
 <script>
-	document.addEventListener("DOMContentLoaded", () => {
+	document.addEventListener("astro:page-load", () => {
 		// Desktop elements
 		const shareButton = document.getElementById("share-toggle");
 		const shareDropdown = document.getElementById("share-dropdown");

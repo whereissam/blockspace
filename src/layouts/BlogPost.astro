@@ -97,7 +97,7 @@ const currentUrl = Astro.url.pathname;
 <!-- Copy code button -->
 <script>
 	// Wait for the content to fully load
-	document.addEventListener("DOMContentLoaded", () => {
+	document.addEventListener("astro:page-load", () => {
 		// Find all pre blocks
 		document.querySelectorAll("pre").forEach((pre) => {
 			// Check if the button already exists

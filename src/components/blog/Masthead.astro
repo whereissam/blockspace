@@ -19,6 +19,10 @@ const dateTimeOptions: Intl.DateTimeFormatOptions = {
 	month: "long",
 };
 
+// Derive locale from URL for tag/series links
+const pathname = Astro.url.pathname;
+const locale = pathname.startsWith("/zh-TW/") ? "zh-TW" : pathname.startsWith("/zh-CN/") ? "zh-CN" : "en";
+
 const postSeries = content.data.seriesId
 	? await getCollection("series")
 			.then((series) => series.find((s) => s.id === content.data.seriesId))
@@ -120,7 +124,7 @@ const postSeries = content.data.seriesId
 			<Icon aria-hidden="true" class="flex-shrink-0 inline-block h-6 w-6 text-accent-base" focusable="false" name="solar:tag-line-duotone" />	
 			<>
 				{content.data.tags.map((tag) => (
-					<a aria-label={`View all posts with the tag: ${tag}`} href={`/tags/${tag}`}>
+					<a aria-label={`View all posts with the tag: ${tag}`} href={`/${locale}/tags/${tag}`}>
 						<Badge variant="accent-two" title={tag} />
 					</a>
 				))}

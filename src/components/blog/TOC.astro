@@ -33,7 +33,7 @@ const toc = generateToc(headings);
 </div>
 
 <script>
-	document.addEventListener('DOMContentLoaded', () => {
+	document.addEventListener('astro:page-load', () => {
 		// Smooth scrolling for TOC links
 		const tocLinks = document.querySelectorAll('[data-toc-link]');
 		const headings = document.querySelectorAll('h2, h3, h4, h5, h6[id]');

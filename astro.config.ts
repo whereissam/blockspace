@@ -3,11 +3,10 @@ import mdx from "@astrojs/mdx";
 // import astroI18next from "astro-i18next";
 import netlify from "@astrojs/netlify";
 import sitemap from "@astrojs/sitemap";
-import tailwind from "@astrojs/tailwind";
+import tailwindcss from "@tailwindcss/vite";
 import AstroPWA from "@vite-pwa/astro";
 import { defineConfig, envField } from "astro/config";
 import icon from "astro-icon";
-import robotsTxt from "astro-robots-txt";
 // Rehype plugins
 import rehypeExternalLinks from "rehype-external-links";
 import rehypeUnwrapImages from "rehype-unwrap-images";
@@ -33,10 +32,6 @@ export default defineConfig({
 	},
 	integrations: [
 		icon(),
-		tailwind({
-			applyBaseStyles: false,
-			nesting: true,
-		}),
 		sitemap({
 			filter: (page) =>
 				!page.includes("/cms") &&
@@ -47,23 +42,6 @@ export default defineConfig({
 		}),
 		mdx(),
 		// astroI18next(),
-		robotsTxt({
-			policy: [
-				{
-					userAgent: "*",
-					allow: "/",
-					disallow: ["/api/", "/og-image/", "/cms"],
-				},
-				// Explicitly allow AI search engine crawlers
-				{ userAgent: "GPTBot", allow: "/" },
-				{ userAgent: "ChatGPT-User", allow: "/" },
-				{ userAgent: "PerplexityBot", allow: "/" },
-				{ userAgent: "ClaudeBot", allow: "/" },
-				{ userAgent: "anthropic-ai", allow: "/" },
-				{ userAgent: "Google-Extended", allow: "/" },
-				{ userAgent: "Bytespider", allow: "/" },
-			],
-		}),
 		AstroPWA({
 			mode: "production",
 			base: "/",
@@ -130,7 +108,7 @@ export default defineConfig({
 		optimizeDeps: {
 			exclude: ["@resvg/resvg-js"],
 		},
-		plugins: [rawFonts([".ttf", ".woff"])],
+		plugins: [tailwindcss(), rawFonts([".ttf", ".woff"])],
 	},
 	env: {
 		schema: {

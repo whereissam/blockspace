@@ -267,7 +267,7 @@ const { headings } = await render(series);
 
 <script>
   // Wait for content to load
-  document.addEventListener("DOMContentLoaded", () => {
+  document.addEventListener("astro:page-load", () => {
     const buttonsPanel = document.getElementById("buttons-panel");
 
     if (buttonsPanel) {

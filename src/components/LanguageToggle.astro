@@ -102,7 +102,7 @@ const currentLang = languages.find((lang) => lang.active);
     }
   };
 
-  document.addEventListener("DOMContentLoaded", () => {
+  document.addEventListener("astro:page-load", () => {
     // Close dropdown when clicking outside
     document.addEventListener("click", (e) => {
       // Find all language toggle instances on the page

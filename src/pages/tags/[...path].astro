@@ -1,0 +1,7 @@
+---
+export const prerender = false;
+
+const { path } = Astro.params;
+const target = path ? `/en/tags/${path}` : "/en/tags/";
+return Astro.redirect(target, 302);
+---

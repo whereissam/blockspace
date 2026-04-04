@@ -68,7 +68,7 @@ if (!headings || headings.length === 0) {
 </div>
 
 <script>
-  document.addEventListener("DOMContentLoaded", () => {
+  document.addEventListener("astro:page-load", () => {
     const toggleButton = document.getElementById("mobile-toc-toggle") as HTMLButtonElement | null;
     const dropdown = document.getElementById("mobile-toc-dropdown") as HTMLDivElement | null;
     const closeButton = document.getElementById("mobile-toc-close") as HTMLButtonElement | null;
