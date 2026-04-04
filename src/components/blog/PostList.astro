@@ -1,0 +1,139 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { Icon } from "astro-icon/components";
+import PostPreview from "@/components/blog/PostPreview.astro";
+import Badge from "@/components/Badge.astro";
+import { groupPostsByYear } from "@/data/post";
+
+interface Props {
+	posts: CollectionEntry<"post">[];
+	uniqueTags: string[];
+	locale: string;
+	title: string;
+	tagsTitle: string;
+	viewAllTagsLabel: string;
+	emptyTitle?: string;
+	emptySubtitle?: string;
+	emptyDetail?: string;
+	initialCount?: number;
+}
+
+const {
+	posts,
+	uniqueTags,
+	locale,
+	title,
+	tagsTitle,
+	viewAllTagsLabel,
+	emptyTitle,
+	emptySubtitle,
+	emptyDetail,
+	initialCount = 10,
+} = Astro.props;
+
+const INITIAL_COUNT = initialCount;
+const groupedByYear = groupPostsByYear(posts);
+const descYearKeys = Object.keys(groupedByYear).sort((a, b) => +b - +a);
+---
+
+<h1 class="title mb-6 flex items-center gap-2">
+	{title}
+	<a class="text-accent-two" href={`/${locale}/rss.xml`} target="_blank">
+		<span class="sr-only">RSS feed</span>
+		<Icon aria-hidden="true" class="h-6 w-6" focusable="false" name="mdi:rss" />
+	</a>
+</h1>
+<div class="grid gap-y-8 sm:grid-cols-[1fr_auto] sm:gap-x-8">
+	<section aria-label="Blog post list" class="grow" id="posts-section">
+		{posts.length === 0 ? (
+			<div class="text-center py-16">
+				{emptyTitle && <h3 class="text-xl mb-4 text-textColor">{emptyTitle}</h3>}
+				{emptySubtitle && <p class="text-gray-500 mb-4">{emptySubtitle}</p>}
+				{emptyDetail && <p class="text-sm text-gray-400">{emptyDetail}</p>}
+			</div>
+		) : (() => {
+			let idx = 0;
+			return descYearKeys.map((yearKey) => {
+				const yearPosts = groupedByYear[yearKey] ?? [];
+				const firstIdx = idx;
+				idx += yearPosts.length;
+				return (
+					<>
+						<h4 class:list={["title", { "hidden": firstIdx >= INITIAL_COUNT }]} data-year-heading>{yearKey}</h4>
+						<ul class:list={["mb-8 mt-4 space-y-8 text-start", { "hidden": firstIdx >= INITIAL_COUNT }]} data-year-list>
+							{yearPosts.map((p, i) => (
+								<li class:list={["post-item grid gap-2 sm:grid-cols-[auto_1fr] sm:[&_q]:col-start-2", { "hidden": (firstIdx + i) >= INITIAL_COUNT }]}>
+									<PostPreview post={p} withDesc={true} />
+								</li>
+							))}
+						</ul>
+					</>
+				);
+			});
+		})()}
+		<div id="scroll-sentinel" class="h-1"></div>
+	</section>
+	{
+		!!uniqueTags.length && (
+			<aside class="md:min-w-[14rem] md:max-w-[14rem] md:basis-[14rem]">
+				<h4 class="title mb-4 flex gap-2">{tagsTitle}</h4>
+				<ul class="flex flex-wrap gap-2">
+					{uniqueTags.map((tag) => (
+						<li>
+							<a aria-label={tag} href={`/${locale}/tags/${tag}`}>
+								<Badge variant="muted" title={tag} />
+							</a>
+						</li>
+					))}
+					<span class="text-base ms-auto inline-flex items-center h-6 sm:text-end">
+						<a class="font-medium text-accent sm:hover:text-accent-two" href={`/${locale}/tags/`}>
+							{viewAllTagsLabel}
+						</a>
+					</span>
+				</ul>
+			</aside>
+		)
+	}
+</div>
+
+<script>
+	document.addEventListener("astro:page-load", () => {
+		const BATCH = 10;
+		const items = document.querySelectorAll(".post-item");
+		const sentinel = document.getElementById("scroll-sentinel");
+		if (!items.length || !sentinel) return;
+
+		let shown = 0;
+		items.forEach((item) => { if (!item.classList.contains("hidden")) shown++; });
+
+		if (shown >= items.length) {
+			sentinel.classList.add("hidden");
+			return;
+		}
+
+		function revealBatch() {
+			const end = Math.min(shown + BATCH, items.length);
+			for (let i = shown; i < end; i++) {
+				items[i].classList.remove("hidden");
+			}
+			shown = end;
+			document.querySelectorAll("[data-year-heading]").forEach((h) => {
+				const ul = h.nextElementSibling;
+				if (!ul) return;
+				const hasVisible = ul.querySelector(".post-item:not(.hidden)");
+				h.classList.toggle("hidden", !hasVisible);
+				ul.classList.toggle("hidden", !hasVisible);
+			});
+			if (shown >= items.length) {
+				observer.disconnect();
+				sentinel.classList.add("hidden");
+			}
+		}
+
+		const observer = new IntersectionObserver(
+			(entries) => { if (entries[0].isIntersecting) revealBatch(); },
+			{ rootMargin: "200px" }
+		);
+		observer.observe(sentinel);
+	});
+</script>

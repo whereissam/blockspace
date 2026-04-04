@@ -3,7 +3,7 @@ import { Icon } from "astro-icon/components";
 import { type CollectionEntry, getCollection } from "astro:content";
 
 const { seriesId } = Astro.props;
-const _currentPath = Astro.url.pathname;
+const currentPath = Astro.url.pathname;
 
 const posts = await getCollection("post");
 const series = await getCollection("series");
@@ -16,9 +16,9 @@ if (!postsSeries) {
 }
 // console.log("Post(s) Series:", postsSeries); // Debug. Log the found series
 
-let _seriesPosts: CollectionEntry<"post">[] = [];
+let seriesPosts: CollectionEntry<"post">[] = [];
 if (seriesId && postsSeries) {
-	_seriesPosts = posts
+	seriesPosts = posts
 		.filter((p) => p.data.seriesId === seriesId)
 		.sort((a, b) => (a.data.orderInSeries || 0) - (b.data.orderInSeries || 0));
 }

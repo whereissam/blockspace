@@ -1,137 +1,42 @@
 ---
 import type { CollectionEntry } from "astro:content";
-import { Icon } from "astro-icon/components";
-import PostPreview from "@/components/blog/PostPreview.astro";
-import Pagination from "@/components/Paginator.astro";
-import Badge from "@/components/Badge.astro";
 import PageLayout from "@/layouts/Base.astro";
-import type { GetStaticPaths, Page } from "astro";
-import { getPostsByLanguage, getUniqueTags, groupPostsByYear } from "@/data/post";
+import PostList from "@/components/blog/PostList.astro";
+import type { GetStaticPaths } from "astro";
+import { getPostsByLanguage, getUniqueTags } from "@/data/post";
 import { collectionDateSort } from "@/utils/date";
 
 export const prerender = true;
-export const getStaticPaths = (async ({ paginate }) => {
-	const MAX_POSTS_PER_PAGE = 5;
-	const MAX_TAGS = 20;
+
+export const getStaticPaths = (async () => {
 	const allPosts = await getPostsByLanguage("zh-CN");
-	const uniqueTags = getUniqueTags(allPosts).slice(0, MAX_TAGS);
-
-	// If no posts, create at least one empty page
-	if (allPosts.length === 0) {
-		return [
-			{
-				params: { page: undefined },
-				props: {
-					page: {
-						data: [],
-						url: { prev: null, next: null },
-						currentPage: 1,
-						lastPage: 1,
-						size: MAX_POSTS_PER_PAGE,
-						total: 0,
-					},
-					uniqueTags: [],
-				},
-			},
-		];
-	}
-
-	return paginate(allPosts.sort(collectionDateSort), {
-		pageSize: MAX_POSTS_PER_PAGE,
-		props: { uniqueTags },
-	});
+	const uniqueTags = getUniqueTags(allPosts).slice(0, 20);
+	const sortedPosts = allPosts.sort(collectionDateSort);
+	return [{ params: { page: undefined }, props: { posts: sortedPosts, uniqueTags } }];
 }) satisfies GetStaticPaths;
 
-interface Props {
-	page: Page<CollectionEntry<"post">>;
-	uniqueTags: string[];
+if (Astro.params.page) {
+	return Astro.redirect("/zh-CN/posts/");
 }
 
-const { page, uniqueTags } = Astro.props;
-
-const meta = {
-	description: "阅读我的文章集和我感興趣的事物",
-	title: "文章",
-};
-
-const paginationProps = {
-	...(page.url.prev && {
-		prevUrl: {
-			text: "← 上一頁",
-			url: page.url.prev,
-		},
-	}),
-	...(page.url.next && {
-		nextUrl: {
-			text: "下一頁 →",
-			url: page.url.next,
-		},
-	}),
-};
-
-const groupedByYear = groupPostsByYear(page.data);
-const descYearKeys = Object.keys(groupedByYear).sort((a, b) => +b - +a);
+let { posts, uniqueTags } = Astro.props as { posts?: CollectionEntry<"post">[]; uniqueTags?: string[] };
+if (!posts || !posts.length) {
+	const allPosts = await getPostsByLanguage("zh-CN");
+	posts = allPosts.sort(collectionDateSort);
+	uniqueTags = getUniqueTags(posts).slice(0, 20);
+}
 ---
 
-<PageLayout meta={meta}>
-	<h1 class="title mb-6 flex items-center gap-2">
-		文章
-		<a class="text-accent-two" href="/zh-CN/rss.xml" target="_blank">
-			<span class="sr-only">RSS 訂閱</span>
-			<Icon aria-hidden="true" class="h-6 w-6" focusable="false" name="mdi:rss" />
-		</a>
-	</h1>
-	<div class="grid gap-y-8 sm:grid-cols-[1fr_auto] sm:gap-x-8">
-		<section aria-label="博客文章列表" class="grow">
-			{page.data.length === 0 ? (
-				<div class="text-center py-16">
-					<h3 class="text-xl mb-4 text-textColor">简体中文内容即将推出</h3>
-					<p class="text-gray-500 mb-4">Simplified Chinese content coming soon</p>
-					<p class="text-sm text-gray-400">目前所有内容都是英文，中文翻译正在进行中</p>
-				</div>
-			) : (
-				descYearKeys.map((yearKey) => (
-					<>
-						<h4 class="title">{yearKey}</h4>
-						<ul class="mb-8 mt-4 space-y-8 text-start">
-							{groupedByYear[yearKey]?.map((p) => (
-								<li class="grid gap-2 sm:grid-cols-[auto_1fr] sm:[&_q]:col-start-2">
-									<PostPreview post={p} withDesc={true} />
-								</li>
-							))}
-						</ul>
-					</>
-				))
-			)}
-		</section>
-		{
-			!!uniqueTags.length && (
-				<aside class="md:min-w-[14rem] md:max-w-[14rem] md:basis-[14rem]">
-					<h4 class="title mb-4 flex gap-2">
-						标签
-					</h4>
-					<ul class="flex flex-wrap gap-2">
-						{uniqueTags.map((tag) => (
-							<li>
-								<a aria-label={`查看所有标签為 ${tag} 的文章`} href={`/zh-CN/tags/${tag}`}>
-									<Badge variant="muted" title={tag} />
-								</a>
-							</li>
-						))}
-
-						<span class="text-base ms-auto inline-flex items-center h-6 sm:text-end">
-							<a
-								aria-label="查看所有文章分類"
-								class="font-medium text-accent sm:hover:text-accent-two"
-								href="/zh-CN/tags/"
-							>
-								查看全部 →
-							</a>
-						</span>	
-					</ul>
-				</aside>
-			)
-		}
-	</div>
-	<Pagination {...paginationProps} />
+<PageLayout meta={{ title: "文章", description: "阅读我的文章集和我感興趣的事物" }}>
+	<PostList
+		posts={posts}
+		uniqueTags={uniqueTags!}
+		locale="zh-CN"
+		title="文章"
+		tagsTitle="标签"
+		viewAllTagsLabel="查看全部 →"
+		emptyTitle="简体中文内容即将推出"
+		emptySubtitle="Simplified Chinese content coming soon"
+		emptyDetail="目前所有内容都是英文，中文翻译正在进行中"
+	/>
 </PageLayout>
