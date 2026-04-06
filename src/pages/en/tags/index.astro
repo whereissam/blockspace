@@ -4,38 +4,33 @@ export const prerender = true;
 import { getPostsByLanguage, getUniqueTagsWithCount } from "@/data/post";
 import PageLayout from "@/layouts/Base.astro";
 import Badge from "@/components/Badge.astro";
+import { ui } from "@/i18n/ui";
 
-const allPosts = await getPostsByLanguage("en");
+const lang = "en";
+const t = ui[lang];
+
+const allPosts = await getPostsByLanguage(lang);
 const allTags = getUniqueTagsWithCount(allPosts);
-
-const meta = {
-	description: "Browse all topics and tags covered in Blockspace articles",
-	title: "All Tags",
-};
 ---
 
-<PageLayout meta={meta}>
-	<h1 class="title mb-6">Tags</h1>
+<PageLayout meta={{ title: t.allTagsTitle, description: t.allTagsDescription }}>
+	<h1 class="title mb-6">{t.tagHeading}</h1>
 	{allTags.length === 0 ? (
 		<div class="text-center py-16">
-			<h3 class="text-xl mb-4 text-textColor">No tags yet</h3>
-			<p class="text-gray-500">Tags will appear once posts are published</p>
+			<h3 class="text-xl mb-4 text-textColor">{t.noTagsTitle}</h3>
+			<p class="text-gray-500">{t.noTagsSubtitle}</p>
 		</div>
 	) : (
 		<div class="flex flex-wrap items-center gap-2">
-			{
-				allTags.map(([tag, val]) => (
+			{allTags.map(([tag, val]) => (
 				<div class="flex items-center gap-x-2">
-					<a aria-label={`View all posts tagged ${tag}`} href={`/en/tags/${tag}/`}>
-					<Badge variant="muted" title={tag}>
-						<span class="text-xs font-normal">
-							&nbsp;{val} posts
-						</span>
-					</Badge>
+					<a aria-label={t.viewAllTagsAriaLabel(tag)} href={`/${lang}/tags/${tag}/`}>
+						<Badge variant="muted" title={tag}>
+							<span class="text-xs font-normal">&nbsp;{val} {t.postsCount}</span>
+						</Badge>
 					</a>
 				</div>
-				))
-			}
+			))}
 		</div>
 	)}
 </PageLayout>

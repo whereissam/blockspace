@@ -1,0 +1,191 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { getCollection } from "astro:content";
+import Base from "@/layouts/Base.astro";
+import Note from "@/components/note/Note.astro";
+import FormattedDate from "@/components/FormattedDate.astro";
+import { getNotesByLanguage, getPostsByLanguage } from "@/data/post";
+import { collectionDateSort } from "@/utils/date";
+import { ui, type Locale } from "@/i18n/ui";
+
+interface Props {
+	lang: Locale;
+}
+
+const { lang } = Astro.props;
+const t = ui[lang];
+
+const DEFAULT_IMAGE = "/cover.png";
+
+function getPostUrl(post: CollectionEntry<"post">): string {
+	const pathSegments = post.id.split("/");
+	const postLanguage = pathSegments[0]?.toLowerCase() ?? "en";
+	const slug = pathSegments.slice(1).join("/");
+	const langMap: Record<string, string> = { "zh-tw": "zh-TW", "zh-cn": "zh-CN", en: "en" };
+	return `/${langMap[postLanguage] ?? "en"}/posts/${slug}/`;
+}
+
+function getPostImage(post: CollectionEntry<"post">): string {
+	if (post.data.coverImage?.src) {
+		return typeof post.data.coverImage.src === "string"
+			? post.data.coverImage.src
+			: (post.data.coverImage.src as any).src || DEFAULT_IMAGE;
+	}
+	return DEFAULT_IMAGE;
+}
+
+// Posts
+const allPosts = await getPostsByLanguage(lang);
+const allPostsByDate = allPosts.sort(collectionDateSort) as CollectionEntry<"post">[];
+
+const heroPost = allPostsByDate[0];
+const sidebarPosts = allPostsByDate.slice(1, 5);
+const remainingPosts = allPostsByDate.slice(5, 17);
+
+// Notes
+const allNotes = lang === "en"
+	? await getCollection("note")
+	: await getNotesByLanguage(lang);
+const latestNotes = allNotes.sort(collectionDateSort).slice(0, 2);
+---
+
+<Base meta={{ title: t.homeTitle, description: t.homeDescription }}>
+  <!-- Background blur -->
+  <div class="absolute top-0 left-1/2 md:top-[-15%] -ml-[50vw] min-h-screen w-screen pointer-events-none blur-3xl opacity-50 overflow-x-hidden">
+    <div class="absolute top-[10%] right-[-40%] w-[65%] h-full bg-gradient-to-b from-purple-300 via-blue-300 to-transparent rounded-full opacity-30 dark:opacity-10"></div>
+    <div class="absolute top-[10%] left-[-40%] w-[65%] h-full bg-gradient-to-b from-blue-300 via-pink-300 to-transparent rounded-full opacity-30 dark:opacity-10"></div>
+    <div class="absolute top-[-20%] left-[-50%] w-[85%] h-full bg-gradient-to-b from-indigo-300 via-orange-300 to-transparent rounded-full opacity-60 dark:opacity-10"></div>
+    <div class="absolute top-[-20%] right-[-50%] w-[85%] h-full bg-gradient-to-b from-orange-300 via-indigo-300 to-transparent rounded-full opacity-60 dark:opacity-10"></div>
+  </div>
+
+  <h1 class="sr-only">{t.homeSrTitle}</h1>
+
+  {heroPost ? (
+    <section class="mt-[-100vh] pt-[100vh]">
+      <div class="grid grid-cols-1 gap-6 lg:grid-cols-5">
+        <!-- Featured Post -->
+        <a href={getPostUrl(heroPost)} data-astro-prefetch class="group lg:col-span-3">
+          <div class="overflow-hidden rounded-xl">
+            <img
+              src={getPostImage(heroPost)}
+              alt={heroPost.data.coverImage?.alt || heroPost.data.title}
+              class="aspect-[16/9] w-full object-cover transition-transform duration-300 group-hover:scale-105"
+              loading="eager"
+            />
+          </div>
+          <div class="mt-4">
+            {heroPost.data.tags?.[0] && (
+              <span class="text-xs font-semibold uppercase tracking-wider text-accent-two">
+                {heroPost.data.tags[0]}
+              </span>
+            )}
+            <h2 class="mt-1 text-2xl font-bold leading-tight text-textColor group-hover:text-accent-two transition-colors md:text-3xl">
+              {heroPost.data.title}
+            </h2>
+            <p class="mt-2 line-clamp-2 text-sm text-gray-500 dark:text-gray-400 md:text-base">
+              {heroPost.data.description}
+            </p>
+            <FormattedDate
+              class="mt-2 block text-xs text-lighter"
+              date={heroPost.data.publishDate}
+              dateTimeOptions={{ year: "numeric", month: "long", day: "2-digit" }}
+            />
+          </div>
+        </a>
+
+        <!-- Sidebar Posts -->
+        <div class="flex flex-col divide-y divide-gray-700/30 lg:justify-around lg:divide-y-0 lg:col-span-2">
+          {sidebarPosts.map((post) => (
+            <a href={getPostUrl(post)} data-astro-prefetch class="group flex gap-3 py-3 first:pt-0 last:pb-0">
+              <img
+                src={getPostImage(post)}
+                alt={post.data.coverImage?.alt || post.data.title}
+                class="h-16 w-24 shrink-0 rounded-lg object-cover transition-transform duration-300 group-hover:scale-105"
+                loading="lazy"
+              />
+              <div class="flex flex-col justify-center">
+                {post.data.tags?.[0] && (
+                  <span class="text-xs font-semibold uppercase tracking-wider text-accent-two">
+                    {post.data.tags[0]}
+                  </span>
+                )}
+                <p class="line-clamp-2 text-sm font-semibold leading-snug text-textColor group-hover:text-accent-two transition-colors md:text-base">
+                  {post.data.title}
+                </p>
+                <FormattedDate
+                  class="mt-1 text-xs text-lighter"
+                  date={post.data.publishDate}
+                  dateTimeOptions={{ year: "numeric", month: "long", day: "2-digit" }}
+                />
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  ) : (
+    <section class="mt-[-100vh] pt-[100vh]">
+      <div class="text-center py-8">
+        {t.emptyMessage && <p class="text-textColor mb-4">{t.emptyMessage}</p>}
+        {t.emptySubMessage && <p class="text-sm text-gray-500">{t.emptySubMessage}</p>}
+      </div>
+    </section>
+  )}
+
+  <!-- Latest Posts Grid -->
+  {remainingPosts.length > 0 && (
+    <section class="mt-12">
+      <h2 class="title mb-6 text-xl text-accent-two">
+        <a href={`/${lang}/posts/`}>{t.latestLabel}</a>
+      </h2>
+      <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {remainingPosts.map((post) => (
+          <a href={getPostUrl(post)} data-astro-prefetch class="group">
+            <div class="overflow-hidden rounded-lg">
+              <img
+                src={getPostImage(post)}
+                alt={post.data.coverImage?.alt || post.data.title}
+                class="aspect-[16/9] w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                loading="lazy"
+              />
+            </div>
+            <div class="mt-3">
+              {post.data.tags?.[0] && (
+                <span class="text-xs font-semibold uppercase tracking-wider text-accent-two">
+                  {post.data.tags[0]}
+                </span>
+              )}
+              <p class="mt-1 line-clamp-2 text-sm font-semibold leading-snug text-textColor group-hover:text-accent-two transition-colors">
+                {post.data.title}
+              </p>
+              <FormattedDate
+                class="mt-1 text-xs text-lighter"
+                date={post.data.publishDate}
+                dateTimeOptions={{ year: "numeric", month: "long", day: "2-digit" }}
+              />
+            </div>
+          </a>
+        ))}
+      </div>
+      <a href={`/${lang}/posts/`} class="mt-8 inline-flex items-center gap-1 text-sm font-medium text-accent-two hover:underline underline-offset-2">
+        {t.viewAllPosts} <span aria-hidden="true">&rarr;</span>
+      </a>
+    </section>
+  )}
+
+  <!-- Notes Section -->
+  {latestNotes.length > 0 && (
+    <section class="mt-12 mb-16">
+      <h2 class="title mb-6 text-accent-two">
+        <a href={`/${lang}/notes/`}>{t.notesLabel}</a>
+      </h2>
+      <div class="grid grid-cols-1 gap-8 sm:grid-cols-2">
+        {latestNotes.map((note: any) => (
+          <div>
+            <Note note={note} as="h4" isPreview />
+          </div>
+        ))}
+      </div>
+    </section>
+  )}
+</Base>

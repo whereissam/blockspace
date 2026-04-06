@@ -6,69 +6,42 @@ import Note from "@/components/note/Note.astro";
 import Pagination from "@/components/Paginator.astro";
 import PageLayout from "@/layouts/Base.astro";
 import { collectionDateSort } from "@/utils/date";
+import { ui } from "@/i18n/ui";
+
+const lang = "en";
+const t = ui[lang];
 
 export const prerender = true;
 
 export const getStaticPaths = (async ({ paginate }) => {
-	const MAX_NOTES_PER_PAGE = 5;
 	const allNotes = await getCollection("note");
-	return paginate(allNotes.sort(collectionDateSort), {
-		pageSize: MAX_NOTES_PER_PAGE,
-	});
+	return paginate(allNotes.sort(collectionDateSort), { pageSize: 5 });
 }) satisfies GetStaticPaths;
 
-interface Props {
-	page: Page<CollectionEntry<"note">>;
-	uniqueTags: string[];
-}
+interface Props { page: Page<CollectionEntry<"note">>; }
 
 const { page } = Astro.props;
 
-const meta = {
-	description: "Read my collection of notes",
-	title: "Notes",
-};
-
 const paginationProps = {
-	...(page.url.prev && {
-		prevUrl: {
-			text: "← Previous Page",
-			url: page.url.prev,
-		},
-	}),
-	...(page.url.next && {
-		nextUrl: {
-			text: "Next Page →",
-			url: page.url.next,
-		},
-	}),
+	...(page.url.prev && { prevUrl: { text: t.prevPage, url: page.url.prev } }),
+	...(page.url.next && { nextUrl: { text: t.nextPage, url: page.url.next } }),
 };
 ---
 
-<PageLayout meta={meta}>
-  <section class="mt-12">
+<PageLayout meta={{ title: t.notesPageTitle, description: t.notesDescription }}>
+  <section class="mt-12 mb-16">
     <h1 class="title mb-6 flex items-center gap-2 mt-12">
-      Notes
-      <a class="text-accent-two" href="/en/notes/rss.xml" target="_blank">
+      {t.notesPageTitle}
+      <a class="text-accent-two" href={`/${lang}/notes/rss.xml`} target="_blank">
         <span class="sr-only">RSS feed</span>
-        <Icon
-          aria-hidden="true"
-          class="h-6 w-6"
-          focusable="false"
-          name="mdi:rss"
-        />
+        <Icon aria-hidden="true" class="h-6 w-6" focusable="false" name="mdi:rss" />
       </a>
     </h1>
     <div class="grid grid-cols-1 gap-8 md:grid-cols-2">
-      {
-        page.data.map((note) => (
-          <div>
-            <Note note={note} as="h4" isPreview />
-          </div>
-        ))
-      }
+      {page.data.map((note) => (
+        <div><Note note={note} as="h4" isPreview /></div>
+      ))}
     </div>
-
     <Pagination {...paginationProps} />
   </section>
 </PageLayout>

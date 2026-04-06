@@ -5,6 +5,10 @@ import PostList from "@/components/blog/PostList.astro";
 import type { GetStaticPaths } from "astro";
 import { getPostsByLanguage, getUniqueTags } from "@/data/post";
 import { collectionDateSort } from "@/utils/date";
+import { ui } from "@/i18n/ui";
+
+const lang = "zh-CN";
+const t = ui[lang];
 
 export const prerender = true;
 
@@ -16,27 +20,27 @@ export const getStaticPaths = (async () => {
 }) satisfies GetStaticPaths;
 
 if (Astro.params.page) {
-	return Astro.redirect("/zh-CN/posts/");
+	return Astro.redirect(`/${lang}/posts/`);
 }
 
 let { posts, uniqueTags } = Astro.props as { posts?: CollectionEntry<"post">[]; uniqueTags?: string[] };
 if (!posts || !posts.length) {
-	const allPosts = await getPostsByLanguage("zh-CN");
+	const allPosts = await getPostsByLanguage(lang);
 	posts = allPosts.sort(collectionDateSort);
 	uniqueTags = getUniqueTags(posts).slice(0, 20);
 }
 ---
 
-<PageLayout meta={{ title: "文章", description: "阅读我的文章集和我感興趣的事物" }}>
+<PageLayout meta={{ title: t.postsTitle, description: t.postsDescription }}>
 	<PostList
 		posts={posts}
 		uniqueTags={uniqueTags!}
-		locale="zh-CN"
-		title="文章"
-		tagsTitle="标签"
-		viewAllTagsLabel="查看全部 →"
-		emptyTitle="简体中文内容即将推出"
-		emptySubtitle="Simplified Chinese content coming soon"
-		emptyDetail="目前所有内容都是英文，中文翻译正在进行中"
+		locale={lang}
+		title={t.postsTitle}
+		tagsTitle={t.tagsTitle}
+		viewAllTagsLabel={t.viewAllTags}
+		emptyTitle={t.emptyPostsTitle}
+		emptySubtitle={t.emptyPostsSubtitle}
+		emptyDetail={t.emptyPostsDetail}
 	/>
 </PageLayout>

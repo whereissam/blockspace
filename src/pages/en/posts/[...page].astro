@@ -5,6 +5,10 @@ import PostList from "@/components/blog/PostList.astro";
 import type { GetStaticPaths } from "astro";
 import { getPostsByLanguage, getUniqueTags } from "@/data/post";
 import { collectionDateSort } from "@/utils/date";
+import { ui } from "@/i18n/ui";
+
+const lang = "en";
+const t = ui[lang];
 
 export const prerender = true;
 
@@ -16,24 +20,24 @@ export const getStaticPaths = (async () => {
 }) satisfies GetStaticPaths;
 
 if (Astro.params.page) {
-	return Astro.redirect("/en/posts/");
+	return Astro.redirect(`/${lang}/posts/`);
 }
 
 let { posts, uniqueTags } = Astro.props as { posts?: CollectionEntry<"post">[]; uniqueTags?: string[] };
 if (!posts || !posts.length) {
-	const allPosts = await getPostsByLanguage("en");
+	const allPosts = await getPostsByLanguage(lang);
 	posts = allPosts.sort(collectionDateSort);
 	uniqueTags = getUniqueTags(posts).slice(0, 20);
 }
 ---
 
-<PageLayout meta={{ title: "Posts", description: "Read my collection of posts and the things that interest me" }}>
+<PageLayout meta={{ title: t.postsTitle, description: t.postsDescription }}>
 	<PostList
 		posts={posts}
 		uniqueTags={uniqueTags!}
-		locale="en"
-		title="Posts"
-		tagsTitle="Tags"
-		viewAllTagsLabel="View all →"
+		locale={lang}
+		title={t.postsTitle}
+		tagsTitle={t.tagsTitle}
+		viewAllTagsLabel={t.viewAllTags}
 	/>
 </PageLayout>

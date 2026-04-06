@@ -1,42 +1,36 @@
 ---
+export const prerender = true;
+
 import { getPostsByLanguage, getUniqueTagsWithCount } from "@/data/post";
-import { Icon } from "astro-icon/components";
-import PostPreview from "@/components/blog/PostPreview.astro";
-import Pagination from "@/components/Paginator.astro";
 import PageLayout from "@/layouts/Base.astro";
 import Badge from "@/components/Badge.astro";
+import { ui } from "@/i18n/ui";
 
-const allPosts = await getPostsByLanguage("zh-TW");
+const lang = "zh-TW";
+const t = ui[lang];
+
+const allPosts = await getPostsByLanguage(lang);
 const allTags = getUniqueTagsWithCount(allPosts);
-
-const meta = {
-	description: "我在文章中寫過的所有主題列表",
-	title: "所有標籤",
-};
 ---
 
-<PageLayout meta={meta}>
-	<h1 class="title mb-6">標籤</h1>
+<PageLayout meta={{ title: t.allTagsTitle, description: t.allTagsDescription }}>
+	<h1 class="title mb-6">{t.tagHeading}</h1>
 	{allTags.length === 0 ? (
 		<div class="text-center py-16">
-			<h3 class="text-xl mb-4 text-textColor">暫無標籤</h3>
-			<p class="text-gray-500">繁體中文內容即將推出</p>
+			<h3 class="text-xl mb-4 text-textColor">{t.noTagsTitle}</h3>
+			<p class="text-gray-500">{t.noTagsSubtitle}</p>
 		</div>
 	) : (
 		<div class="flex flex-wrap items-center gap-2">
-			{
-				allTags.map(([tag, val]) => (
+			{allTags.map(([tag, val]) => (
 				<div class="flex items-center gap-x-2">
-					<a aria-label={`查看所有標籤為 ${tag} 的文章`} href={`/zh-TW/tags/${tag}/`}>
-					<Badge variant="muted" title={tag}>
-						<span class="text-xs font-normal">
-							&nbsp;{val} 篇文章
-						</span>
-					</Badge>
+					<a aria-label={t.viewAllTagsAriaLabel(tag)} href={`/${lang}/tags/${tag}/`}>
+						<Badge variant="muted" title={tag}>
+							<span class="text-xs font-normal">&nbsp;{val} {t.postsCount}</span>
+						</Badge>
 					</a>
 				</div>
-				))
-			}
+			))}
 		</div>
 	)}
 </PageLayout>
