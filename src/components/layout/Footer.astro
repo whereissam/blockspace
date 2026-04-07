@@ -47,123 +47,61 @@ const translations = {
 const t = (key: string) => translations[currentLang][key] || key;
 ---
 
-<footer class="mt-auto bg-special border-t border-special-lighter">
-  <div class="mx-auto max-w-7xl px-4 py-8 md:px-6 md:py-12 lg:px-8">
-    <!-- Main Footer Content -->
-    <div class="grid grid-cols-1 gap-8 lg:grid-cols-4 md:grid-cols-2">
-      <!-- Logo and Brand Section -->
-      <div class="lg:col-span-2">
+<footer class="mt-auto border-t border-color-150">
+  <div class="mx-auto max-w-7xl px-4 py-[var(--ds-space-2xl)] md:px-6 lg:px-8">
+    <!-- Top: logo + nav in one row -->
+    <div class="flex flex-col gap-[var(--ds-space-xl)] md:flex-row md:items-start md:justify-between">
+      <!-- Brand -->
+      <div class="max-w-sm">
         <a
           aria-label={siteConfig.title}
-          aria-current={Astro.url.pathname === "/" ||
-          Astro.url.pathname === `/${currentLang}` ||
-          Astro.url.pathname === `/${currentLang}/`
-            ? "page"
-            : false}
-          class="group flex h-8 items-center hover:filter-none sm:relative mb-4"
+          class="inline-flex items-center gap-2"
           href={currentLang === "en" ? "/en" : `/${currentLang}`}
         >
-          <div title={siteConfig.title}>
-            <img class="w-10 h-10" src="/brand.svg" alt="" />
-          </div>
-
-          <strong
-            class="max-[320px]:hidden bg-clip-text text-transparent bg-gradient-to-r from-accent-one to-accent-two hidden xs:block z-10 mb-0.5 ms-2 text-xl group-hover:text-accent-one"
-          >
+          <img class="w-8 h-8" src="/brand.svg" alt="" />
+          <strong class="text-lg font-bold text-[var(--ds-brand)]">
             {siteConfig.title}
           </strong>
         </a>
-        <p class="text-sm text-textColor/80 mb-6 max-w-md leading-relaxed">
+        <p class="ds-caption mt-[var(--ds-space-sm)] max-w-xs">
           {t("footer.tagline")}
         </p>
-
-        <!-- Social Links -->
-        <div class="flex items-center space-x-4">
-          <span class="text-sm font-medium text-textColor"
-            >{t("footer.social")}:</span
-          >
-          <div class="flex space-x-3">
-            <a
-              href="/rss.xml"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="text-accent hover:text-accent-two transition-colors duration-200"
-              aria-label="RSS Feed"
-            >
-              <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
-                <path
-                  d="M6.503 20.752c0 1.794-1.456 3.248-3.251 3.248-1.796 0-3.252-1.454-3.252-3.248 0-1.794 1.456-3.248 3.252-3.248 1.795 0 3.251 1.454 3.251 3.248zm-6.503-12.572v4.811c6.05.062 10.96 4.966 11.022 11.009h4.817c-.062-8.71-7.118-15.758-15.839-15.82zm0-3.368c10.58.046 19.152 8.594 19.183 19.188h4.817c-.03-13.231-10.755-23.954-24-24v4.812z"
-                ></path>
-              </svg>
-            </a>
-          </div>
-        </div>
       </div>
 
-      <!-- Navigation Links -->
-      <div>
-        <h3 class="text-sm font-semibold text-accent-base mb-4">Navigation</h3>
-        <ul class="space-y-3">
-          {
-            menuLinks.map((link) => {
-              const linkPath = `/${currentLang}${link.path}`;
-
-              return (
+      <!-- Nav columns -->
+      <div class="flex gap-[var(--ds-space-3xl)]">
+        <div>
+          <h3 class="ds-tag mb-[var(--ds-space-md)]">Navigation</h3>
+          <ul class="space-y-2">
+            {
+              menuLinks.map((link) => (
                 <li>
                   <a
-                    class="text-sm text-textColor hover:text-accent-base transition-colors duration-200 hover:underline underline-offset-2"
-                    href={linkPath}
+                    class="ds-caption hover:text-[var(--ds-brand)] transition-colors"
+                    href={`/${currentLang}${link.path}`}
                   >
                     {t(link.key)}
                   </a>
                 </li>
-              );
-            })
-          }
-        </ul>
-      </div>
-
-      <!-- Additional Links -->
-      <div>
-        <h3 class="text-sm font-semibold text-accent-base mb-4">Resources</h3>
-        <ul class="space-y-3">
-          <li>
-            <a
-              href="/rss.xml"
-              class="text-sm text-textColor hover:text-accent-base transition-colors duration-200 hover:underline underline-offset-2"
-            >
-              RSS Feed
-            </a>
-          </li>
-          <li>
-            <a
-              href="/sitemap-index.xml"
-              class="text-sm text-textColor hover:text-accent-base transition-colors duration-200 hover:underline underline-offset-2"
-            >
-              Sitemap
-            </a>
-          </li>
-          <li>
-            <a
-              href="/tags"
-              class="text-sm text-textColor hover:text-accent-base transition-colors duration-200 hover:underline underline-offset-2"
-            >
-              All Tags
-            </a>
-          </li>
-        </ul>
+              ))
+            }
+          </ul>
+        </div>
+        <div>
+          <h3 class="ds-tag mb-[var(--ds-space-md)]">Resources</h3>
+          <ul class="space-y-2">
+            <li><a class="ds-caption hover:text-[var(--ds-brand)] transition-colors" href="/rss.xml">RSS Feed</a></li>
+            <li><a class="ds-caption hover:text-[var(--ds-brand)] transition-colors" href="/sitemap-index.xml">Sitemap</a></li>
+            <li><a class="ds-caption hover:text-[var(--ds-brand)] transition-colors" href="/tags">All Tags</a></li>
+          </ul>
+        </div>
       </div>
     </div>
 
-    <!-- Bottom Section -->
-    <div class="mt-8 pt-6 md:mt-12 md:pt-8 border-t border-special-lighter">
-      <div
-        class="flex flex-col items-center justify-between space-y-4 md:flex-row md:space-y-0"
-      >
-        <p class="text-sm text-textColor/70">
-          {t("footer.copyright")}
-        </p>
-      </div>
-    </div>
+    <!-- Bottom -->
+    <div class="ds-divider mt-[var(--ds-space-xl)]"></div>
+    <p class="ds-caption mt-[var(--ds-space-md)]">
+      {t("footer.copyright")}
+    </p>
   </div>
 </footer>

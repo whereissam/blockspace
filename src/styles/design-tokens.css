@@ -1,0 +1,115 @@
+/*
+ * BLOCKSPACE DESIGN SYSTEM TOKENS
+ * Brand: #E84115 | Style: Editorial (TechCrunch-inspired)
+ *
+ * These tokens are the single source of truth.
+ * Tailwind config and components reference these values.
+ */
+
+@layer base {
+  :root {
+    /* ================================================================
+       TYPOGRAPHY SCALE
+       Ratio: ~1.333 (perfect fourth) — aggressive contrast for editorial
+       ================================================================ */
+    --ds-font-sans: "SFProRounded", ui-sans-serif, system-ui, sans-serif;
+    --ds-font-serif: "CascadiaCode", ui-serif, Georgia, serif;
+    --ds-font-mono: "CascadiaCode", ui-monospace, monospace;
+
+    --ds-font-weight-regular: 400;
+    --ds-font-weight-medium: 500;
+    --ds-font-weight-semibold: 600;
+    --ds-font-weight-bold: 700;
+
+    --ds-font-hero: clamp(2rem, 4vw + 1rem, 2.75rem);      /* 32–44px: homepage lead story */
+    --ds-font-headline: clamp(1.25rem, 2vw + 0.5rem, 1.5rem); /* 20–24px: card titles */
+    --ds-font-subhead: 1.125rem;                              /* 18px: section headers */
+    --ds-font-body: 1rem;                                     /* 16px: article text */
+    --ds-font-caption: 0.875rem;                              /* 14px: metadata, dates */
+    --ds-font-label: 0.75rem;                                 /* 12px: tags, category labels */
+
+    --ds-leading-tight: 1.2;    /* headlines */
+    --ds-leading-normal: 1.6;   /* body */
+    --ds-leading-loose: 1.8;    /* long-form prose */
+
+    --ds-tracking-tight: -0.01em;  /* large headlines */
+    --ds-tracking-normal: 0.025em; /* body (inherited from html) */
+    --ds-tracking-wide: 0.08em;    /* labels, uppercase tags */
+
+    /* ================================================================
+       SPACING RHYTHM
+       Base unit: 4px (0.25rem). Named for intent, not math.
+       ================================================================ */
+    --ds-space-xs: 0.25rem;   /* 4px  — inline gaps, icon margins */
+    --ds-space-sm: 0.5rem;    /* 8px  — tight element gaps */
+    --ds-space-md: 1rem;      /* 16px — default gap */
+    --ds-space-lg: 1.5rem;    /* 24px — card internal padding */
+    --ds-space-xl: 2rem;      /* 32px — between card groups */
+    --ds-space-2xl: 3rem;     /* 48px — section gaps */
+    --ds-space-3xl: 4rem;     /* 64px — page section breaks */
+    --ds-space-4xl: 6rem;     /* 96px — hero / major layout breaks */
+
+    /* ================================================================
+       SURFACES & ELEVATION
+       Editorial = flat. No box-shadows. Separation via whitespace + borders.
+       ================================================================ */
+    --ds-radius-sm: 0.25rem;  /* 4px  — tags, small pills */
+    --ds-radius-md: 0.5rem;   /* 8px  — cards, containers */
+    --ds-radius-lg: 0.75rem;  /* 12px — images, large containers */
+    --ds-radius-full: 9999px; /* pills */
+
+    --ds-border-width-thin: 1px;
+    --ds-border-width-thick: 2px;
+
+    /* ================================================================
+       BRAND PALETTE
+       Primary: #E84115 (13° 83% 50%)
+       Complement: teal #3A9BB5 (193° 52% 47%) — info states, secondary accent
+       ================================================================ */
+    --ds-brand: #E84115;
+    --ds-brand-hover: #D63A11;
+    --ds-brand-muted: #F06840;
+    --ds-brand-tint: #FDEAE4;
+
+    --ds-info: #3A9BB5;
+    --ds-info-hover: #2D7A8F;
+    --ds-info-tint: #E6F4F7;
+
+    --ds-success: #2D8F5E;
+    --ds-warning: #D4850A;
+    --ds-error: #C42B2B;
+
+    /* ================================================================
+       LAYOUT
+       ================================================================ */
+    --ds-content-narrow: 42rem;
+    --ds-content-default: 64rem;
+    --ds-content-wide: 76rem;
+
+    /* ================================================================
+       TRANSITIONS
+       ================================================================ */
+    --ds-duration-fast: 150ms;
+    --ds-duration-normal: 200ms;
+    --ds-duration-slow: 320ms;
+    --ds-easing: cubic-bezier(0.25, 0.1, 0.25, 1);
+
+    /* ================================================================
+       INTERACTION
+       ================================================================ */
+    --ds-focus-ring-width: 2px;
+    --ds-focus-ring-offset: 2px;
+
+    /* Semantic aliases that theme layers can override as needed. */
+    --ds-color-brand: var(--ds-brand);
+    --ds-color-brand-hover: var(--ds-brand-hover);
+    --ds-color-text: currentcolor;
+    --ds-color-text-muted: currentcolor;
+    --ds-color-border-subtle: currentcolor;
+    --ds-color-border-strong: currentcolor;
+    --ds-color-surface: transparent;
+    --ds-color-surface-raised: transparent;
+    --ds-color-page: #fff;
+    --ds-color-selection: color-mix(in srgb, var(--ds-brand) 16%, white);
+  }
+}

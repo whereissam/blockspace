@@ -1,27 +1,25 @@
 ---
 const { variant = "default", showHash = true, title } = Astro.props;
 
-// CSS classes for style variants
 const badgeClasses = {
-	base: "flex items-baseline pt-[0.075rem] drop-shadow-lg active:drop-shadow-none rounded-lg h-6 px-2 text-sm font-medium transition-colors",
+	base: "inline-flex items-center gap-0.5 rounded-[var(--ds-radius-sm)] px-2 py-0.5 text-[var(--ds-font-label)] font-semibold leading-none tracking-[var(--ds-tracking-wide)] uppercase transition-colors duration-[var(--ds-duration-fast)]",
 	variants: {
-		default: "bg-textColor text-bgColor hover:brightness-105",
-		accent: "bg-accent text-bgColor hover:brightness-105",
-		"accent-base": "bg-accent-base text-bgColor hover:brightness-105",
-		"accent-one": "bg-accent-one text-bgColor hover:brightness-105",
-		"accent-two": "bg-accent-two text-bgColor hover:brightness-105",
-		muted:
-			"bg-color-100 text-textColor hover:bg-accent-two hover:text-bgColor drop-shadow-none hover:drop-shadow-lg",
-		outline: "border border-lightest text-textColor drop-shadow-none",
-		inactive: "text-lighter bg-color-100 drop-shadow-none",
+		default: "bg-color-100 text-textColor hover:bg-color-200",
+		accent: "bg-color-100 text-accent hover:bg-color-200",
+		"accent-base": "bg-[var(--ds-brand)] text-white",
+		"accent-one": "bg-[var(--ds-brand-tint)] text-[var(--ds-brand)]",
+		"accent-two": "border border-[var(--ds-brand)] text-[var(--ds-brand)] hover:bg-[var(--ds-brand)] hover:text-white",
+		muted: "bg-color-100 text-textColor hover:bg-[var(--ds-brand)] hover:text-white",
+		outline: "border border-color-200 text-textColor hover:border-[var(--ds-brand)] hover:text-[var(--ds-brand)]",
+		inactive: "text-lighter bg-color-75",
 	},
 };
 
 const variantClasses = badgeClasses.variants[variant as keyof typeof badgeClasses.variants];
 ---
 
-<div class={`${badgeClasses.base} ${variantClasses}`}>
-	{showHash && <span class="h-full">#</span>}
+<span class={`${badgeClasses.base} ${variantClasses}`}>
+	{showHash && <span>#</span>}
 	{title}
 	<slot />
-</div>
+</span>

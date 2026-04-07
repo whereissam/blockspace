@@ -47,14 +47,8 @@ const t = (key: string) => {
   id="main-header"
   class="fixed left-0 top-0 z-30 w-full bg-bgColor/80 backdrop-blur-md border-b border-special-lighter/50 md:relative md:bg-transparent md:backdrop-blur-none md:border-none"
 >
-  <!-- Background 
-			TODO: This approach is not optimal and requires improvements. 
-  			- Too many absolutely positioned elements can affect performance. 
-  		-->
-  <!-- Background overlay removed to fix blog post header conflicts -->
-
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-    <div class="flex h-16 items-center justify-between">
+    <div class="flex h-14 items-center justify-between">
       <!-- Logo Section -->
       <a
         aria-label={siteConfig.title}
@@ -63,18 +57,12 @@ const t = (key: string) => {
         Astro.url.pathname === `/${currentLang}/`
           ? "page"
           : false}
-        class="group flex items-center space-x-3 transition-all duration-200 hover:scale-105"
+        class="group flex items-center gap-2.5"
         href={currentLang === "en" ? "/en" : `/${currentLang}`}
       >
-        <div class="relative">
-          <div
-            class="absolute -inset-1 bg-gradient-to-r from-accent-base to-accent-two rounded-full opacity-75 blur-sm group-hover:opacity-100 transition-opacity"
-          >
-          </div>
-          <img class="relative w-10 h-10" src="/brand.svg" alt="" />
-        </div>
+        <img class="w-9 h-9" src="/brand.svg" alt="" />
         <strong
-          class="hidden sm:block text-xl font-bold bg-gradient-to-r from-accent-base to-accent-two bg-clip-text text-transparent group-hover:from-accent-two group-hover:to-accent-base transition-all duration-300"
+          class="hidden sm:block text-xl font-bold text-accent-base"
         >
           {siteConfig.title}
         </strong>
@@ -82,7 +70,7 @@ const t = (key: string) => {
       <!-- Desktop Navigation -->
       <nav
         aria-label="Main menu"
-        class="hidden md:flex items-center space-x-8"
+        class="hidden md:flex items-center gap-1"
         id="main-navigation-menu"
       >
         {
@@ -97,17 +85,17 @@ const t = (key: string) => {
             return (
               <a
                 aria-current={isCurrentPage ? "page" : false}
-                class={`relative px-3 py-2 text-sm font-medium transition-all duration-200 rounded-lg hover:bg-special-light ${
+                class={`relative px-3 py-1.5 text-[length:var(--ds-font-caption)] font-semibold tracking-[var(--ds-tracking-wide)] uppercase transition-colors duration-[var(--ds-duration-fast)] ${
                   isCurrentPage
-                    ? "text-accent-base bg-special-light"
-                    : "text-textColor hover:text-accent-base"
+                    ? "text-[var(--ds-brand)]"
+                    : "text-textColor hover:text-[var(--ds-brand)]"
                 }`}
                 data-astro-prefetch
                 href={linkPath}
               >
                 {t(link.key)}
                 {isCurrentPage && (
-                  <div class="absolute bottom-0 left-1/2 h-0.5 w-6 -translate-x-1/2 bg-gradient-to-r from-accent-base to-accent-two rounded-full" />
+                  <div class="absolute bottom-0 left-3 right-3 h-0.5 bg-[var(--ds-brand)]" />
                 )}
               </a>
             );
@@ -166,54 +154,11 @@ const t = (key: string) => {
     id="drawer-body"
     class="absolute inset-0 -translate-y-full transform bg-bgColor/95 backdrop-blur-md transition-all duration-300 ease-in-out"
   >
-    <!-- Background 
-			TODO: This approach is not optimal and requires improvements. 
-  			- Too many absolutely positioned elements can affect performance. 
-  		-->
-    <div
-      class="fixed top-0 left-1/2 -ml-[50vw] w-screen pointer-events-none min-h-screen overflow-x-hidden overflow-y-visible blur-2xl"
-    >
-      <!--
-				<div class="fixed blur-xl top-0 left-0 w-full h-16 md:h-20 bg-gradient-to-b from-indigo-300 via-purple-300 to-transparent opacity-10 dark:opacity-5"></div>
-				-->
-      <div
-        class="absolute top-[-90%] right-[25%] w-[75%] h-full bg-gradient-to-b from-blue-300 via-pink-300 to-transparent rounded-full opacity-40 dark:opacity-5"
-      >
-      </div>
-      <div
-        class="absolute top-[-90%] left-[25%] w-[75%] h-full bg-gradient-to-b from-blue-300 via-pink-300 to-transparent rounded-full opacity-40 dark:opacity-5"
-      >
-      </div>
-      <div
-        class="absolute top-[-85%] right-[25%] w-[55%] h-full bg-gradient-to-b from-purple-300 via-blue-300 to-transparent rounded-full opacity-40 dark:opacity-5"
-      >
-      </div>
-      <div
-        class="absolute top-[-85%] left-[25%] w-[55%] h-full bg-gradient-to-b from-indigo-300 via-orange-300 to-transparent rounded-full opacity-40 dark:opacity-5"
-      >
-      </div>
-      <div
-        class="absolute top-[-75%] left-[-25%] w-[65%] h-full bg-gradient-to-b from-blue-300 via-pink-300 to-transparent rounded-full opacity-30 dark:opacity-5"
-      >
-      </div>
-      <div
-        class="absolute top-[-75%] right-[-25%] w-[65%] h-full bg-gradient-to-b from-purple-300 via-blue-300 to-transparent rounded-full opacity-30 dark:opacity-5"
-      >
-      </div>
-      <div
-        class="absolute top-[-85%] left-[-30%] w-[85%] h-full bg-gradient-to-b from-indigo-300 via-orange-300 to-transparent rounded-full opacity-60 dark:opacity-5"
-      >
-      </div>
-      <div
-        class="absolute top-[-85%] right-[-30%] w-[85%] h-full bg-gradient-to-b from-orange-300 via-indigo-300 to-transparent rounded-full opacity-60 dark:opacity-5"
-      >
-      </div>
-    </div>
 
     <!-- Close button for mobile menu -->
     <button
       id="close-mobile-menu"
-      class="absolute top-4 right-4 p-2 rounded-lg bg-accent-base/10 text-accent-base hover:bg-accent-base/20 transition-colors z-50"
+      class="absolute top-4 right-4 p-2 rounded-lg text-accent-base hover:bg-color-100 transition-colors z-50"
       aria-label="Close menu"
     >
       <Icon class="h-6 w-6" name="hugeicons:cancel-01" />
@@ -221,7 +166,7 @@ const t = (key: string) => {
 
     <nav
       aria-label="Mobile navigation menu"
-      class="text-lg absolute inset-0 flex flex-col items-center justify-center gap-y-4 text-center font-medium text-accent-two pt-16"
+      class="absolute inset-0 flex flex-col items-center justify-center gap-y-6 text-center pt-16"
       id="nav-menu-mobile"
     >
       <!-- Mobile Navigation Links -->
@@ -237,7 +182,7 @@ const t = (key: string) => {
           return (
             <a
               aria-current={isCurrentPage ? "page" : false}
-              class="underline-offset-2 hover:underline"
+              class="text-[length:var(--ds-font-subhead)] font-semibold tracking-[var(--ds-tracking-wide)] uppercase text-textColor hover:text-[var(--ds-brand)] transition-colors"
               data-astro-prefetch
               href={linkPath}
             >

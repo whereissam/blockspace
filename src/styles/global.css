@@ -1,4 +1,5 @@
 @import 'tailwindcss';
+@import './design-tokens.css';
 
 @config '../../tailwind.config.ts';
 
@@ -109,46 +110,52 @@
 	:root[data-theme="light"] {
 		color-scheme: light;
 
-		/*** PRIMARY COLORS (Base, background, accents, text) ***/
-		/* Base theme color hue */
-		--hue: 220deg; /* Base theme color hue */
-		--saturation: 15%; /* Base theme saturation, 0% = no color tint */
+		/* --- Primitive: warm neutral base tinted toward brand orange --- */
+		--hue: 20deg;
+		--saturation: 8%;
 
 		/* Background */
-		--bg-hue: var(--hue); /* Background color hue */
-		--bg-saturation: var(--saturation); /* Background saturation, 0% = no tint */
-		--bg-brightness: 98%; /* Background brightness, 100% = pure white */
+		--bg-hue: var(--hue);
+		--bg-saturation: var(--saturation);
+		--bg-brightness: 98%;
 
-		/* Accents */
-		--theme-accent-base: 220deg 60% 45%; /* Primary accent color */
-		--theme-accent-one: 220deg 60% 45%; /* First additional accent color */
-		--theme-accent-two: 280deg 65% 55%; /* Second additional accent color */
+		/* Accents — brand orange used sparingly (tags, buttons, active states) */
+		--theme-accent-base: 13deg 83% 50%;    /* brand orange — tags, CTAs */
+		--theme-accent-one: 193deg 52% 40%;    /* teal — info, secondary */
+		--theme-accent-two: 13deg 75% 45%;     /* darker orange — hover states */
 
-		/* Text (foreground, calculated below based on --theme-fg) */
-		--fg-hue: var(--hue); /* Text color hue for gradient calculations */
-		--fg-saturation: 20%; /* Text saturation for gradient calculations with tint, 0% = no tint */
-		--fg-brightness: 15%; /* Text brightness for gradient calculations, 0% = starting from pure black */
-		--theme-text: var(--theme-color-700); /* Text color adapted to background */
+		/* Text */
+		--fg-hue: var(--hue);
+		--fg-saturation: 12%;
+		--fg-brightness: 15%;
+		--theme-text: var(--theme-color-700);
+		--theme-heading: var(--theme-color-900);  /* near-black in light mode */
 
-		/*** SECONDARY COLORS (External links, neutral accent, quotes) ***/
-		--theme-link: 220deg 80% 50%; /* External links color */
-		--theme-accent: var(
-			--theme-color-600
-		); /* Neutral accent, calculated below based on --theme-fg */
-		--theme-quote: var(--theme-text); /* Quote color */
+		/* Links — teal for visual variety, not more orange */
+		--theme-link: 193deg 52% 40%;
+		--theme-accent: var(--theme-color-600);
+		--theme-quote: var(--theme-text);
 
-		/*** ADDITIONAL COLORS ***/
+		/* Text hierarchy */
 		--theme-lightest: var(--theme-color-350);
 		--theme-lighter: var(--theme-color-400);
 		--theme-light: var(--theme-color-450);
 
-		/*** СПЕЦИАЛЬНЫЕ ДЛЯ КАЖДОЙ ТЕМЫ ЦВЕТА ***/
+		/* Surface colors */
 		--theme-special-lightest: hsl(var(--hue), var(--saturation), 100%);
 		--theme-special-lighter: hsl(var(--hue), var(--saturation), 98%);
 		--theme-special-light: hsl(var(--theme-bg));
 		--theme-special: var(--theme-color-75);
+		--ds-color-page: hsl(var(--theme-bg));
+		--ds-color-surface: var(--theme-color-50);
+		--ds-color-surface-raised: var(--theme-color-75);
+		--ds-color-text: var(--theme-text);
+		--ds-color-text-muted: var(--theme-lighter);
+		--ds-color-border-subtle: var(--theme-color-150);
+		--ds-color-border-strong: var(--theme-color-250);
+		--ds-color-selection: color-mix(in srgb, var(--ds-brand) 14%, white);
 
-		/* Подсветка синтаксиса rehype-pretty-code */
+		/* Syntax highlighting */
 		pre code span {
 			color: var(--shiki-light);
 			font-style: var(--shiki-light-font-style);
@@ -160,61 +167,52 @@
 	:root[data-theme="dark"] {
 		color-scheme: dark;
 
-		/* Для того чтобы текст имел оттенок фона --fg-hue: var(--hue) и --bg-hue: var(--hue) */
-		/* Для того чтобы текст имел оттенок фона --fg-saturation: var(--saturation) и --bg-saturation: var(--saturation) */
+		/* --- Primitive: warm neutral, low saturation so orange pops --- */
+		--hue: 20deg;
+		--saturation: 10%;
 
-		/* --theme-bg: 200deg 93% 10%; /* DeepBlue */
-		/* --theme-bg: 190deg 86% 8%; /* DeepGreen */
-		/* --theme-bg: 237deg 22% 20%; */
-		/* --theme-accent-one: 355deg 61% 88%; /* LightRose */
-		/* --theme-accent-two: 200deg 61% 71%; /* LightBlue */
+		/* Background */
+		--bg-hue: var(--hue);
+		--bg-saturation: var(--saturation);
+		--bg-brightness: 8%;
 
-		/*** ОСНОВНЫЕ ЦВЕТА (Базовый, фон, акценты, текст) ***/
-		/* Базовый цвет-оттенок темы */
-		--hue: 220deg; /* Base theme color hue */
-		--saturation: 45%; /* Base theme saturation, 0% = no color tint */
+		/* Accents — brand orange sparingly, teal for variety */
+		--theme-accent-base: 13deg 85% 58%;    /* brand orange — tags, CTAs */
+		--theme-accent-one: 193deg 52% 58%;    /* teal — info, secondary */
+		--theme-accent-two: 13deg 90% 60%;     /* lighter orange — hover states */
 
-		/* Фон (background) */
-		--bg-hue: var(--hue); /* Цвет-оттенок фона */
-		--bg-saturation: var(
-			--saturation
-		); /* Насыщенность оттенка фона и некоторых др. элементов, 0% - нет оттенка */
-		--bg-brightness: 12%; /* Background brightness, 0% = black */
-		/* Вариант 204deg 51% 14% */
-		/* Вариант 210deg 25% 15% */
+		/* Text */
+		--fg-hue: var(--hue);
+		--fg-saturation: var(--saturation);
+		--fg-brightness: 98%;
+		--theme-text: var(--theme-color-500);
+		--theme-heading: var(--theme-color-900);  /* white in dark mode — max contrast */
 
-		/* Акценты */
-		--theme-accent-base: var(--hue) 10% 85%;
-		--theme-accent-one: 50deg 49% 80%; /* Первый дополнительный акцентный цвет */
-		--theme-accent-two: 50deg 72% 63%; /* 50deg 72% 63% */ /* Второй дополнительный акцентный цвет (был 45deg 80% 50%) */
-		/* --theme-accent-two: 0deg 75% 89%; */
-		/* --theme-accent-base: var(--hue) 97% 71%; */
+		/* Links — teal for distinction from brand orange */
+		--theme-link: 193deg 55% 62%;
+		--theme-accent: var(--theme-color-600);
+		--theme-quote: var(--theme-text);
 
-		/* Текст (foreground, цвет-яркость текста рассчитывается ниже на базе --theme-fg) */
-		--fg-hue: var(--hue); /* Общий цвет-оттенок для рассчета градаций цвета */
-		--fg-saturation: var(
-			--saturation
-		); /* Общая насыщенность для рассчета градаций цвета с оттенком, 0% - нет оттенка */
-		--fg-brightness: 98%; /* Яркость для рассчета градаций цвета с оттенком, 100% - начиная от абсолютно белого */
-		--theme-text: var(--theme-color-500); /* Цвет-яркость текста адаптированного под цвет фона */
-
-		/*** ВТОРОСТЕПЕННЫЕ ЦВЕТА (Внкшние ссылки, нейтральный акцент, цитаты) ***/
-		--theme-link: var(--hue) 61% 71%; /* Цвет внешних ссылок */
-		--theme-accent: var(--theme-color-600); /* Нейтральный акцент относительно текста */
-		--theme-quote: var(--theme-text); /* Цвет цитат */
-
-		/*** ADDITIONAL COLORS ***/
+		/* Text hierarchy */
 		--theme-lightest: var(--theme-color-350);
 		--theme-lighter: var(--theme-color-400);
 		--theme-light: var(--theme-color-450);
 
-		/*** СПЕЦИАЛЬНЫЕ ДЛЯ КАЖДОЙ ТЕМЫ ЦВЕТА (!отличающиеся настройки для разных тем) ***/
+		/* Surface colors */
 		--theme-special-lightest: var(--theme-color-250);
 		--theme-special-lighter: var(--theme-color-200);
 		--theme-special-light: var(--theme-color-150);
 		--theme-special: hsl(var(--hue) var(--saturation) 0% / 0.15);
+		--ds-color-page: hsl(var(--theme-bg));
+		--ds-color-surface: var(--theme-color-75);
+		--ds-color-surface-raised: var(--theme-color-100);
+		--ds-color-text: var(--theme-text);
+		--ds-color-text-muted: var(--theme-lighter);
+		--ds-color-border-subtle: var(--theme-color-150);
+		--ds-color-border-strong: var(--theme-color-250);
+		--ds-color-selection: color-mix(in srgb, var(--ds-brand) 28%, black);
 
-		/* Подсветка синтаксиса */
+		/* Syntax highlighting */
 		pre code span {
 			color: var(--shiki-dark);
 			font-style: var(--shiki-dark-font-style);
@@ -259,17 +257,40 @@
 	}
 
 	html {
-		letter-spacing: 0.025em;
-		line-height: 1.6;
+		font-family: var(--ds-font-sans);
+		font-size: var(--ds-font-body);
+		letter-spacing: var(--ds-tracking-normal);
+		line-height: var(--ds-leading-normal);
+		background-color: var(--ds-color-page);
+		color: var(--ds-color-text);
+		scrollbar-gutter: stable;
 	}
 
 	body {
-		line-height: 1.7;
+		font-family: inherit;
+		line-height: calc(var(--ds-leading-normal) + 0.1);
+		background-color: var(--ds-color-page);
+		color: var(--ds-color-text);
+		text-rendering: optimizeLegibility;
+		-webkit-font-smoothing: antialiased;
 	}
 
 	p {
-		line-height: 1.8;
+		line-height: var(--ds-leading-loose);
 		margin-bottom: 1.2em;
+	}
+
+	a {
+		color: inherit;
+		text-decoration-color: color-mix(in srgb, currentColor 35%, transparent);
+		text-underline-offset: 0.16em;
+		transition:
+			color var(--ds-duration-fast) var(--ds-easing),
+			text-decoration-color var(--ds-duration-fast) var(--ds-easing);
+	}
+
+	a:hover {
+		text-decoration-color: currentColor;
 	}
 
 	h1 {
@@ -279,13 +300,13 @@
 		@apply text-2xl! font-semibold! md:pt-[0.215rem]!;
 	}
 	h3 {
-		@apply text-xl! font-medium! md:pt-[0.250rem]!;
+		@apply text-[1.375rem]! font-semibold! md:pt-0!;
 	}
 	h4 {
-		@apply text-lg! font-medium! md:pt-[0.425rem]!;
+		@apply text-[1.125rem]! font-semibold! md:pt-0!;
 	}
 	h5 {
-		@apply text-base! font-medium! md:pt-[0.425rem]!;
+		@apply text-sm! font-bold! uppercase md:pt-0!;
 	}
 	h6 {
 		@apply text-base! font-normal! md:pt-[0.425rem]!;
@@ -298,13 +319,47 @@
 	h5,
 	h6 {
 		@apply min-h-8! h-auto!;
-		line-height: 1.3;
-		margin-top: 2em;
-		margin-bottom: 0.8em;
+		font-family: var(--ds-font-sans);
+		line-height: var(--ds-leading-tight);
+		letter-spacing: var(--ds-tracking-tight);
+		color: var(--theme-heading);
+		margin-top: var(--ds-space-lg);
+		margin-bottom: var(--ds-space-xs);
 	}
 
 	h1 {
 		margin-top: 0;
+	}
+
+	h3 {
+		padding-top: var(--ds-space-md);
+	}
+
+	h4 {
+		color: var(--ds-color-text);
+	}
+
+	h5 {
+		letter-spacing: var(--ds-tracking-wide);
+		color: var(--ds-color-text-muted);
+		margin-top: var(--ds-space-xl);
+		margin-bottom: var(--ds-space-sm);
+	}
+
+	hr {
+		border: 0;
+		border-top: var(--ds-border-width-thin) solid var(--ds-color-border-subtle);
+		margin-block: var(--ds-space-2xl);
+	}
+
+	::selection {
+		background: var(--ds-color-selection);
+		color: var(--ds-color-text);
+	}
+
+	:focus-visible {
+		outline: var(--ds-focus-ring-width) solid var(--ds-color-brand);
+		outline-offset: var(--ds-focus-ring-offset);
 	}
 
 	/* Нужно для кнопки копирования кода при отключенном rehype-pretty-code */
@@ -416,4 +471,21 @@
 	article mark {
 		@apply bg-transparent;
 	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+  @layer base {
+    html:focus-within {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      scroll-behavior: auto !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
 }
