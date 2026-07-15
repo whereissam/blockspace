@@ -55,29 +55,29 @@ const latestNotes = allNotes.sort(collectionDateSort).slice(0, 2);
   {heroPost ? (
     <section class="mt-[-100vh] pt-[100vh]">
       {/* Hero Section: featured post + sidebar list */}
-      <div class="grid grid-cols-1 gap-[var(--ds-space-xl)] lg:grid-cols-12">
+      <div class="grid grid-cols-1 gap-(--ds-space-xl) lg:grid-cols-12">
 
         {/* Featured Post (hero) */}
         <a href={getPostUrl(heroPost)} data-astro-prefetch class="group lg:col-span-7">
-          <div class="ds-img aspect-[16/9]">
+          <div class="ds-img aspect-video">
             <img
               src={getPostImage(heroPost)}
               alt={heroPost.data.coverImage?.alt || heroPost.data.title}
               loading="eager"
             />
           </div>
-          <div class="mt-[var(--ds-space-lg)]">
+          <div class="mt-(--ds-space-lg)">
             {heroPost.data.tags?.[0] && (
               <span class="ds-tag">{heroPost.data.tags[0]}</span>
             )}
-            <h2 class="ds-hero mt-[var(--ds-space-sm)] group-hover:text-[var(--ds-brand)] transition-colors duration-[var(--ds-duration-fast)]">
+            <h2 class="ds-hero mt-(--ds-space-sm) group-hover:text-(--ds-brand) transition-colors duration-(--ds-duration-fast)">
               {heroPost.data.title}
             </h2>
-            <p class="mt-[var(--ds-space-sm)] line-clamp-2 ds-body text-lighter">
+            <p class="mt-(--ds-space-sm) line-clamp-2 ds-body text-lighter">
               {heroPost.data.description}
             </p>
             <FormattedDate
-              class="ds-caption mt-[var(--ds-space-sm)] block"
+              class="ds-caption mt-(--ds-space-sm) block"
               date={heroPost.data.publishDate}
               dateTimeOptions={{ year: "numeric", month: "long", day: "2-digit" }}
             />
@@ -91,7 +91,7 @@ const latestNotes = allNotes.sort(collectionDateSort).slice(0, 2);
               href={getPostUrl(post)}
               data-astro-prefetch
               class:list={[
-                "group flex gap-[var(--ds-space-md)] py-[var(--ds-space-lg)]",
+                "group flex gap-(--ds-space-md) py-(--ds-space-lg)",
                 i > 0 && "border-t border-color-150",
               ]}
             >
@@ -106,11 +106,11 @@ const latestNotes = allNotes.sort(collectionDateSort).slice(0, 2);
                 {post.data.tags?.[0] && (
                   <span class="ds-tag">{post.data.tags[0]}</span>
                 )}
-                <p class="ds-headline mt-[var(--ds-space-xs)] text-[length:var(--ds-font-body)] line-clamp-2 group-hover:text-[var(--ds-brand)] transition-colors duration-[var(--ds-duration-fast)]">
+                <p class="ds-headline mt-(--ds-space-xs) text-(length:--ds-font-body) line-clamp-2 group-hover:text-(--ds-brand) transition-colors duration-(--ds-duration-fast)">
                   {post.data.title}
                 </p>
                 <FormattedDate
-                  class="ds-caption mt-[var(--ds-space-xs)]"
+                  class="ds-caption mt-(--ds-space-xs)"
                   date={post.data.publishDate}
                   dateTimeOptions={{ year: "numeric", month: "long", day: "2-digit" }}
                 />
@@ -122,8 +122,8 @@ const latestNotes = allNotes.sort(collectionDateSort).slice(0, 2);
     </section>
   ) : (
     <section class="mt-[-100vh] pt-[100vh]">
-      <div class="text-center py-[var(--ds-space-3xl)]">
-        {t.emptyMessage && <p class="ds-body mb-[var(--ds-space-md)]">{t.emptyMessage}</p>}
+      <div class="text-center py-(--ds-space-3xl)">
+        {t.emptyMessage && <p class="ds-body mb-(--ds-space-md)">{t.emptyMessage}</p>}
         {t.emptySubMessage && <p class="ds-caption">{t.emptySubMessage}</p>}
       </div>
     </section>
@@ -131,34 +131,34 @@ const latestNotes = allNotes.sort(collectionDateSort).slice(0, 2);
 
   <!-- Latest Posts Grid -->
   {remainingPosts.length > 0 && (
-    <section class="mt-[var(--ds-space-3xl)]">
+    <section class="mt-(--ds-space-3xl)">
       {/* Section header with divider */}
-      <div class="flex items-center gap-[var(--ds-space-md)] mb-[var(--ds-space-xl)]">
+      <div class="flex items-center gap-(--ds-space-md) mb-(--ds-space-xl)">
         <h2 class="ds-subhead shrink-0">
           <a href={`/${lang}/posts/`}>{t.latestLabel}</a>
         </h2>
         <div class="ds-divider"></div>
       </div>
 
-      <div class="grid grid-cols-1 gap-x-[var(--ds-space-xl)] gap-y-[var(--ds-space-2xl)] sm:grid-cols-2 lg:grid-cols-3">
+      <div class="grid grid-cols-1 gap-x-(--ds-space-xl) gap-y-(--ds-space-2xl) sm:grid-cols-2 lg:grid-cols-3">
         {remainingPosts.map((post) => (
           <a href={getPostUrl(post)} data-astro-prefetch class="group">
-            <div class="ds-img aspect-[16/9]">
+            <div class="ds-img aspect-video">
               <img
                 src={getPostImage(post)}
                 alt={post.data.coverImage?.alt || post.data.title}
                 loading="lazy"
               />
             </div>
-            <div class="mt-[var(--ds-space-md)]">
+            <div class="mt-(--ds-space-md)">
               {post.data.tags?.[0] && (
                 <span class="ds-tag">{post.data.tags[0]}</span>
               )}
-              <p class="ds-headline mt-[var(--ds-space-xs)] line-clamp-2 group-hover:text-[var(--ds-brand)] transition-colors duration-[var(--ds-duration-fast)]">
+              <p class="ds-headline mt-(--ds-space-xs) line-clamp-2 group-hover:text-(--ds-brand) transition-colors duration-(--ds-duration-fast)">
                 {post.data.title}
               </p>
               <FormattedDate
-                class="ds-caption mt-[var(--ds-space-xs)]"
+                class="ds-caption mt-(--ds-space-xs)"
                 date={post.data.publishDate}
                 dateTimeOptions={{ year: "numeric", month: "long", day: "2-digit" }}
               />
@@ -167,7 +167,7 @@ const latestNotes = allNotes.sort(collectionDateSort).slice(0, 2);
         ))}
       </div>
 
-      <div class="mt-[var(--ds-space-xl)]">
+      <div class="mt-(--ds-space-xl)">
         <a href={`/${lang}/posts/`} class="ds-btn-ghost">
           {t.viewAllPosts} <span aria-hidden="true">&rarr;</span>
         </a>
@@ -177,14 +177,14 @@ const latestNotes = allNotes.sort(collectionDateSort).slice(0, 2);
 
   <!-- Notes Section -->
   {latestNotes.length > 0 && (
-    <section class="mt-[var(--ds-space-3xl)] mb-[var(--ds-space-3xl)]">
-      <div class="flex items-center gap-[var(--ds-space-md)] mb-[var(--ds-space-xl)]">
+    <section class="mt-(--ds-space-3xl) mb-(--ds-space-3xl)">
+      <div class="flex items-center gap-(--ds-space-md) mb-(--ds-space-xl)">
         <h2 class="ds-subhead shrink-0">
           <a href={`/${lang}/notes/`}>{t.notesLabel}</a>
         </h2>
         <div class="ds-divider"></div>
       </div>
-      <div class="grid grid-cols-1 gap-[var(--ds-space-xl)] sm:grid-cols-2">
+      <div class="grid grid-cols-1 gap-(--ds-space-xl) sm:grid-cols-2">
         {latestNotes.map((note: any) => (
           <div>
             <Note note={note} as="h4" isPreview />

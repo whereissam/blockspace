@@ -85,17 +85,17 @@ const t = (key: string) => {
             return (
               <a
                 aria-current={isCurrentPage ? "page" : false}
-                class={`relative px-3 py-1.5 text-[length:var(--ds-font-caption)] font-semibold tracking-[var(--ds-tracking-wide)] uppercase transition-colors duration-[var(--ds-duration-fast)] ${
+                class={`relative px-3 py-1.5 text-(length:--ds-font-caption) font-semibold tracking-(--ds-tracking-wide) uppercase transition-colors duration-(--ds-duration-fast) ${
                   isCurrentPage
-                    ? "text-[var(--ds-brand)]"
-                    : "text-textColor hover:text-[var(--ds-brand)]"
+                    ? "text-(--ds-brand)"
+                    : "text-textColor hover:text-(--ds-brand)"
                 }`}
                 data-astro-prefetch
                 href={linkPath}
               >
                 {t(link.key)}
                 {isCurrentPage && (
-                  <div class="absolute bottom-0 left-3 right-3 h-0.5 bg-[var(--ds-brand)]" />
+                  <div class="absolute bottom-0 left-3 right-3 h-0.5 bg-(--ds-brand)" />
                 )}
               </a>
             );
@@ -182,7 +182,7 @@ const t = (key: string) => {
           return (
             <a
               aria-current={isCurrentPage ? "page" : false}
-              class="text-[length:var(--ds-font-subhead)] font-semibold tracking-[var(--ds-tracking-wide)] uppercase text-textColor hover:text-[var(--ds-brand)] transition-colors"
+              class="text-(length:--ds-font-subhead) font-semibold tracking-(--ds-tracking-wide) uppercase text-textColor hover:text-(--ds-brand) transition-colors"
               data-astro-prefetch
               href={linkPath}
             >

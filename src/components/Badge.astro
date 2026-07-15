@@ -2,15 +2,15 @@
 const { variant = "default", showHash = true, title } = Astro.props;
 
 const badgeClasses = {
-	base: "inline-flex items-center gap-0.5 rounded-[var(--ds-radius-sm)] px-2 py-0.5 text-[var(--ds-font-label)] font-semibold leading-none tracking-[var(--ds-tracking-wide)] uppercase transition-colors duration-[var(--ds-duration-fast)]",
+	base: "inline-flex items-center gap-0.5 rounded-(--ds-radius-sm) px-2 py-0.5 text-(--ds-font-label) font-semibold leading-none tracking-(--ds-tracking-wide) uppercase transition-colors duration-(--ds-duration-fast)",
 	variants: {
 		default: "bg-color-100 text-textColor hover:bg-color-200",
 		accent: "bg-color-100 text-accent hover:bg-color-200",
-		"accent-base": "bg-[var(--ds-brand)] text-white",
-		"accent-one": "bg-[var(--ds-brand-tint)] text-[var(--ds-brand)]",
-		"accent-two": "border border-[var(--ds-brand)] text-[var(--ds-brand)] hover:bg-[var(--ds-brand)] hover:text-white",
-		muted: "bg-color-100 text-textColor hover:bg-[var(--ds-brand)] hover:text-white",
-		outline: "border border-color-200 text-textColor hover:border-[var(--ds-brand)] hover:text-[var(--ds-brand)]",
+		"accent-base": "bg-(--ds-brand) text-white",
+		"accent-one": "bg-(--ds-brand-tint) text-(--ds-brand)",
+		"accent-two": "border border-(--ds-brand) text-(--ds-brand) hover:bg-(--ds-brand) hover:text-white",
+		muted: "bg-color-100 text-textColor hover:bg-(--ds-brand) hover:text-white",
+		outline: "border border-color-200 text-textColor hover:border-(--ds-brand) hover:text-(--ds-brand)",
 		inactive: "text-lighter bg-color-75",
 	},
 };

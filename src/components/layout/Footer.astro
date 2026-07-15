@@ -48,9 +48,9 @@ const t = (key: string) => translations[currentLang][key] || key;
 ---
 
 <footer class="mt-auto border-t border-color-150">
-  <div class="mx-auto max-w-7xl px-4 py-[var(--ds-space-2xl)] md:px-6 lg:px-8">
+  <div class="mx-auto max-w-7xl px-4 py-(--ds-space-2xl) md:px-6 lg:px-8">
     <!-- Top: logo + nav in one row -->
-    <div class="flex flex-col gap-[var(--ds-space-xl)] md:flex-row md:items-start md:justify-between">
+    <div class="flex flex-col gap-(--ds-space-xl) md:flex-row md:items-start md:justify-between">
       <!-- Brand -->
       <div class="max-w-sm">
         <a
@@ -59,25 +59,25 @@ const t = (key: string) => translations[currentLang][key] || key;
           href={currentLang === "en" ? "/en" : `/${currentLang}`}
         >
           <img class="w-8 h-8" src="/brand.svg" alt="" />
-          <strong class="text-lg font-bold text-[var(--ds-brand)]">
+          <strong class="text-lg font-bold text-(--ds-brand)">
             {siteConfig.title}
           </strong>
         </a>
-        <p class="ds-caption mt-[var(--ds-space-sm)] max-w-xs">
+        <p class="ds-caption mt-(--ds-space-sm) max-w-xs">
           {t("footer.tagline")}
         </p>
       </div>
 
       <!-- Nav columns -->
-      <div class="flex gap-[var(--ds-space-3xl)]">
+      <div class="flex gap-(--ds-space-3xl)">
         <div>
-          <h3 class="ds-tag mb-[var(--ds-space-md)]">Navigation</h3>
+          <h3 class="ds-tag mb-(--ds-space-md)">Navigation</h3>
           <ul class="space-y-2">
             {
               menuLinks.map((link) => (
                 <li>
                   <a
-                    class="ds-caption hover:text-[var(--ds-brand)] transition-colors"
+                    class="ds-caption hover:text-(--ds-brand) transition-colors"
                     href={`/${currentLang}${link.path}`}
                   >
                     {t(link.key)}
@@ -88,19 +88,19 @@ const t = (key: string) => translations[currentLang][key] || key;
           </ul>
         </div>
         <div>
-          <h3 class="ds-tag mb-[var(--ds-space-md)]">Resources</h3>
+          <h3 class="ds-tag mb-(--ds-space-md)">Resources</h3>
           <ul class="space-y-2">
-            <li><a class="ds-caption hover:text-[var(--ds-brand)] transition-colors" href="/rss.xml">RSS Feed</a></li>
-            <li><a class="ds-caption hover:text-[var(--ds-brand)] transition-colors" href="/sitemap-index.xml">Sitemap</a></li>
-            <li><a class="ds-caption hover:text-[var(--ds-brand)] transition-colors" href="/tags">All Tags</a></li>
+            <li><a class="ds-caption hover:text-(--ds-brand) transition-colors" href="/rss.xml">RSS Feed</a></li>
+            <li><a class="ds-caption hover:text-(--ds-brand) transition-colors" href="/sitemap-index.xml">Sitemap</a></li>
+            <li><a class="ds-caption hover:text-(--ds-brand) transition-colors" href="/tags">All Tags</a></li>
           </ul>
         </div>
       </div>
     </div>
 
     <!-- Bottom -->
-    <div class="ds-divider mt-[var(--ds-space-xl)]"></div>
-    <p class="ds-caption mt-[var(--ds-space-md)]">
+    <div class="ds-divider mt-(--ds-space-xl)"></div>
+    <p class="ds-caption mt-(--ds-space-md)">
       {t("footer.copyright")}
     </p>
   </div>

@@ -13,7 +13,7 @@ const { as: Tag = "div", post, withDesc = false } = Astro.props;
 // Generate correct URL based on post language
 function getPostUrl(post: CollectionEntry<"post">): string {
 	const pathSegments = post.id.split("/");
-	const postLanguage = pathSegments[0]?.toLowerCase();
+	const postLanguage = pathSegments[0]?.toLowerCase() ?? "en";
 	const slug = pathSegments.slice(1).join("/");
 
 	// Map language codes to URL paths
@@ -42,7 +42,7 @@ function getPostUrl(post: CollectionEntry<"post">): string {
 					day: "2-digit",
 				}}
 			/>
-			<Tag class="citrus-link font-medium text-[var(--theme-heading)] sm:order-1 sm:flex-gro md:line-clamp-1">
+			<Tag class="citrus-link font-medium text-(--theme-heading) sm:order-1 sm:flex-gro md:line-clamp-1">
 				<a data-astro-prefetch href={getPostUrl(post)}>
 					{post.data.draft && <span class="text-red-500">(Draft) </span>}
 					{post.data.title}
@@ -62,7 +62,7 @@ function getPostUrl(post: CollectionEntry<"post">): string {
 					day: "2-digit",
 				}}
 			/>
-			<Tag class="citrus-link font-medium text-[var(--theme-heading)] mt-2.5">
+			<Tag class="citrus-link font-medium text-(--theme-heading) mt-2.5">
 				<a data-astro-prefetch href={getPostUrl(post)}>
 					{post.data.title}
 				</a>
