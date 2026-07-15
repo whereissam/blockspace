@@ -1,7 +1,7 @@
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { Resvg } from "@resvg/resvg-js";
-import type { APIContext, InferGetStaticPropsType } from "astro";
+import type { APIContext } from "astro";
 import satori, { type SatoriOptions } from "satori";
 import { html } from "satori-html";
 import SFProRoundedBold from "@/assets/fonts/SF-Pro-Rounded-Bold.latin.base.ttf";
@@ -83,8 +83,6 @@ const markup = (title: string, pubDate: string, coverImageBase64: string) =>
     </div>
   </div>`;
 
-type Props = InferGetStaticPropsType<typeof getStaticPaths>;
-
 export const prerender = false;
 
 export async function GET(context: APIContext) {
@@ -118,7 +116,7 @@ export async function GET(context: APIContext) {
 		// Check if user requests PNG
 		if (ext === "png") {
 			const png = new Resvg(svg).render().asPng();
-			return new Response(png, {
+			return new Response(new Uint8Array(png), {
 				headers: {
 					"Cache-Control": "public, max-age=31536000, immutable",
 					"Content-Type": "image/png",

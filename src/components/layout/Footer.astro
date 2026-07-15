@@ -1,7 +1,5 @@
 ---
-import { Icon } from "astro-icon/components";
 import { siteConfig, menuLinks } from "@/site.config";
-import SocialList from "@/components/SocialList.astro";
 
 const year = new Date().getFullYear();
 
@@ -44,7 +42,7 @@ const translations = {
 	},
 };
 
-const t = (key: string) => translations[currentLang][key] || key;
+const t = (key: string) => (translations[currentLang] as Record<string, string>)[key] || key;
 ---
 
 <footer class="mt-auto border-t border-color-150">

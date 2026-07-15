@@ -252,7 +252,7 @@ import { Icon } from "astro-icon/components";
 			} catch (error) {
 				this.removeTypingIndicator(typingId);
 				this.addMessage(
-					`❌ Sorry, I encountered an error: ${error.message}. The AI service might be offline.`,
+					`❌ Sorry, I encountered an error: ${error instanceof Error ? error.message : "Unknown error"}. The AI service might be offline.`,
 					'assistant'
 				);
 			}

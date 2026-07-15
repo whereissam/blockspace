@@ -334,7 +334,7 @@ const nextPostUrl = nextPost ? `/${locale}/posts/${nextPost.id.split("/").slice(
 
 		const scrollObserver = new IntersectionObserver(
 			async (entries) => {
-				if (!entries[0].isIntersecting || loading || !nextUrl) return;
+				if (!entries[0]?.isIntersecting || loading || !nextUrl) return;
 				loading = true;
 
 				try {
@@ -378,18 +378,14 @@ const nextPostUrl = nextPost ? `/${locale}/posts/${nextPost.id.split("/").slice(
 					loader.style.display = "none";
 					container.appendChild(section);
 
-					// Re-render mermaid diagrams in the new content
-					if (typeof window.mermaid !== "undefined") {
-						const mermaidBlocks = section.querySelectorAll(".mermaid, pre.language-mermaid, code.language-mermaid");
-						if (mermaidBlocks.length) {
-							window.mermaid.run({ nodes: mermaidBlocks });
-						}
-					}
+					// Re-render mermaid diagrams in the newly injected content
+					// (lazy-loads Mermaid if this is the first diagram seen).
+					await (window as any).renderMermaid?.();
 
 					// Update URL when scrolling into the next article
 					const urlObserver = new IntersectionObserver(
 						(ents) => {
-							if (ents[0].isIntersecting) {
+							if (ents[0]?.isIntersecting) {
 								history.replaceState(null, "", nextUrl);
 								document.title = nextTitle ? `${nextTitle} \u2022 Blockspace` : document.title;
 							}
@@ -414,7 +410,7 @@ const nextPostUrl = nextPost ? `/${locale}/posts/${nextPost.id.split("/").slice(
 		const originalTitle = document.title;
 		const topObserver = new IntersectionObserver(
 			(entries) => {
-				if (entries[0].isIntersecting) {
+				if (entries[0]?.isIntersecting) {
 					history.replaceState(null, "", originalUrl);
 					document.title = originalTitle;
 				}

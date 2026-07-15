@@ -128,7 +128,7 @@ const alternateUrls = locales.map((locale) => ({
 {/* JSON-LD Structured Data */}
 {
   articleDate ? (
-    <script type="application/ld+json" set:html={JSON.stringify({
+    <script type="application/ld+json" is:inline set:html={JSON.stringify({
       "@context": "https://schema.org",
       "@type": "BlogPosting",
       "headline": title,
@@ -152,7 +152,7 @@ const alternateUrls = locales.map((locale) => ({
       "inLanguage": currentLocale === "zh-TW" ? "zh-Hant" : currentLocale === "zh-CN" ? "zh-Hans" : "en",
     })} />
   ) : (
-    <script type="application/ld+json" set:html={JSON.stringify({
+    <script type="application/ld+json" is:inline set:html={JSON.stringify({
       "@context": "https://schema.org",
       "@type": "WebSite",
       "name": siteConfig.title,

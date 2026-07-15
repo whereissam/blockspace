@@ -57,23 +57,31 @@ import { Icon } from "astro-icon/components";
 	import { create, insertMultiple, search } from '@orama/orama';
 
 	class OramaSearch extends HTMLElement {
+		openBtn: HTMLButtonElement | null = null;
+		closeBtn: HTMLButtonElement | null = null;
+		dialog!: HTMLDialogElement;
+		dialogFrame!: HTMLElement;
+		searchInput!: HTMLInputElement;
+		searchResults: HTMLElement | null = null;
+		resultsList!: HTMLElement;
+		noResults!: HTMLElement;
+		initialMessage!: HTMLElement;
+		db: any = null;
+
 		constructor() {
 			super();
-			
+
 			// Initialize DOM element references
-			this.openBtn = this.querySelector("button[data-open-modal]");
-			this.closeBtn = this.querySelector("button[data-close-modal]");
-			this.dialog = this.querySelector("dialog");
-			this.dialogFrame = this.querySelector(".dialog-frame");
-			this.searchInput = this.querySelector("#orama-search-input");
-			this.searchResults = this.querySelector("#orama-search-results");
-			this.resultsList = this.querySelector("#results-list");
-			this.noResults = this.querySelector("#orama-no-results");
-			this.initialMessage = this.querySelector("#orama-initial-message");
-			
-			// Initialize Orama database
-			this.db = null;
-			
+			this.openBtn = this.querySelector<HTMLButtonElement>("button[data-open-modal]");
+			this.closeBtn = this.querySelector<HTMLButtonElement>("button[data-close-modal]");
+			this.dialog = this.querySelector<HTMLDialogElement>("dialog")!;
+			this.dialogFrame = this.querySelector<HTMLElement>(".dialog-frame")!;
+			this.searchInput = this.querySelector<HTMLInputElement>("#orama-search-input")!;
+			this.searchResults = this.querySelector<HTMLElement>("#orama-search-results");
+			this.resultsList = this.querySelector<HTMLElement>("#results-list")!;
+			this.noResults = this.querySelector<HTMLElement>("#orama-no-results")!;
+			this.initialMessage = this.querySelector<HTMLElement>("#orama-initial-message")!;
+
 			// Bind event listeners
 			this.openBtn?.addEventListener("click", this.openModal);
 			this.closeBtn?.addEventListener("click", this.closeModal);
@@ -107,7 +115,7 @@ import { Icon } from "astro-icon/components";
 				console.log('Initializing Orama with', searchData.length, 'documents');
 				
 				// Create the database
-				this.db = await create({
+				this.db = create({
 					schema: {
 						id: 'string',
 						title: 'string',
@@ -120,7 +128,7 @@ import { Icon } from "astro-icon/components";
 				});
 
 				// Insert all the search data
-				await insertMultiple(this.db, searchData.map(item => ({
+				await insertMultiple(this.db, searchData.map((item: any) => ({
 					...item,
 					tags: item.tags || []
 				})));
@@ -131,8 +139,8 @@ import { Icon } from "astro-icon/components";
 			}
 		}
 
-		handleSearch = async (event) => {
-			const target = event.target;
+		handleSearch = async (event: Event) => {
+			const target = event.target as HTMLInputElement;
 			const query = target.value.trim();
 
 			if (query.length < 2) {
@@ -154,7 +162,7 @@ import { Icon } from "astro-icon/components";
 			}
 		};
 
-		displayResults(hits, query) {
+		displayResults(hits: any[], query: string) {
 			this.hideMessages();
 
 			if (hits.length === 0) {
@@ -162,7 +170,7 @@ import { Icon } from "astro-icon/components";
 				return;
 			}
 
-			const resultsHTML = hits.map(hit => {
+			const resultsHTML = hits.map((hit: any) => {
 				const doc = hit.document;
 				const typeColor = doc.type === 'post' ? 'text-accent-base' : 'text-accent-two';
 				const excerpt = this.truncateText(doc.description || doc.content, 120);
@@ -178,7 +186,7 @@ import { Icon } from "astro-icon/components";
 								${doc.tags && doc.tags.length > 0 ? `
 									<span class="text-xs text-lighter">•</span>
 									<div class="flex gap-1">
-										${doc.tags.slice(0, 3).map(tag => `
+										${doc.tags.slice(0, 3).map((tag: string) => `
 											<span class="text-xs px-2 py-1 bg-color-100 rounded text-textColor">${tag}</span>
 										`).join('')}
 									</div>
@@ -195,18 +203,18 @@ import { Icon } from "astro-icon/components";
 			this.resultsList.innerHTML = resultsHTML;
 		}
 
-		escapeRegExp(string) {
+		escapeRegExp(string: string) {
 			return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 		}
 
-		highlightText(text, query) {
+		highlightText(text: string, query: string) {
 			if (!query || !text) return text;
 			const safeQuery = this.escapeRegExp(query);
 			const regex = new RegExp(`(${safeQuery})`, 'gi');
 			return text.replace(regex, '<mark class="text-accent-two bg-transparent font-medium">$1</mark>');
 		}
 
-		truncateText(text, maxLength) {
+		truncateText(text: string, maxLength: number) {
 			if (!text || text.length <= maxLength) return text || '';
 			return text.substring(0, maxLength) + '...';
 		}
@@ -238,17 +246,18 @@ import { Icon } from "astro-icon/components";
 			}
 		};
 
-		onWindowClick = (event) => {
+		onWindowClick = (event: MouseEvent) => {
+			const target = event.target as Node | null;
 			const isLink = "href" in (event.target || {});
 			if (
 				isLink ||
-				(document.body.contains(event.target) &&
-					!this.dialogFrame.contains(event.target))
+				(document.body.contains(target) &&
+					!this.dialogFrame.contains(target))
 			)
 				this.closeModal();
 		};
 
-		onWindowKeydown = (e) => {
+		onWindowKeydown = (e: KeyboardEvent) => {
 			// Check if it's the Ctrl+K key combination
 			if ((e.ctrlKey || e.metaKey) && e.key === 'k' && !this.dialog.open) {
 				this.openModal();
@@ -256,7 +265,7 @@ import { Icon } from "astro-icon/components";
 			}
 		};
 
-		openModal = (event) => {
+		openModal = (event?: Event) => {
 			console.log('Opening Orama search modal');
 			this.dialog.showModal();
 			document.body.classList.add("overflow-hidden");

@@ -43,7 +43,7 @@ const toc = generateToc(headings);
 			link.addEventListener('click', (e) => {
 				e.preventDefault();
 				const targetId = link.getAttribute('data-toc-link');
-				const targetElement = document.getElementById(targetId);
+				const targetElement = targetId ? document.getElementById(targetId) : null;
 				
 				if (targetElement) {
 					const headerOffset = 120; // Account for fixed header + proper top positioning
@@ -62,7 +62,7 @@ const toc = generateToc(headings);
 		});
 		
 		// Highlight active section on scroll
-		function updateActiveLink(activeLink = null) {
+		function updateActiveLink(activeLink: Element | null = null) {
 			tocLinks.forEach(link => {
 				const linkElement = link as HTMLElement;
 				linkElement.classList.remove('toc-active');

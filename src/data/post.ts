@@ -14,7 +14,7 @@ export async function getPostsByLanguage(language: string): Promise<CollectionEn
 	// Filter posts based on language folder structure
 	return allPosts.filter((post) => {
 		const pathSegments = post.id.split("/");
-		const postLanguage = pathSegments[0];
+		const postLanguage = pathSegments[0] ?? "";
 
 		// Normalize language codes for comparison
 		const normalizeLanguage = (lang: string) => lang.toLowerCase();
@@ -38,7 +38,7 @@ export async function getNotesByLanguage(language: string): Promise<CollectionEn
 	// Filter notes based on language folder structure
 	return allNotes.filter((note) => {
 		const pathSegments = note.id.split("/");
-		const noteLanguage = pathSegments[0];
+		const noteLanguage = pathSegments[0] ?? "";
 
 		// Normalize language codes for comparison
 		const normalizeLanguage = (lang: string) => lang.toLowerCase();

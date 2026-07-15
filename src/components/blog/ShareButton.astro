@@ -5,7 +5,7 @@ interface Props {
 	description?: string;
 }
 
-const { title, url, description = "" } = Astro.props;
+const { title, url } = Astro.props;
 const currentUrl = new URL(url, Astro.site).toString();
 ---
 
@@ -282,7 +282,7 @@ const currentUrl = new URL(url, Astro.site).toString();
 		}
 
 		// Shared copy functionality
-		async function copyToClipboard(button) {
+		async function copyToClipboard(button: Element) {
 			const url = button.getAttribute("data-url");
 			if (!url) return;
 

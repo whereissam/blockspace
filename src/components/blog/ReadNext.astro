@@ -2,7 +2,6 @@
 import type { CollectionEntry } from "astro:content";
 import { getPostsByLanguage } from "@/data/post";
 import { collectionDateSort } from "@/utils/date";
-import FormattedDate from "@/components/FormattedDate.astro";
 
 interface Props {
 	currentPost: CollectionEntry<"post">;

@@ -114,7 +114,7 @@ const descYearKeys = Object.keys(groupedByYear).sort((a, b) => +b - +a);
 		function revealBatch() {
 			const end = Math.min(shown + BATCH, items.length);
 			for (let i = shown; i < end; i++) {
-				items[i].classList.remove("hidden");
+				items[i]?.classList.remove("hidden");
 			}
 			shown = end;
 			document.querySelectorAll("[data-year-heading]").forEach((h) => {
@@ -126,12 +126,12 @@ const descYearKeys = Object.keys(groupedByYear).sort((a, b) => +b - +a);
 			});
 			if (shown >= items.length) {
 				observer.disconnect();
-				sentinel.classList.add("hidden");
+				sentinel!.classList.add("hidden");
 			}
 		}
 
 		const observer = new IntersectionObserver(
-			(entries) => { if (entries[0].isIntersecting) revealBatch(); },
+			(entries) => { if (entries[0]?.isIntersecting) revealBatch(); },
 			{ rootMargin: "200px" }
 		);
 		observer.observe(sentinel);

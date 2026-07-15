@@ -56,9 +56,22 @@ const htmlLang = detectedLocale ? langMap[detectedLocale] : siteConfig.lang;
         y.parentNode.insertBefore(t, y);
       })(window, document, "clarity", "script", "r8l369nvf6");
     </script>
-    <script type="module">
-      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
-      mermaid.initialize({ startOnLoad: true, theme: 'dark' });
+    <script type="module" is:inline>
+      // Load Mermaid only on pages that actually contain a diagram, and re-run
+      // on navigation (View Transitions) or when new content is injected
+      // (infinite scroll). Exposed as window.renderMermaid so appended content
+      // can trigger a render without a full navigation. Idempotent: Mermaid
+      // marks processed diagrams and skips them.
+      const MERMAID_SELECTOR = ".mermaid, pre.language-mermaid, code.language-mermaid";
+      window.renderMermaid = async () => {
+        const nodes = document.querySelectorAll(MERMAID_SELECTOR);
+        if (!nodes.length) return;
+        const mermaid = window.mermaid
+          ?? (window.mermaid = (await import('https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs')).default);
+        mermaid.initialize({ startOnLoad: false, theme: 'dark' });
+        await mermaid.run({ nodes });
+      };
+      document.addEventListener("astro:page-load", () => window.renderMermaid());
     </script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-34CVLGCC2X" is:inline></script>
     <script is:inline>

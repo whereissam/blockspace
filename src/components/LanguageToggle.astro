@@ -38,8 +38,6 @@ const languages = [
 		active: isZhCN,
 	},
 ];
-
-const currentLang = languages.find((lang) => lang.active);
 ---
 
 <div class="relative group">
@@ -48,7 +46,6 @@ const currentLang = languages.find((lang) => lang.active);
     aria-label="Select language"
     aria-expanded="false"
     aria-haspopup="true"
-    onclick="window.toggleLanguageDropdown(event)"
     style="-webkit-user-select: none; -webkit-touch-callout: none;"
   >
     <Icon name="hugeicons:globe-02" class="h-4 w-4" />
@@ -79,49 +76,39 @@ const currentLang = languages.find((lang) => lang.active);
 </div>
 
 <script>
-  // Simple toggle function for mobile compatibility
-  window.toggleLanguageDropdown = function (event) {
+  function toggleLanguageDropdown(event: Event) {
     event.preventDefault();
     event.stopPropagation();
 
-    // Find the dropdown within the same parent container as the clicked button
-    const clickedButton = event.currentTarget;
-    const container = clickedButton.parentElement;
-    const dropdown = container.querySelector('.language-dropdown');
+    const button = event.currentTarget as HTMLElement;
+    const dropdown = button.parentElement?.querySelector(".language-dropdown");
+    if (!dropdown) return;
 
-    if (dropdown && clickedButton) {
-      const isHidden = dropdown.classList.contains("hidden");
+    const willShow = dropdown.classList.contains("hidden");
+    dropdown.classList.toggle("hidden");
+    button.setAttribute("aria-expanded", willShow ? "true" : "false");
+  }
 
-      if (isHidden) {
-        dropdown.classList.remove("hidden");
-        clickedButton.setAttribute("aria-expanded", "true");
-      } else {
-        dropdown.classList.add("hidden");
-        clickedButton.setAttribute("aria-expanded", "false");
-      }
-    }
-  };
-
+  // Wire up toggle buttons on every navigation (DOM is swapped by the router).
   document.addEventListener("astro:page-load", () => {
-    // Close dropdown when clicking outside
-    document.addEventListener("click", (e) => {
-      // Find all language toggle instances on the page
-      const toggles = document.querySelectorAll('.language-toggle');
+    document.querySelectorAll(".language-toggle").forEach((toggle) => {
+      toggle.addEventListener("click", toggleLanguageDropdown);
+    });
+  });
 
-      toggles.forEach(toggle => {
-        const container = toggle.parentElement;
-        const dropdown = container.querySelector('.language-dropdown');
-
-        if (
-          toggle &&
-          dropdown &&
-          !toggle.contains(e.target) &&
-          !dropdown.contains(e.target)
-        ) {
-          dropdown.classList.add("hidden");
-          toggle.setAttribute("aria-expanded", "false");
-        }
-      });
+  // Close any open dropdown when clicking outside. Registered once (module
+  // scripts run a single time), so it never accumulates across navigations.
+  document.addEventListener("click", (e) => {
+    document.querySelectorAll(".language-toggle").forEach((toggle) => {
+      const dropdown = toggle.parentElement?.querySelector(".language-dropdown");
+      if (
+        dropdown &&
+        !toggle.contains(e.target as Node) &&
+        !dropdown.contains(e.target as Node)
+      ) {
+        dropdown.classList.add("hidden");
+        toggle.setAttribute("aria-expanded", "false");
+      }
     });
   });
 </script>

@@ -192,7 +192,7 @@ const isDev = import.meta.env.DEV;
 </PageLayout>
 
 <script>
-  import { generateMarkdownFile, generateSlug } from '@/utils/cms';
+  import { generateMarkdownFile } from '@/utils/cms';
 
   const form = document.getElementById('cms-form') as HTMLFormElement;
   const previewBtn = document.getElementById('preview-btn') as HTMLButtonElement;
@@ -207,8 +207,7 @@ const isDev = import.meta.env.DEV;
     const data = Object.fromEntries(formData.entries());
     
     const tags = data.tags ? (data.tags as string).split(',').map(tag => tag.trim()).filter(tag => tag) : [];
-    const slug = generateSlug(data.title as string);
-    
+
     const markdownContent = generateMarkdownFile({
       title: data.title as string,
       description: data.description as string,
