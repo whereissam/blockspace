@@ -53,11 +53,11 @@ const latestNotes = allNotes.sort(collectionDateSort).slice(0, 2);
   <h1 class="sr-only">{t.homeSrTitle}</h1>
 
   {heroPost ? (
-    <!-- Hero Section: featured post + sidebar list -->
     <section class="mt-[-100vh] pt-[100vh]">
+      {/* Hero Section: featured post + sidebar list */}
       <div class="grid grid-cols-1 gap-[var(--ds-space-xl)] lg:grid-cols-12">
 
-        <!-- Featured Post (hero) -->
+        {/* Featured Post (hero) */}
         <a href={getPostUrl(heroPost)} data-astro-prefetch class="group lg:col-span-7">
           <div class="ds-img aspect-[16/9]">
             <img
@@ -84,7 +84,7 @@ const latestNotes = allNotes.sort(collectionDateSort).slice(0, 2);
           </div>
         </a>
 
-        <!-- Sidebar Posts (stacked list) -->
+        {/* Sidebar Posts (stacked list) */}
         <div class="lg:col-span-5 flex flex-col">
           {sidebarPosts.map((post, i) => (
             <a
@@ -132,7 +132,7 @@ const latestNotes = allNotes.sort(collectionDateSort).slice(0, 2);
   <!-- Latest Posts Grid -->
   {remainingPosts.length > 0 && (
     <section class="mt-[var(--ds-space-3xl)]">
-      <!-- Section header with divider -->
+      {/* Section header with divider */}
       <div class="flex items-center gap-[var(--ds-space-md)] mb-[var(--ds-space-xl)]">
         <h2 class="ds-subhead shrink-0">
           <a href={`/${lang}/posts/`}>{t.latestLabel}</a>
